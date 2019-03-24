@@ -1,0 +1,9 @@
+server:
+  port: 8080
+  servlet:
+      context-path: /calc-becas
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3311/calcbecabd?noAccessToProcedureBodies=true
+    username: dbuser
+    password: dbpassword
