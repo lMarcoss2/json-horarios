@@ -1,11 +1,9 @@
 package edu.calc.becas.catalogos.licenciaturas.service;
 
 import edu.calc.becas.catalogos.licenciaturas.dao.LicenciaturaDao;
-import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
+import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -24,7 +22,7 @@ public class LicenciaturaServiceImpl implements LicenciaturaService {
     }
 
     @Override
-    public List<Licenciatura> getAll() {
-        return licenciaturaDao.getAll();
+    public WrapperData getAll(int page, int pageSize) {
+        return licenciaturaDao.getAll(page, pageSize);
     }
 }

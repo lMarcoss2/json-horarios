@@ -1,6 +1,7 @@
 package edu.calc.becas.catalogos.licenciaturas.dao;
 
 import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
+import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.GET_ALL;
+import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_COUNT_ITEM;
+import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_GET_ALL;
+import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_PAGEABLE;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -28,8 +31,14 @@ public class LicenciaturaDaoImpl implements LicenciaturaDao {
     }
 
     @Override
-    public List<Licenciatura> getAll() {
-        return this.jdbcTemplate.query(GET_ALL, (rs, rowNum) -> mapperLicenciatura(rs));
+    public WrapperData getAll(int page, int pageSize) {
+        int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
+        List<Licenciatura> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperLicenciatura(rs));
+        return new WrapperData(data, page, pageSize, lengthDataTable);
+    }
+
+    private String createQueryPageable(int page, int pageSize) {
+        return String.format(QRY_PAGEABLE, pageSize, (page * pageSize));
     }
 
     private Licenciatura mapperLicenciatura(ResultSet rs) throws SQLException {

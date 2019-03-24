@@ -12,4 +12,7 @@ public final class Constant {
 
     public static final String ESTATUS_ACTIVE = "S";
     public static final String ESTATUS_INACTIVE = "N";
+
+    public static final String ITEMS_FOR_PAGE = "10";
+    public static final String DEFAULT_PAGE = "0";
 }

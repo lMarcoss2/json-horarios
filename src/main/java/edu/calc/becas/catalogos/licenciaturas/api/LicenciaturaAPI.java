@@ -1,13 +1,15 @@
 package edu.calc.becas.catalogos.licenciaturas.api;
 
-import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.catalogos.licenciaturas.service.LicenciaturaService;
+import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -27,7 +29,9 @@ public class LicenciaturaAPI {
     }
 
     @GetMapping
-    public List<Licenciatura> getAll() {
-        return licenciaturaService.getAll();
+    public WrapperData getAll(
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize) {
+        return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
     }
 }
