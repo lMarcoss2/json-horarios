@@ -1,5 +1,6 @@
 package edu.calc.becas.common.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,18 +15,10 @@ import java.util.List;
  */
 @Setter
 @Getter
+@AllArgsConstructor
 public class WrapperData<T> implements Serializable {
     private List<T> data;
     private int page;
     private int pageSize;
     private int lengthData;
-
-
-    public WrapperData(List<T> data, int page, int pageSize, int lengthData) {
-        this.data = data;
-        this.page = page;
-        this.pageSize = pageSize;
-        this.lengthData = lengthData;
-
-    }
 }
