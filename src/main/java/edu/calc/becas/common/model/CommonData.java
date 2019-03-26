@@ -2,6 +2,7 @@ package edu.calc.becas.common.model;
 
 import edu.calc.becas.common.utils.Constant;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -14,9 +15,14 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class CommonData implements Serializable {
     private String estatus;
     private String descEstatus;
+    private String agregadoPor;
+    private String fechaCreacion;
+    private String actualizadoPor;
+    private String fechaActualizacion;
 
     public CommonData(String estatus) {
         this.estatus = estatus;

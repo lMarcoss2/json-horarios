@@ -2,6 +2,7 @@ package edu.calc.becas.catalogos.licenciaturas.model;
 
 import edu.calc.becas.common.model.CommonData;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class Licenciatura extends CommonData {
     private int idLicenciatura;
     private String cveLicenciatura;
