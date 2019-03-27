@@ -16,7 +16,6 @@ final class QueriesLicenciatura {
     static final String QRY_CONDITION_ID_LICENCIATURA = " AND ID_LICENCIATURA = ? ";
     static final String QRY_CONDITION_AGREGADO_POR = " AND AGREGADO_POR = ? ";
     static final String QRY_CONDITION_ACTUALIZADO_POR = " AND ACTUALIZADO_POR = ? ";
-    static final String QRY_PAGEABLE = " LIMIT %s OFFSET %s ";
     static final String QRY_ADD =
             "INSERT INTO LICENCIATURAS (CVE_LICENCIATURA, NOMBRE_LICENCIATURA, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
                     "  VALUE (?, ?, ?, ?, NOW())";

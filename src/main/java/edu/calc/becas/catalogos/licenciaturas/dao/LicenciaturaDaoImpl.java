@@ -1,6 +1,7 @@
 package edu.calc.becas.catalogos.licenciaturas.dao;
 
 import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
+import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +21,7 @@ import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.*;
  * Date: 3/23/19
  */
 @Repository
-public class LicenciaturaDaoImpl implements LicenciaturaDao {
+public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -90,10 +91,6 @@ public class LicenciaturaDaoImpl implements LicenciaturaDao {
 
     private Object[] createObjectParamUpdate(Licenciatura lic) {
         return new Object[]{lic.getCveLicenciatura(), lic.getNombreLicenciatura(), lic.getEstatus(), lic.getActualizadoPor(), lic.getIdLicenciatura()};
-    }
-
-    private String createQueryPageable(int page, int pageSize) {
-        return String.format(QRY_PAGEABLE, pageSize, (page * pageSize));
     }
 
     private Licenciatura mapperLicenciatura(ResultSet rs) throws SQLException {

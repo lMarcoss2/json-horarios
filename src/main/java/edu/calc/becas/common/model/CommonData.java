@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * @author Marcos Santiago Leonardo
- * Universidad de la Sierra Sur (UNSIS)
+ * Universidad de la Sierra WSur (UNSIS)
  * Description: Common class for properties definition of objects
  * Date: 3/23/19
  */
