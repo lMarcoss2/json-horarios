@@ -1,6 +1,7 @@
 package edu.calc.becas.catalogos.licenciaturas.dao;
 
 import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
+import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,11 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_COUNT_ITEM;
-import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_GET_ALL;
-import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY_PAGEABLE;
+import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.*;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -21,7 +21,7 @@ import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.QRY
  * Date: 3/23/19
  */
 @Repository
-public class LicenciaturaDaoImpl implements LicenciaturaDao {
+public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,8 +37,60 @@ public class LicenciaturaDaoImpl implements LicenciaturaDao {
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 
-    private String createQueryPageable(int page, int pageSize) {
-        return String.format(QRY_PAGEABLE, pageSize, (page * pageSize));
+    @Override
+    public Licenciatura add(Licenciatura lic) {
+        this.jdbcTemplate.update(QRY_ADD, createObjectParam(lic));
+        return getByAllAttributes(lic);
+    }
+
+    @Override
+    public Licenciatura update(Licenciatura lic) {
+        this.jdbcTemplate.update(QRY_UPDATE, createObjectParamUpdate(lic));
+        return getByAllAttributes(lic);
+    }
+
+    private Licenciatura getByAllAttributes(Licenciatura lic) {
+        String query = QRY_GET_BY_CUSTOM_PARAM;
+        List params = new ArrayList();
+        if (lic.getIdLicenciatura() > 0) {
+            query = query.concat(QRY_CONDITION_ID_LICENCIATURA);
+            params.add(lic.getIdLicenciatura());
+        }
+        if (lic.getCveLicenciatura() != null) {
+            query = query.concat(QRY_CONDITION_CVE_LICENCIATURA);
+            params.add(lic.getCveLicenciatura());
+        }
+
+        if (lic.getNombreLicenciatura() != null) {
+            query = query.concat(QRY_CONDITION_NOMBRE_LICENCIATURA);
+            params.add(lic.getNombreLicenciatura());
+        }
+
+        if (lic.getEstatus() != null) {
+            query = query.concat(QRY_CONDITION_ESTATUS);
+            params.add(lic.getEstatus());
+        }
+
+        if (lic.getAgregadoPor() != null) {
+            query = query.concat(QRY_CONDITION_AGREGADO_POR);
+            params.add(lic.getAgregadoPor());
+        }
+
+        if (lic.getActualizadoPor() != null) {
+            query = query.concat(QRY_CONDITION_ACTUALIZADO_POR);
+            params.add(lic.getActualizadoPor());
+        }
+
+
+        return this.jdbcTemplate.queryForObject(query, params.toArray(), ((rs, rowNum) -> mapperLicenciatura(rs)));
+    }
+
+    private Object[] createObjectParam(Licenciatura lic) {
+        return new Object[]{lic.getCveLicenciatura(), lic.getNombreLicenciatura(), lic.getEstatus(), lic.getAgregadoPor()};
+    }
+
+    private Object[] createObjectParamUpdate(Licenciatura lic) {
+        return new Object[]{lic.getCveLicenciatura(), lic.getNombreLicenciatura(), lic.getEstatus(), lic.getActualizadoPor(), lic.getIdLicenciatura()};
     }
 
     private Licenciatura mapperLicenciatura(ResultSet rs) throws SQLException {

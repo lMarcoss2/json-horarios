@@ -1,12 +1,10 @@
 package edu.calc.becas.catalogos.licenciaturas.api;
 
+import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.catalogos.licenciaturas.service.LicenciaturaService;
 import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
@@ -33,5 +31,17 @@ public class LicenciaturaAPI {
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize) {
         return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
+    }
+
+    @PostMapping
+    public Licenciatura add(@RequestBody Licenciatura lic) {
+        lic.setAgregadoPor("Admin");
+        return licenciaturaService.add(lic);
+    }
+
+    @PutMapping
+    public Licenciatura update(@RequestBody Licenciatura lic) {
+        lic.setActualizadoPor("Admin");
+        return licenciaturaService.update(lic);
     }
 }

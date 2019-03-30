@@ -1,5 +1,6 @@
 package edu.calc.becas.catalogos.licenciaturas.dao;
 
+import edu.calc.becas.catalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.model.WrapperData;
 
 /**
@@ -10,4 +11,8 @@ import edu.calc.becas.common.model.WrapperData;
  */
 public interface LicenciaturaDao {
     WrapperData getAll(int page, int pageSize);
+
+    Licenciatura add(Licenciatura lic);
+
+    Licenciatura update(Licenciatura lic);
 }
