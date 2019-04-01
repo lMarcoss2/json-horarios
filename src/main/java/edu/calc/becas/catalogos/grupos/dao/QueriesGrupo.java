@@ -15,7 +15,6 @@ final class QueriesGrupo {
             "SELECT G.*, L.NOMBRE_LICENCIATURA\n" +
                     "FROM GRUPOS G, LICENCIATURAS L\n" +
                     "WHERE G.ID_LICENCIATURA = L.ID_LICENCIATURA AND L.ESTATUS = 'S' ";
-    static final String QRY_GET_BY_CUSTOM_PARAM = " WHERE 1 = 1 ";
     static final String QRY_CONDITION_CVE_GRUPO = "AND G.CVE_GRUPO = ? ";
     static final String QRY_CONDITION_ESTATUS = " AND G.ESTATUS = ? ";
     static final String QRY_CONDITION_ID_GRUPO = " AND G.ID_GRUPO = ? ";

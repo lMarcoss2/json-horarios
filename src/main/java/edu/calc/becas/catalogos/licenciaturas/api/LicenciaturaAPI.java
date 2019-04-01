@@ -6,8 +6,7 @@ import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.*;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -29,8 +28,10 @@ public class LicenciaturaAPI {
     @GetMapping
     public WrapperData getAll(
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize) {
-        return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
+            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
+            @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status
+            ) {
+        return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
     @PostMapping
