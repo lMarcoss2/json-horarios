@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class ActividadesVo extends CommonData {
   private int idActividad;
-  private String nombreArchivo;
+  private String nombreActividad;
   private String cicloEscolar;
   private String obligatorio;
   private int numeroAlumnos;
