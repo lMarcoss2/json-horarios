@@ -10,7 +10,7 @@ import edu.calc.becas.common.model.WrapperData;
  * Date: 3/23/19
  */
 public interface LicenciaturaService {
-    WrapperData getAll(int page, int pageSize);
+    WrapperData getAll(int page, int pageSize, String status);
 
     Licenciatura add(Licenciatura lic);
 

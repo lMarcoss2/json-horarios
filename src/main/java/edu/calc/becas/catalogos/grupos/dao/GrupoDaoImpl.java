@@ -41,7 +41,7 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
 
 
     private Grupo getByAllAttributes(Grupo grupo) {
-        String query = QRY_GET_ALL.concat(QRY_GET_BY_CUSTOM_PARAM);
+        String query = QRY_GET_ALL;
         List params = new ArrayList();
         if (grupo.getIdGrupo() > 0) {
             query = query.concat(QRY_CONDITION_ID_GRUPO);
@@ -79,7 +79,7 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     @Override
     public Grupo add(Grupo grupo) {
         this.jdbcTemplate.update(QRY_ADD, createParamInsert(grupo));
-        return getByAllAttributes(grupo);
+        return grupo;
     }
 
     private Object[] createParamInsert(Grupo grupo) {
@@ -87,7 +87,7 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
                 grupo.getCveGrupo(),
                 grupo.getLicenciatura().getIdLicenciatura(),
                 grupo.getEstatus(),
-                grupo.getActualizadoPor()
+                grupo.getAgregadoPor()
         };
     }
 
@@ -95,7 +95,7 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     @Override
     public Grupo update(Grupo grupo) {
         this.jdbcTemplate.update(QRY_UPDATE, createParamUpdate(grupo));
-        return getByAllAttributes(grupo);
+        return grupo;
     }
 
     private Object[] createParamUpdate(Grupo grupo) {

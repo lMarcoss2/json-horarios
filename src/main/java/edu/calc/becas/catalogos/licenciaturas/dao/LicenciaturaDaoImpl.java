@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static edu.calc.becas.catalogos.licenciaturas.dao.QueriesLicenciatura.*;
+import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -31,22 +32,32 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
+    public WrapperData getAll(int page, int pageSize, String status) {
+        String queryGetALl = QRY_GET_ALL;
+
+        if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+
+            int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'")), Integer.class);
+            List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperLicenciatura(rs));
+            return new WrapperData(data, page, lengthDataTable, lengthDataTable);
+        }
+
         int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Licenciatura> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperLicenciatura(rs));
+        List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperLicenciatura(rs));
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 
     @Override
     public Licenciatura add(Licenciatura lic) {
         this.jdbcTemplate.update(QRY_ADD, createObjectParam(lic));
-        return getByAllAttributes(lic);
+        return lic;
     }
 
     @Override
     public Licenciatura update(Licenciatura lic) {
         this.jdbcTemplate.update(QRY_UPDATE, createObjectParamUpdate(lic));
-        return getByAllAttributes(lic);
+        return lic;
     }
 
     private Licenciatura getByAllAttributes(Licenciatura lic) {
