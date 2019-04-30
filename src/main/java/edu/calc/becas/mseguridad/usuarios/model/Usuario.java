@@ -2,6 +2,7 @@ package edu.calc.becas.mseguridad.usuarios.model;
 
 import edu.calc.becas.common.model.CommonData;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@NoArgsConstructor
 public class Usuario extends CommonData implements Serializable {
     private int idUsuario;
     private String nombres;
