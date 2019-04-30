@@ -10,4 +10,7 @@ public interface QueriesActividades {
     "       AC.ESTATUS "+
     "FROM ACTIVIDADES AC";
 
+  public static String QRY_ADD = "INSERT INTO CICLO_ESCOLAR (DESCRIPCION_CICLO, PERIODO_ACTUAL, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
+          "VALUES ('2019-2019A','S','S','admin',CURDATE());";
+
 }

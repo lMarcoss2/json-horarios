@@ -1,4 +1,4 @@
-package edu.calc.becas.config;
+package edu.calc.becas.proxy;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
