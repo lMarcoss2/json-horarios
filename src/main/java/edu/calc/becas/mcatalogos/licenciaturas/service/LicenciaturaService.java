@@ -16,3 +16,4 @@ public interface LicenciaturaService {
 
     Licenciatura update(Licenciatura lic);
 }
+

@@ -11,8 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.QRY_ACTIVIDADES;
-import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.QRY_COUNT_ITEM;
+import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 
 @Repository
 public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
@@ -32,6 +31,12 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     return new WrapperData(data, page, pageSize, lengthDatatble);
   }
 
+  @Override
+  public ActividadesVo add(ActividadesVo actividad) {
+    this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
+    return actividad;
+  }
+
   private ActividadesVo mapperActividades(ResultSet rs) throws SQLException{
     ActividadesVo actividadesVo = new ActividadesVo(rs.getString("ESTATUS"));
     actividadesVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
@@ -40,6 +45,10 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     actividadesVo.setObligatorio(rs.getString("OBLIGATORIO"));
     actividadesVo.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
     return actividadesVo;
+  }
+
+  private Object[]createObjectParamUpdate(ActividadesVo actividad){
+    return new Object[]{};
   }
 
 }
