@@ -24,6 +24,8 @@ import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final String secretKeyStart = "4^%m@=C*&c#L+%";
+    private final String secretKeyEnd = "U$|2AT>30!";
 
     @Autowired
     public UsuarioDaoImpl(JdbcTemplate jdbcTemplate) {
@@ -61,15 +63,25 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
 
     @Override
     public Usuario add(Usuario usuario) {
-        this.jdbcTemplate.update(QRY_ADD, usuario.getNombres().trim(), usuario.getApePaterno().trim(), usuario.getApeMaterno().trim(),
-                usuario.getTipoUsuario().trim(), usuario.getUsername().trim(), usuario.getPassword(), usuario.getEstatus().trim(), usuario.getAgregadoPor().trim());
+        this.jdbcTemplate.update(QRY_ADD,
+                usuario.getNombres().trim(), usuario.getApePaterno().trim(), usuario.getApeMaterno().trim(),
+                usuario.getTipoUsuario().trim(), usuario.getUsername().trim(),
+                secretKeyStart, usuario.getPassword(), secretKeyEnd,
+                usuario.getEstatus().trim(), usuario.getAgregadoPor().trim());
         return usuario;
     }
 
     @Override
     public Usuario update(Usuario usuario) {
-        this.jdbcTemplate.update(QRY_UPDATE, usuario.getNombres().trim(), usuario.getApePaterno().trim(), usuario.getApeMaterno().trim(),
-                usuario.getTipoUsuario().trim(), usuario.getUsername().trim(), usuario.getPassword(), usuario.getEstatus().trim(), usuario.getActualizadoPor().trim());
+        String password = usuario.getPassword();
+        if (password != null && !password.equalsIgnoreCase("")) {
+            this.jdbcTemplate.update(QRY_UPDATE_WITH_PASSWORD, usuario.getNombres().trim(), usuario.getApePaterno().trim(), usuario.getApeMaterno().trim(),
+                    usuario.getTipoUsuario().trim(), usuario.getUsername().trim(), secretKeyStart, usuario.getPassword(), secretKeyEnd, usuario.getEstatus().trim(), usuario.getActualizadoPor().trim());
+        } else {
+            this.jdbcTemplate.update(QRY_UPDATE, usuario.getNombres().trim(), usuario.getApePaterno().trim(), usuario.getApeMaterno().trim(),
+                    usuario.getTipoUsuario().trim(), usuario.getUsername().trim(), usuario.getEstatus().trim(), usuario.getActualizadoPor().trim(), usuario.getIdUsuario());
+        }
+
         return usuario;
     }
 }

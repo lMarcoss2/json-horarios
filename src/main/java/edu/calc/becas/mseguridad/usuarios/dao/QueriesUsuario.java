@@ -16,11 +16,17 @@ final class QueriesUsuario {
     static final String QRY_ADD =
             "INSERT INTO USUARIOS\n" +
                     "(NOMBRES, APE_PATERNO, APE_MATERNO, TIPO_USUARIO, USERNAME, PASSWORD, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
-                    "  VALUE (?, ?, ?, ?, ?, ?,?,?, NOW())";
+                    "  VALUE (?, ?, ?, ?, ?, sha2(concat(?, ?, ?), 224), ?, ?, NOW())";
 
     static final String QRY_UPDATE =
             "UPDATE USUARIOS\n" +
-                    "SET NOMBRES = ?, APE_PATERNO = ?, APE_MATERNO = ?, TIPO_USUARIO = ?, USERNAME = ?, PASSWORD = ?,\n" +
-                    "  ESTATUS   = ?, ACTUALIZADO_POR = ?\n" +
+                    "SET NOMBRES = ?, APE_PATERNO = ?, APE_MATERNO = ?, TIPO_USUARIO = ?, USERNAME = ?,\n" +
+                    "  ESTATUS   = ?, ACTUALIZADO_POR = ?, FECHA_ACTUALIZACION = NOW() \n" +
+                    "WHERE ID_USUARIO = ?";
+
+    static final String QRY_UPDATE_WITH_PASSWORD =
+            "UPDATE USUARIOS\n" +
+                    "SET NOMBRES = ?, APE_PATERNO = ?, APE_MATERNO = ?, TIPO_USUARIO = ?, USERNAME = ?, PASSWORD = sha2(concat(?, ?, ?), 224),\n" +
+                    "  ESTATUS   = ?, ACTUALIZADO_POR = ?, FECHA_ACTUALIZACION = NOW()\n" +
                     "WHERE ID_USUARIO = ?";
 }

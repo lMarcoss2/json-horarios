@@ -7,3 +7,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3311/calcbecabd?noAccessToProcedureBodies=true
     username: dbuser
     password: dbpassword
+key:
+  encode:
+    crypto: $#u1!N51*5M412&
