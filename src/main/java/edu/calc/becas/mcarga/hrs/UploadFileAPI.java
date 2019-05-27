@@ -1,9 +1,24 @@
 package edu.calc.becas.mcarga.hrs;
 
+import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mcarga.hrs.blibioteca.model.ProcessedFile;
+import edu.calc.becas.mcarga.hrs.read.files.ReadFile;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import static edu.calc.becas.utils.ExtensionFile.XLSX_EXTENSION;
+import static edu.calc.becas.utils.ExtensionFile.XLS_EXTENSION;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -14,15 +29,51 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UploadFileAPI {
 
+    protected ProcessFile processFile;
+
+    @Value("${location.file}")
+    String locationFile;
+
     @PostMapping("/upload")
-    public ProcessedFile uploadFactura(@RequestParam("file") MultipartFile file) {
-        System.out.println(file.getOriginalFilename());
+    public ProcessedFile uploadFactura(@RequestParam("file") MultipartFile file) throws GenericException {
+        String pathfile = saveFile(file);
+        ReadFile.readFile(pathfile);
         return ProcessedFile.builder()
                 .error(false)
-                .file(file.getOriginalFilename())
+                .file(pathfile)
                 .message(null)
                 .idFile(1)
                 .build();
 
     }
+
+    private String saveFile(MultipartFile file) throws GenericException {
+        String nameFile = createNameFile(file.getOriginalFilename());
+        try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(locationFile + nameFile);
+            Files.write(path, bytes);
+            return path.toString();
+        } catch (IOException e) {
+            throw new GenericException(e);
+        }
+    }
+
+    private String createNameFile(String originalFilename) {
+        Date date = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd-HH:mm:ss");
+        String strDate = dateFormat.format(date);
+
+        String nameFile;
+
+        if (originalFilename.toUpperCase().endsWith(XLSX_EXTENSION)) {
+            nameFile = originalFilename.toUpperCase().replace(XLSX_EXTENSION, "");
+            return nameFile.replace(" ", "_") + strDate + XLSX_EXTENSION;
+        } else {
+            nameFile = originalFilename.toUpperCase().replace(XLS_EXTENSION, "");
+            return nameFile.replace(" ", "_") + strDate + XLS_EXTENSION;
+        }
+
+    }
+
 }

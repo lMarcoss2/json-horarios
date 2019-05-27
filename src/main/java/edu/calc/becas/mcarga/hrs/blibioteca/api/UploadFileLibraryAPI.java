@@ -1,6 +1,9 @@
 package edu.calc.becas.mcarga.hrs.blibioteca.api;
 
+import edu.calc.becas.mcarga.hrs.ProcessFile;
 import edu.calc.becas.mcarga.hrs.UploadFileAPI;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,4 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/hrs-library")
 public class UploadFileLibraryAPI extends UploadFileAPI {
+
+    @Autowired
+    public UploadFileLibraryAPI(@Qualifier("cargaHrsBibliotecaService") ProcessFile processFile) {
+        super.processFile = processFile;
+    }
 }
