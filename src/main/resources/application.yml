@@ -4,11 +4,11 @@ server:
       context-path: /calc-becas
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3311/calcbecabd?noAccessToProcedureBodies=true
-    username: dbuser
-    password: dbpassword
+    url: jdbc:mysql://${HOST_NAME:127.0.0.1}:${BD_PORT:3311}/${BD_NAME:root}?useSSL=false
+    username: ${BD_USER:root}
+    password: ${BD_PASS:2MMUeZzn8LdGYg9}
 key:
   encode:
     crypto: $#u1!N51*5M412&
 location:
-  file: /Users/lMarcoss/workspace-leo/ServicioSocial/files-dev/
+  file: /Users/lMarcoss/workspace-leoa/ServicioSocial/files-dev/
