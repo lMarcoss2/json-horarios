@@ -12,6 +12,7 @@ public class CicloEscolarVo extends CommonData {
  private int idCicloEscolar;
  private String descripcionCiclo;
  private String periodoActual;
+ private String desPeriodoActual;
 
  public CicloEscolarVo(String estatus){super((estatus));}
 
@@ -21,6 +22,7 @@ public class CicloEscolarVo extends CommonData {
           "idCicloEscolar=" + idCicloEscolar +
           ", descripcionCiclo='" + descripcionCiclo + '\'' +
           ", periodoActual='" + periodoActual + '\'' +
+          ", desPeriodoActual='" + desPeriodoActual + '\'' +
           '}';
  }
 }
