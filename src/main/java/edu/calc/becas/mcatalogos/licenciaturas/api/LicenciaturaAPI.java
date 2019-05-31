@@ -29,8 +29,8 @@ public class LicenciaturaAPI {
         this.licenciaturaService = licenciaturaService;
     }
 
-    @ApiOperation(value = "Obtiene el listado de licenciaturas")
     @GetMapping
+    @ApiOperation(value = "Obtiene el listado de licenciaturas")
     public WrapperData getAll(
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
@@ -39,15 +39,15 @@ public class LicenciaturaAPI {
         return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
-    @ApiOperation(value = "Registra una licenciaturas")
     @PostMapping
+    @ApiOperation(value = "Registra una licenciaturas")
     public Licenciatura add(@RequestBody Licenciatura lic) {
         lic.setAgregadoPor("Admin");
         return licenciaturaService.add(lic);
     }
 
-    @ApiOperation(value = "Actualiza datos de una licenciaturas")
     @PutMapping
+    @ApiOperation(value = "Actualiza datos de una licenciaturas")
     public Licenciatura update(@RequestBody Licenciatura lic) {
         lic.setActualizadoPor("Admin");
         return licenciaturaService.update(lic);
