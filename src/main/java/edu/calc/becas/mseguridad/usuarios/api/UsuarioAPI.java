@@ -5,6 +5,8 @@ import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mseguridad.usuarios.model.Usuario;
 import edu.calc.becas.mseguridad.usuarios.service.UsuarioService;
 import edu.calc.becas.utils.DecryptUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import static edu.calc.becas.common.utils.Constant.*;
  */
 @RestController
 @RequestMapping("/usuarios")
+@Api(description = "Servicios para administración de usuarios")
 public class UsuarioAPI {
 
     private static final Logger LOG = LoggerFactory.getLogger(UsuarioAPI.class);
@@ -35,14 +38,18 @@ public class UsuarioAPI {
         this.usuarioService = usuarioService;
     }
 
+
     @GetMapping
+    @ApiOperation(value = "Obtiene el listado de usuarios")
     public WrapperData getAll(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
                               @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
                               @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status) {
         return this.usuarioService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
+
     @PostMapping
+    @ApiOperation(value = "Registra un usuario")
     public Usuario add(@RequestBody Usuario usuario) throws GenericException {
         usuario.setAgregadoPor("Admin");
         validatePassword(usuario);
@@ -63,6 +70,7 @@ public class UsuarioAPI {
     }
 
     @PatchMapping
+    @ApiOperation(value = "Actualiza datos de un usuario")
     public Usuario update(@RequestBody Usuario usuario) throws GenericException {
         usuario.setActualizadoPor("Admin");
         validatePassword(usuario);
