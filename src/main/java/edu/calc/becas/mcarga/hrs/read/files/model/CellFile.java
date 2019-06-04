@@ -1,11 +1,8 @@
-package edu.calc.becas.mcarga.hrs.read.files;
-
+package edu.calc.becas.mcarga.hrs.read.files.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -16,6 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RowFile {
-    private List<CellFile> cells;
+public class CellFile {
+    private String value;
 }

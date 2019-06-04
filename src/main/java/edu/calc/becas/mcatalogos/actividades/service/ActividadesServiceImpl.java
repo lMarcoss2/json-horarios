@@ -2,7 +2,7 @@ package edu.calc.becas.mcatalogos.actividades.service;
 
 import edu.calc.becas.mcatalogos.actividades.dao.ActividadesDao;
 import edu.calc.becas.common.model.WrapperData;
-import edu.calc.becas.mcatalogos.actividades.model.ActividadesVo;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class ActividadesServiceImpl implements ActividadesService{
     }
 
     @Override
-    public ActividadesVo add(ActividadesVo actividad) {
+    public ActividadVo add(ActividadVo actividad) {
         return actividadesDao.add(actividad);
     }
 }

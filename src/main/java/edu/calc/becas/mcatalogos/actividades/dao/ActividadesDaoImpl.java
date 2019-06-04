@@ -1,6 +1,6 @@
 package edu.calc.becas.mcatalogos.actividades.dao;
 
-import edu.calc.becas.mcatalogos.actividades.model.ActividadesVo;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,27 +27,27 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
   @Override
   public WrapperData getAll(int page, int pageSize) {
     int lengthDatatble = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-    List<ActividadesVo> data = this.jdbcTemplate.query(QRY_ACTIVIDADES, (rs, rowNum)-> mapperActividades(rs));
+    List<ActividadVo> data = this.jdbcTemplate.query(QRY_ACTIVIDADES, (rs, rowNum)-> mapperActividades(rs));
     return new WrapperData(data, page, pageSize, lengthDatatble);
   }
 
   @Override
-  public ActividadesVo add(ActividadesVo actividad) {
+  public ActividadVo add(ActividadVo actividad) {
     this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
     return actividad;
   }
 
-  private ActividadesVo mapperActividades(ResultSet rs) throws SQLException{
-    ActividadesVo actividadesVo = new ActividadesVo(rs.getString("ESTATUS"));
-    actividadesVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
-    actividadesVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-    actividadesVo.setCicloEscolar(rs.getString("CICLO_ESCOLAR"));
-    actividadesVo.setObligatorio(rs.getString("OBLIGATORIO"));
-    actividadesVo.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
-    return actividadesVo;
+  private ActividadVo mapperActividades(ResultSet rs) throws SQLException{
+    ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
+    actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+    actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+    actividadVo.setCicloEscolar(rs.getString("CICLO_ESCOLAR"));
+    actividadVo.setObligatorio(rs.getString("OBLIGATORIO"));
+    actividadVo.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
+    return actividadVo;
   }
 
-  private Object[]createObjectParamUpdate(ActividadesVo actividad){
+  private Object[]createObjectParamUpdate(ActividadVo actividad){
     return new Object[]{};
   }
 

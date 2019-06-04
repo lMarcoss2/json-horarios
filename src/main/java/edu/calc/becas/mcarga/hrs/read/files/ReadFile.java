@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,12 +20,7 @@ import java.util.List;
 public class ReadFile {
     private static final Logger LOG = LoggerFactory.getLogger(ReadFile.class);
 
-    private static final int posMatricula = 1;
-    private static final int posNombre = 2;
-    private static final int posHrs = 3;
-    private static final int posEndCell = 4;
-
-    public static void readFile(String pathfile) throws GenericException {
+    public static Workbook pages(String pathfile) throws GenericException {
         Workbook workbook = null;
         try {
             workbook = WorkbookFactory.create(new File(pathfile));
@@ -37,10 +31,10 @@ public class ReadFile {
 
         System.out.println("SHEETS: " + workbook.getNumberOfSheets());
 
-
-        // Leer hojas o sábanas del excel
+        return workbook;
+        /*// Leer hojas o sábanas del excel
         for (Sheet sheet : workbook) {
-            System.out.println(sheet.getSheetName());
+            LOG.info("HOJA:  "+ sheet.getSheetName());
         }
 
         // leer primer hoja
@@ -93,65 +87,6 @@ public class ReadFile {
             alumnos.add(alumno);
         }
 
-        /*List<RowFile> rowFiles = new ArrayList<>();
-        for (RowFile row : rows) {
-            List<CellFile> cellFiles = row.getCells();
-            if (cellFiles != null && !cellFiles.isEmpty()) {
-                if (cellFiles.size() > 8) {
-                    RowFile rowFile = new RowFile();
-                    rowFile.setCells(cellFiles);
-
-                    rowFiles.add(rowFile);
-                }
-
-            }
-
-
-        }*/
-        for (Alumno alumno : alumnos) {
-            LOG.info(alumno.getMatricula() + " : " + alumno.getNombres() + " : " + alumno.getHrs());
-        }
-    }
-
-    private static String readCellByType(Cell cell) {
-        String value = null;
-        try {
-            switch (cell.getCellTypeEnum()) {
-                case NUMERIC:
-                    /*System.out.println("NUMERIC");
-                    System.out.println(cell.getNumericCellValue());*/
-                    value = String.valueOf(cell.getNumericCellValue());
-                    break;
-                case BOOLEAN:
-                    /*System.out.println("BOOLEAN");
-                    System.out.println(cell.getBooleanCellValue());*/
-                    value = String.valueOf(cell.getBooleanCellValue());
-                    break;
-                case STRING:
-                    /*System.out.println("STRING");
-                    System.out.println(cell.getRichStringCellValue());*/
-                    value = String.valueOf(cell.getRichStringCellValue());
-                    break;
-                case FORMULA:
-                    /*System.out.println("FORMULA");
-                    System.out.println(cell.getCellFormula());*/
-                    value = cell.getCellFormula();
-                    break;
-                case BLANK:
-                    System.out.println("BLANK");
-                    System.out.println();
-                    break;
-                case _NONE:
-                    System.out.println("_NONE");
-                    break;
-                default:
-                    System.out.println("default");
-
-            }
-            return value;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+        return alumnos;*/
     }
 }
