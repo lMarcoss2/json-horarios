@@ -1,21 +1,23 @@
-package edu.calc.becas.mcarga.hrs.read.files;
-
+package edu.calc.becas.malumnos.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Marcos Santiago Leonardo
  * Universidad de la Sierra Sur (UNSIS)
  * Description:
- * Date: 5/13/19
+ * Date: 6/4/19
  */
 @NoArgsConstructor
-@Getter
 @Setter
-public class RowFile {
-    private List<CellFile> cells;
+@Getter
+@ToString
+public class Hora implements Serializable {
+    int numHora;
+    int numMinutos;
 }

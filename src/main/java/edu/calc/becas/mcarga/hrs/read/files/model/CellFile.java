@@ -1,4 +1,4 @@
-package edu.calc.becas.mcarga.hrs.read.files;
+package edu.calc.becas.mcarga.hrs.read.files.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

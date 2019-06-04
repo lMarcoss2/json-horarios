@@ -1,9 +1,11 @@
 package edu.calc.becas.malumnos.model;
 
 import edu.calc.becas.common.model.CommonData;
+import edu.calc.becas.mcarga.hrs.sala.model.Asistencia;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -14,12 +16,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class Alumno extends CommonData {
     private String IdAlumno;
     private String matricula;
     private String nombres;
     private String apePaterno;
     private String apeMaterno;
-    private String hrs;
+    private Hora hora;
+    private Asistencia asistencia;
 
 }
