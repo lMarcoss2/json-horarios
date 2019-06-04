@@ -89,6 +89,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private List<ResponseMessage> responsesMessages() {
         return Arrays.asList(
+                new ResponseMessageBuilder().code(200).message("Exitoso").message("Exitoso").build(),
                 new ResponseMessageBuilder().code(401).message("No Autorizado").message("Acceso no autorizado").build(),
                 new ResponseMessageBuilder().code(403).message("Prohibido").message("Acceso prohibido").build(),
                 new ResponseMessageBuilder().code(404).message("No encontrado").message("Servicio no encontrado").build());

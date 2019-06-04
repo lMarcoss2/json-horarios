@@ -1,7 +1,7 @@
 package edu.calc.becas.mcarga.hrs.blibioteca.service;
 
 import edu.calc.becas.malumnos.model.Alumno;
-import edu.calc.becas.malumnos.model.Hora;
+import edu.calc.becas.mcarga.hrs.blibioteca.model.Hora;
 import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcarga.hrs.ProcessHoursService;
 import edu.calc.becas.mcarga.hrs.ProcessRow;

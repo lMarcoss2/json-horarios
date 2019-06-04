@@ -1,4 +1,4 @@
-package edu.calc.becas.malumnos.model;
+package edu.calc.becas.mcarga.hrs.blibioteca.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
