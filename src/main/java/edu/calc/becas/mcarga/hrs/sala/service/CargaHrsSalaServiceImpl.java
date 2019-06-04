@@ -6,11 +6,13 @@ import edu.calc.becas.mcarga.hrs.ProcessHoursService;
 import edu.calc.becas.mcarga.hrs.ProcessRow;
 import edu.calc.becas.mcarga.hrs.read.files.model.RowFile;
 import edu.calc.becas.mcarga.hrs.sala.model.Asistencia;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,11 +34,23 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
     private static final Logger LOG = LoggerFactory.getLogger(CargaHrsSalaServiceImpl.class);
     private final CargaHrsDao cargaHrsDao;
 
-    private static final int posMatricula = 1;
-    private static final int posNombreCompleto = 2;
-    private static final int posInicioAsistencia = 3;
-    private static final String asistencia = ".";
-    private static final String falta = "/";
+    @Value("${prop.carga.hrs.sala.id}")
+    private int idActividadSala;
+
+    @Value("${prop.carga.hrs.sala.posicion.matricula}")
+    private int posMatricula;
+
+    @Value("${prop.carga.hrs.sala.posicion.nombre}")
+    private int posNombreCompleto;
+
+    @Value("${prop.carga.hrs.sala.posicion.asistencia.inicio}")
+    private int posInicioAsistencia;
+
+    @Value("${prop.carga.hrs.sala.asistencia.asistencia}")
+    private String asistencia;
+
+    @Value("${prop.carga.hrs.sala.asistencia.falta}")
+    private String falta;
 
     @Autowired
     public CargaHrsSalaServiceImpl(@Qualifier("cargaHrsSalaRepository") CargaHrsDao cargaHrsDao) {
@@ -50,7 +64,12 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
         List<Alumno> alumnos = new ArrayList<>();
 
         for (RowFile row : rows) {
+
             Alumno alumno = new Alumno();
+            ActividadVo actividadVo = new ActividadVo("S");
+            actividadVo.setIdActividad(idActividadSala);
+            alumno.setActividad(actividadVo);
+
 
             int asistence = 0;
             int missing = 0;

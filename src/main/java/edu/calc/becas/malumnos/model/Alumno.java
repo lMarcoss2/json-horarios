@@ -2,6 +2,7 @@ package edu.calc.becas.malumnos.model;
 
 import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.mcarga.hrs.sala.model.Asistencia;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,5 +26,6 @@ public class Alumno extends CommonData {
     private String apeMaterno;
     private Hora hora;
     private Asistencia asistencia;
+    private ActividadVo actividad;
 
 }

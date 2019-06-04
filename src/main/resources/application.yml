@@ -12,8 +12,25 @@ key:
     crypto: $#u1!N51*5M412&
 location:
   file: /Users/lMarcoss/workspace-leo/ServicioSocial/files-dev/
-logging:
-  level:
-    org:
-      springframework:
-        web= DEBUG
+
+prop:
+  carga:
+    hrs:
+      biblioteca:
+        id: 1
+        posicion:
+          matricula: 1
+          nombre: 2
+          horas: 3
+          celda:
+            final: 4
+      sala:
+        id: 2
+        posicion:
+          matricula: 1
+          nombre: 2
+          asistencia:
+            inicio: 3
+        asistencia:
+          asistencia: .
+          falta: /

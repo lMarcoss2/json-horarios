@@ -1,6 +1,6 @@
 package edu.calc.becas.mcatalogos.actividades.api;
 
-import edu.calc.becas.mcatalogos.actividades.model.ActividadesVo;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
 import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ActividadesAPI {
     }
 
     @PostMapping
-    public ActividadesVo add(@RequestBody ActividadesVo actividad){
+    public ActividadVo add(@RequestBody ActividadVo actividad){
         actividad.setActualizadoPor("Admin");
         return actividadesService.add(actividad);
     }

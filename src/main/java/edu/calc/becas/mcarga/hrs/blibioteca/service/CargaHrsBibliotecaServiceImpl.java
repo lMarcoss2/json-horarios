@@ -6,11 +6,13 @@ import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcarga.hrs.ProcessHoursService;
 import edu.calc.becas.mcarga.hrs.ProcessRow;
 import edu.calc.becas.mcarga.hrs.read.files.model.RowFile;
+import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,10 +29,20 @@ import java.util.List;
 public class CargaHrsBibliotecaServiceImpl extends ProcessRow implements ProcessHoursService {
     private static final Logger LOG = LoggerFactory.getLogger(CargaHrsBibliotecaServiceImpl.class);
 
-    private static final int posMatricula = 1;
-    private static final int posNombre = 2;
-    private static final int posHrs = 3;
-    private static final int posEndCell = 4;
+    @Value("${prop.carga.hrs.biblioteca.id}")
+    private int idActividadBiblioteca;
+
+    @Value("${prop.carga.hrs.biblioteca.posicion.matricula}")
+    private int posMatricula;
+
+    @Value("${prop.carga.hrs.biblioteca.posicion.nombre}")
+    private int posNombre;
+
+    @Value("${prop.carga.hrs.biblioteca.posicion.horas}")
+    private int posHrs = 3;
+
+    @Value("${prop.carga.hrs.biblioteca.posicion.celda.final}")
+    private int posEndCell = 4;
 
     private final CargaHrsDao cargaHrsBibliotecaDao;
 
@@ -43,40 +55,16 @@ public class CargaHrsBibliotecaServiceImpl extends ProcessRow implements Process
     @Override
     public void processData(Workbook pages) {
         List<RowFile> rows = readRows(pages);
-        /*for (Sheet sheet : pages) {
-            LOG.info("HOJA:  " + sheet.getSheetName());
-            // filas de una hola
-            for (Row row : sheet) {
-
-                RowFile rowFile = new RowFile();
-
-                List<CellFile> cells = new ArrayList<>();
-
-                for (Cell cell : row) {
-                    CellFile cellFile = new CellFile();
-                    String value = readCellByType(cell);
-                    if (value != null && !value.trim().equalsIgnoreCase("") && value.length() > 0) {
-                        cellFile.setValue(
-                                value.trim()
-                        );
-
-                        cells.add(cellFile);
-                    }
-
-
-                }
-                if (!cells.isEmpty() && cells.size() > 8) {
-                    rowFile.setCells(cells);
-                    rows.add(rowFile);
-                }
-
-            }
-        }*/
 
         List<Alumno> alumnos = new ArrayList<>();
         for (RowFile row : rows) {
+
             Alumno alumno = new Alumno();
-            for (int i = 0; i < posEndCell; i++) {
+            ActividadVo actividadVo = new ActividadVo("S");
+            actividadVo.setIdActividad(idActividadBiblioteca);
+            alumno.setActividad(actividadVo);
+
+            for (int i = 0; (i < row.getCells().size() && i <= posEndCell); i++) {
                 if (i == posMatricula) {
                     alumno.setMatricula(row.getCells().get(i).getValue());
                 }
