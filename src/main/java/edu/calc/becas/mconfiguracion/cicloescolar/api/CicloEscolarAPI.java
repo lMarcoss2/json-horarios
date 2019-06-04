@@ -38,8 +38,7 @@ public class CicloEscolarAPI {
     }
 
     @GetMapping("/ciclos")
-    public List<LabelValueData> getListCiclos(@RequestBody CicloEscolarVo ciclo){
-        System.out.println("ciclo : > " + ciclo);
+    public List<LabelValueData> getListCiclos(){
         return cicloEscolarService.getListCatalog();
     }
 

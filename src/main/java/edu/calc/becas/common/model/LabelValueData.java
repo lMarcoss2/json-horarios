@@ -17,8 +17,9 @@ public class LabelValueData {
 
   public static LabelValueData mapperLavelValue(ResultSet rs) throws SQLException{
     LabelValueData labelValueData = new LabelValueData();
-    labelValueData.setLabel(rs.getString(1));
-    labelValueData.setValue(rs.getString(2));
+    labelValueData.setValue(rs.getString(1));
+    labelValueData.setLabel(rs.getString(2));
+
     return labelValueData;
   }
 }
