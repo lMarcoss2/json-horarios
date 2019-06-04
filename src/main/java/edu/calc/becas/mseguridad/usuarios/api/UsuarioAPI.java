@@ -7,6 +7,7 @@ import edu.calc.becas.mseguridad.usuarios.service.UsuarioService;
 import edu.calc.becas.utils.DecryptUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +42,17 @@ public class UsuarioAPI {
 
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de usuarios")
-    public WrapperData getAll(@RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-                              @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
-                              @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status) {
+    public WrapperData getAll(
+            @ApiParam(value = "Página a recuperar", defaultValue = "0") @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @ApiParam(value = "Registros a recuperar", defaultValue = "10") @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status) {
         return this.usuarioService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
 
     @PostMapping
     @ApiOperation(value = "Registra un usuario")
-    public Usuario add(@RequestBody Usuario usuario) throws GenericException {
+    public Usuario add(@ApiParam(value = "Usuario a registrar", required = true) @RequestBody Usuario usuario) throws GenericException {
         usuario.setAgregadoPor("Admin");
         validatePassword(usuario);
         return this.usuarioService.add(usuario);
@@ -71,7 +73,7 @@ public class UsuarioAPI {
 
     @PatchMapping
     @ApiOperation(value = "Actualiza datos de un usuario")
-    public Usuario update(@RequestBody Usuario usuario) throws GenericException {
+    public Usuario update(@ApiParam(value = "Usuario a actualizar", required = true) @RequestBody Usuario usuario) throws GenericException {
         usuario.setActualizadoPor("Admin");
         validatePassword(usuario);
         return this.usuarioService.update(usuario);

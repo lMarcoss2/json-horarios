@@ -18,7 +18,7 @@ import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 /**
  * @author Marcos Santiago Leonardo
  * Universidad de la Sierra Sur (UNSIS)
- * Description: implements dao for the major service
+ * Description: implements dao for the Licenciatura service
  * Date: 3/23/19
  */
 @Repository

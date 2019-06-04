@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
 import static edu.calc.becas.mcatalogos.grupos.dao.QueriesGrupo.*;
 
 
@@ -33,7 +34,13 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
+    public WrapperData getAll(int page, int pageSize, String status) {
+        if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
+            String queryGetALl = QRY_GET_ALL.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+            int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(QRY_CONDITION_ESTATUS), Integer.class);
+            List<Grupo> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
+            return new WrapperData(data, page, pageSize, lengthDataTable);
+        }
         int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
         List<Grupo> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
         return new WrapperData(data, page, pageSize, lengthDataTable);
