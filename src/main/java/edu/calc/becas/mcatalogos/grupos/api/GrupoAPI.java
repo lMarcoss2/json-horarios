@@ -1,8 +1,8 @@
 package edu.calc.becas.mcatalogos.grupos.api;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 import edu.calc.becas.mcatalogos.grupos.service.GrupoService;
-import edu.calc.becas.common.model.WrapperData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

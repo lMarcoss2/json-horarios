@@ -1,8 +1,8 @@
 package edu.calc.becas.mcatalogos.licenciaturas.service;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.licenciaturas.dao.LicenciaturaDao;
 import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
-import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

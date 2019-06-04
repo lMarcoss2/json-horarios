@@ -3,7 +3,6 @@ package edu.calc.becas.common.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.awt.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

@@ -1,8 +1,8 @@
 package edu.calc.becas.mcatalogos.licenciaturas.dao;
 
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 
 /**
  * @author Marcos Santiago Leonardo

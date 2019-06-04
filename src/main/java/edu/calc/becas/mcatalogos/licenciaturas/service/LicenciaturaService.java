@@ -1,7 +1,7 @@
 package edu.calc.becas.mcatalogos.licenciaturas.service;
 
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 
 /**
  * @author Marcos Santiago Leonardo
