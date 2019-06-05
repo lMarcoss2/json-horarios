@@ -26,4 +26,6 @@ final class QueriesGrupo {
                     "  VALUE (?, ?, ?, ?, NOW()) ";
     static final String QRY_UPDATE =
             "UPDATE GRUPOS SET CVE_GRUPO = ?, ID_LICENCIATURA = ?, ESTATUS = ?, ACTUALIZADO_POR = ?, FECHA_ACTUALIZACION = NOW() WHERE ID_GRUPO = ?";
+
+    static final String QRY_ORDER_BY = "\nORDER BY L.NOMBRE_LICENCIATURA ASC, G.CVE_GRUPO ASC\n";
 }

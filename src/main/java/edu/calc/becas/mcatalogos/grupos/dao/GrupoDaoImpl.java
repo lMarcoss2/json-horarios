@@ -38,15 +38,17 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
         if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
             String queryStatus = QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'");
 
-            String queryGetALl = QRY_GET_ALL.concat(queryStatus);
+            String queryGetALl = QRY_GET_ALL.concat(queryStatus).concat(QRY_ORDER_BY);
 
             int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(queryStatus), Integer.class);
 
             List<Grupo> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
             return new WrapperData(data, page, pageSize, lengthDataTable);
         }
+
         int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Grupo> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
+
+        List<Grupo> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(QRY_ORDER_BY).concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 
