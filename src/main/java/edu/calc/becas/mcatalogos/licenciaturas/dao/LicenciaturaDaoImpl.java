@@ -38,13 +38,25 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
         if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
 
-            int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'")), Integer.class);
-            List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperLicenciatura(rs));
+            int lengthDataTable = this.jdbcTemplate.queryForObject(
+                    QRY_COUNT_ITEM.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'")),
+                    Integer.class);
+
+            List<Licenciatura> data = this.jdbcTemplate.query(
+                    queryGetALl.concat(QRY_ORDER_BY_NOMBRE_LICENCIATURA).concat(createQueryPageable(page, pageSize)),
+                    (rs, rowNum) -> mapperLicenciatura(rs)
+            );
+
             return new WrapperData(data, page, lengthDataTable, lengthDataTable);
         }
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperLicenciatura(rs));
+
+        List<Licenciatura> data = this.jdbcTemplate.query(
+                queryGetALl.concat(QRY_ORDER_BY_NOMBRE_LICENCIATURA).concat(createQueryPageable(page, pageSize)),
+                (rs, rowNum) -> mapperLicenciatura(rs)
+        );
+
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 

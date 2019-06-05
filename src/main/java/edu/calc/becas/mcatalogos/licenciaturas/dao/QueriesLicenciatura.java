@@ -21,4 +21,5 @@ final class QueriesLicenciatura {
                     "  VALUE (?, ?, ?, ?, NOW())";
     static final String QRY_UPDATE =
             "UPDATE LICENCIATURAS SET CVE_LICENCIATURA = ?, NOMBRE_LICENCIATURA = ?, ESTATUS = ?, ACTUALIZADO_POR = ?, FECHA_ACTUALIZACION = NOW() WHERE ID_LICENCIATURA = ?";
+    static final String QRY_ORDER_BY_NOMBRE_LICENCIATURA = "\nORDER BY NOMBRE_LICENCIATURA ASC, ESTATUS ASC\n";
 }
