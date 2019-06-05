@@ -35,7 +35,7 @@ public class GrupoAPI {
             @ApiParam(value = "Página a recuperar", defaultValue = "0") @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @ApiParam(value = "Registros a recuperar", defaultValue = "-1") @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
             @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
+            @ApiParam(value = "Licenciatura de los registros a recuperar", defaultValue = "All") @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
     ) {
         return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status, licenciatura);
     }
