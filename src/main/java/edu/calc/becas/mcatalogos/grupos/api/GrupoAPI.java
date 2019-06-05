@@ -32,11 +32,14 @@ public class GrupoAPI {
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de grupos")
     public WrapperData getAll(
-            @ApiParam(value = "Página a recuperar", defaultValue = "0") @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @ApiParam(value = "Registros a recuperar", defaultValue = "-1") @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
-            @ApiParam(value = "Licenciatura de los registros a recuperar", defaultValue = "All") @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
+            @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE) @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS) @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT) @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
+            @ApiParam(value = "Licenciatura de los registros a recuperar", defaultValue = LICENCIATURA_DEFAULT) @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
     ) {
+        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+            pageSize = ITEMS_FOR_PAGE;
+        }
         return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status, licenciatura);
     }
 

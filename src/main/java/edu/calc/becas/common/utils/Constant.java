@@ -11,6 +11,7 @@ public final class Constant {
     }
 
     public static final String LICENCIATURA_DEFAULT = "All";
+    public static final String ALL_ITEMS = "All";
 
     public static final String ESTATUS_DEFAULT = "All";
     public static final String ESTATUS_ACTIVE = "S";

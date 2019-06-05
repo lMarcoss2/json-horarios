@@ -6,6 +6,7 @@ import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static edu.calc.becas.common.utils.Constant.ALL_ITEMS;
 import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 
@@ -20,7 +21,10 @@ public class ActividadesAPI {
     @GetMapping
     public WrapperData getAll(
             @RequestParam(value = "page", defaultValue =  DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required=false) String pageSize){
+            @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required=false) String pageSize){
+        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+            pageSize = ITEMS_FOR_PAGE;
+        }
         return actividadesService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
     }
 
