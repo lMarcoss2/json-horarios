@@ -23,8 +23,8 @@ public class GrupoServiceImpl implements GrupoService {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
-        return grupoDao.getAll(page, pageSize, status);
+    public WrapperData getAll(int page, int pageSize, String status, String licenciatura) {
+        return grupoDao.getAll(page, pageSize, status, licenciatura);
     }
 
     @Override

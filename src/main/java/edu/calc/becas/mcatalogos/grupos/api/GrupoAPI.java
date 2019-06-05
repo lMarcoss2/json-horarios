@@ -9,9 +9,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.*;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -35,13 +33,11 @@ public class GrupoAPI {
     @ApiOperation(value = "Obtiene el listado de grupos")
     public WrapperData getAll(
             @ApiParam(value = "Página a recuperar", defaultValue = "0") @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @ApiParam(value = "Registros a recuperar", defaultValue = "10") @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status) {
-        return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
-
-
-
-
+            @ApiParam(value = "Registros a recuperar", defaultValue = "-1") @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = "All") @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
+    ) {
+        return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status, licenciatura);
     }
 
     @PostMapping

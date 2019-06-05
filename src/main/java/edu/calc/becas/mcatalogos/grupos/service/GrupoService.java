@@ -10,7 +10,7 @@ import edu.calc.becas.mcatalogos.grupos.model.Grupo;
  * Date: 3/26/19
  */
 public interface GrupoService {
-    WrapperData getAll(int page, int pageSize, String status);
+    WrapperData getAll(int page, int pageSize, String status, String licenciatura);
 
     Grupo add(Grupo grupo);
 

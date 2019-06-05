@@ -10,10 +10,12 @@ public final class Constant {
     private Constant() {
     }
 
+    public static final String LICENCIATURA_DEFAULT = "All";
+
     public static final String ESTATUS_DEFAULT = "All";
     public static final String ESTATUS_ACTIVE = "S";
     public static final String ESTATUS_INACTIVE = "N";
 
-    public static final String ITEMS_FOR_PAGE = "10";
+    public static final String ITEMS_FOR_PAGE = "-1";
     public static final String DEFAULT_PAGE = "0";
 }
