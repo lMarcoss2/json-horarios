@@ -23,8 +23,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
-        return this.usuarioDao.getAll(page, pageSize, status);
+    public WrapperData getAll(int page, int pageSize, String status, String tipoUsuario) {
+        return this.usuarioDao.getAll(page, pageSize, status, tipoUsuario);
     }
 
     @Override

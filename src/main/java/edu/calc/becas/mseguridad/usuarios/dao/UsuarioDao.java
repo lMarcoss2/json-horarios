@@ -10,7 +10,7 @@ import edu.calc.becas.mseguridad.usuarios.model.Usuario;
  * Date: 4/14/19
  */
 public interface UsuarioDao {
-    WrapperData getAll(int page, int pageSize, String status);
+    WrapperData getAll(int page, int pageSize, String status, String tipoUsuario);
 
     Usuario add(Usuario usuario);
 
