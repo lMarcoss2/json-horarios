@@ -1,7 +1,7 @@
 package edu.calc.becas.mcatalogos.grupos.dao;
 
-import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -10,7 +10,7 @@ import edu.calc.becas.common.model.WrapperData;
  * Date: 3/26/19
  */
 public interface GrupoDao {
-    WrapperData getAll(int page, int pageSize);
+    WrapperData getAll(int page, int pageSize, String status, String licenciatura);
 
     Grupo add(Grupo grupo);
 

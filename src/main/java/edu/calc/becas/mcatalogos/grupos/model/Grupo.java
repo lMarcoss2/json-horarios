@@ -1,7 +1,7 @@
 package edu.calc.becas.mcatalogos.grupos.model;
 
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.model.CommonData;
+import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

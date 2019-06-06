@@ -1,9 +1,9 @@
 package edu.calc.becas.mcatalogos.grupos.dao;
 
-import edu.calc.becas.mcatalogos.grupos.model.Grupo;
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.mcatalogos.grupos.model.Grupo;
+import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,6 +13,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.LICENCIATURA_DEFAULT;
 import static edu.calc.becas.mcatalogos.grupos.dao.QueriesGrupo.*;
 
 
@@ -33,9 +36,41 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Grupo> data = this.jdbcTemplate.query(QRY_GET_ALL.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperGrupo(rs));
+    public WrapperData getAll(int page, int pageSize, String status, String licenciatura) {
+
+        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
+        boolean byLicenciatura = !licenciatura.equalsIgnoreCase(LICENCIATURA_DEFAULT);
+
+
+        String queryGetALl = QRY_GET_ALL;
+        String queryCountItem = QRY_COUNT_ITEM;
+
+        if (byStatus) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+        }
+
+        if (byLicenciatura) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_LICENCIATURA.replace("?", "'" + licenciatura + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_LICENCIATURA.replace("?", "'" + licenciatura + "'"));
+        }
+
+        queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
+
+        if (pageable) {
+            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+        }
+
+
+        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+
+        List<Grupo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperGrupo(rs));
+
+        if (!pageable) {
+            page = 0;
+            pageSize = lengthDataTable;
+        }
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 

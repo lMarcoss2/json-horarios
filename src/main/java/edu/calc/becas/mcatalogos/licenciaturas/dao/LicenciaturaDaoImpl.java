@@ -1,8 +1,8 @@
 package edu.calc.becas.mcatalogos.licenciaturas.dao;
 
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,13 +12,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 
 /**
  * @author Marcos Santiago Leonardo
  * Universidad de la Sierra Sur (UNSIS)
- * Description: implements dao for the major service
+ * Description: implements dao for the Licenciatura service
  * Date: 3/23/19
  */
 @Repository
@@ -33,18 +34,33 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
 
     @Override
     public WrapperData getAll(int page, int pageSize, String status) {
+
+        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
+
+
         String queryGetALl = QRY_GET_ALL;
+        String queryCountItem = QRY_COUNT_ITEM;
 
-        if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
+        if (byStatus) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-
-            int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'")), Integer.class);
-            List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperLicenciatura(rs));
-            return new WrapperData(data, page, lengthDataTable, lengthDataTable);
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
         }
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperLicenciatura(rs));
+        queryGetALl = queryGetALl.concat(QRY_ORDER_BY_NOMBRE_LICENCIATURA);
+
+        if (pageable) {
+            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+        }
+
+        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+
+        List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperLicenciatura(rs));
+
+        if (!pageable) {
+            page = 0;
+            pageSize = lengthDataTable;
+        }
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 

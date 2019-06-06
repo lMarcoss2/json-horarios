@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.TIPO_USUARIO_DEFAULT;
 import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 
 /**
@@ -33,20 +35,40 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
+    public WrapperData getAll(int page, int pageSize, String status, String tipoUsuario) {
+
+        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
+        boolean byTipoUsuario = !tipoUsuario.equalsIgnoreCase(TIPO_USUARIO_DEFAULT);
+
+
         String queryGetALl = QRY_GET_ALL;
+        String queryCountItem = QRY_COUNT_ITEM;
 
-        if (status != null && !status.equalsIgnoreCase(ESTATUS_DEFAULT)) {
+        if (byStatus) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-
-            int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM.concat(
-                    QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'")), Integer.class);
-            List<Usuario> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperUsuario(rs));
-            return new WrapperData(data, page, lengthDataTable, lengthDataTable);
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
         }
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-        List<Usuario> data = this.jdbcTemplate.query(queryGetALl.concat(createQueryPageable(page, pageSize)), (rs, rowNum) -> mapperUsuario(rs));
+        if (byTipoUsuario) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_TIPO_USUARIO.replace("?", "'" + tipoUsuario + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_TIPO_USUARIO.replace("?", "'" + tipoUsuario + "'"));
+        }
+
+        queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
+
+        if (pageable) {
+            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+        }
+
+        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+
+        List<Usuario> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperUsuario(rs));
+
+        if (!pageable) {
+            page = 0;
+            pageSize = lengthDataTable;
+        }
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 

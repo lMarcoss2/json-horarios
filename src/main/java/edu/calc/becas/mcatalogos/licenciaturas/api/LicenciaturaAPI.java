@@ -5,6 +5,7 @@ import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.mcatalogos.licenciaturas.service.LicenciaturaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,25 +33,29 @@ public class LicenciaturaAPI {
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de licenciaturas")
     public WrapperData getAll(
-            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize,
-            @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status
+            @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE) @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS) @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT) @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status
     ) {
+        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+            pageSize = ITEMS_FOR_PAGE;
+        }
+
         return licenciaturaService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
     @PostMapping
-    @ApiOperation(value = "Registra una licenciaturas")
-    public Licenciatura add(@RequestBody Licenciatura lic) {
-        lic.setAgregadoPor("Admin");
-        return licenciaturaService.add(lic);
+    @ApiOperation(value = "Registra una licenciatura")
+    public Licenciatura add(@ApiParam(value = "Licenciatura a registrar", required = true) @RequestBody Licenciatura licenciatura) {
+        licenciatura.setAgregadoPor("Admin");
+        return licenciaturaService.add(licenciatura);
     }
 
     @PutMapping
-    @ApiOperation(value = "Actualiza datos de una licenciaturas")
-    public Licenciatura update(@RequestBody Licenciatura lic) {
-        lic.setActualizadoPor("Admin");
-        return licenciaturaService.update(lic);
+    @ApiOperation(value = "Actualiza datos de una licenciatura")
+    public Licenciatura update(@ApiParam(value = "Licenciatura a actualizar", required = true) @RequestBody Licenciatura licenciatura) {
+        licenciatura.setActualizadoPor("Admin");
+        return licenciaturaService.update(licenciatura);
     }
 }
 

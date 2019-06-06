@@ -1,8 +1,8 @@
 package edu.calc.becas.mcatalogos.grupos.service;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.grupos.dao.GrupoDao;
 import edu.calc.becas.mcatalogos.grupos.model.Grupo;
-import edu.calc.becas.common.model.WrapperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +23,8 @@ public class GrupoServiceImpl implements GrupoService {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        return grupoDao.getAll(page, pageSize);
+    public WrapperData getAll(int page, int pageSize, String status, String licenciatura) {
+        return grupoDao.getAll(page, pageSize, status, licenciatura);
     }
 
     @Override

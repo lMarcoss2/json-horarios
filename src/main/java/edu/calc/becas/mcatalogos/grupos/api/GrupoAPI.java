@@ -1,15 +1,15 @@
 package edu.calc.becas.mcatalogos.grupos.api;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 import edu.calc.becas.mcatalogos.grupos.service.GrupoService;
-import edu.calc.becas.common.model.WrapperData;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.*;
 
 /**
  * @author Marcos Santiago Leonardo
@@ -32,21 +32,27 @@ public class GrupoAPI {
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de grupos")
     public WrapperData getAll(
-            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize) {
-        return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
+            @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE) @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS) @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT) @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
+            @ApiParam(value = "Licenciatura de los registros a recuperar", defaultValue = LICENCIATURA_DEFAULT) @RequestParam(value = "licenciatura", defaultValue = LICENCIATURA_DEFAULT, required = false) String licenciatura
+    ) {
+        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+            pageSize = ITEMS_FOR_PAGE;
+        }
+        return grupoService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status, licenciatura);
     }
 
     @PostMapping
     @ApiOperation(value = "Registra un grupo")
-    public Grupo add(@RequestBody Grupo grupo) {
+    public Grupo add(@ApiParam(value = "Grupo a registrar", defaultValue = "0") @RequestBody Grupo grupo) {
         grupo.setAgregadoPor("Admin");
         return grupoService.add(grupo);
     }
 
     @PutMapping
     @ApiOperation(value = "Actualiza datos de un grupo")
-    public Grupo update(@RequestBody Grupo grupo) {
+    public Grupo update(@ApiParam(value = "Grupo a actualizar", defaultValue = "0") @RequestBody Grupo grupo) {
         grupo.setActualizadoPor("Admin");
         return grupoService.update(grupo);
     }

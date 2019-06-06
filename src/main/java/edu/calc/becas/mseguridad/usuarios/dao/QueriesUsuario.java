@@ -12,7 +12,8 @@ final class QueriesUsuario {
 
     static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM USUARIOS U WHERE 1 = 1 ";
     static final String QRY_GET_ALL = "SELECT * FROM USUARIOS U WHERE 1 = 1";
-    static final String QRY_CONDITION_ESTATUS = " AND U.ESTATUS = ? ";
+    static final String QRY_CONDITION_ESTATUS = "\nAND U.ESTATUS = ? ";
+    static final String QRY_CONDITION_TIPO_USUARIO = "\nAND U.TIPO_USUARIO = ?";
     static final String QRY_ADD =
             "INSERT INTO USUARIOS\n" +
                     "(NOMBRES, APE_PATERNO, APE_MATERNO, TIPO_USUARIO, USERNAME, PASSWORD, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
@@ -29,4 +30,6 @@ final class QueriesUsuario {
                     "SET NOMBRES = ?, APE_PATERNO = ?, APE_MATERNO = ?, TIPO_USUARIO = ?, USERNAME = ?, PASSWORD = sha2(concat(?, ?, ?), 224),\n" +
                     "  ESTATUS   = ?, ACTUALIZADO_POR = ?, FECHA_ACTUALIZACION = NOW()\n" +
                     "WHERE ID_USUARIO = ?";
+
+    static final String QRY_ORDER_BY = "\nORDER BY NOMBRES ASC, APE_PATERNO ASC, APE_MATERNO ASC";
 }
