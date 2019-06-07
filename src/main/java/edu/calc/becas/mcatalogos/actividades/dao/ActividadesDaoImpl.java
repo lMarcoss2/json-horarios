@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 
 @Repository
@@ -25,7 +27,24 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
 
   @Override
-  public WrapperData getAll(int page, int pageSize) {
+  public WrapperData getAll(int page, int pageSize, String status) {
+
+    boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+    boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
+
+
+    String queryGetALl = QRY_GET_ALL;
+    String queryCountItem = QRY_COUNT_ITEM;
+
+    if (byStatus) {
+      queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+      queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+    }
+
+    if (pageable) {
+      queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+    }
+
     int lengthDatatble = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
     List<ActividadVo> data = this.jdbcTemplate.query(QRY_ACTIVIDADES, (rs, rowNum)-> mapperActividades(rs));
     return new WrapperData(data, page, pageSize, lengthDatatble);

@@ -16,6 +16,8 @@ public class ActividadVo extends CommonData {
     private String obligatorio;
     private int numeroAlumnos;
 
+    public ActividadVo(){};
+
     public ActividadVo(String estatus) {
         super((estatus));
     }

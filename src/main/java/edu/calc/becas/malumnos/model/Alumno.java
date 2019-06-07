@@ -29,4 +29,5 @@ public class Alumno extends CommonData {
     private Asistencia asistencia;
     private ActividadVo actividad;
 
+    public Alumno(String estatus){super(estatus);}
 }

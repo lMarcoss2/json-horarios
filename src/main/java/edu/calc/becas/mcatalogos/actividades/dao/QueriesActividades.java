@@ -15,4 +15,7 @@ final class QueriesActividades {
   public static String QRY_ADD = "INSERT INTO CICLO_ESCOLAR (DESCRIPCION_CICLO, PERIODO_ACTUAL, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
           "VALUES ('2019-2019A','S','S','admin',CURDATE());";
 
+    static String QRY_GET_ALL = "";
+    static final String QRY_CONDITION_ESTATUS = " AND ESTATUS = ? ";
+
 }

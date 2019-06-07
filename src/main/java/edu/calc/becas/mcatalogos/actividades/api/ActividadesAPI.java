@@ -3,15 +3,17 @@ package edu.calc.becas.mcatalogos.actividades.api;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static edu.calc.becas.common.utils.Constant.ALL_ITEMS;
-import static edu.calc.becas.common.utils.Constant.DEFAULT_PAGE;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.*;
 
 @RestController
 @RequestMapping("/actividades")
+@Api(description = "Servicios para administración de Actividades Extracurriculares")
 public class ActividadesAPI {
     private final ActividadesService actividadesService;
 
@@ -19,17 +21,24 @@ public class ActividadesAPI {
     public ActividadesAPI(ActividadesService actividadesService){this.actividadesService = actividadesService;}
 
     @GetMapping
+    @ApiOperation(value = "Obtiene el listado de Actividades")
     public WrapperData getAll(
-            @RequestParam(value = "page", defaultValue =  DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required=false) String pageSize){
-        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
-            pageSize = ITEMS_FOR_PAGE;
-        }
-        return actividadesService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize));
+            @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE)
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+            @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS)
+            @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT)
+            @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status){
+
+            if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+                pageSize = ITEMS_FOR_PAGE;
+            }
+        return actividadesService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
     @PostMapping
-    public ActividadVo add(@RequestBody ActividadVo actividad){
+    @ApiOperation(value = "Registra una nueva Actividad")
+    public ActividadVo add(@ApiParam(value = "Actividad a registrar", defaultValue = "0") @RequestBody ActividadVo actividad){
         actividad.setActualizadoPor("Admin");
         return actividadesService.add(actividad);
     }
