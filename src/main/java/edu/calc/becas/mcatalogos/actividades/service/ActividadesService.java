@@ -7,4 +7,5 @@ public interface ActividadesService {
 
     WrapperData getAll(int page, int pageSize, String status);
     ActividadVo add(ActividadVo actividad);
+    WrapperData getAllDetalle(int page, int pageSize, String status, String ciclo);
 }

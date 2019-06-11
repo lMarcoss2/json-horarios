@@ -24,4 +24,9 @@ public class ActividadesServiceImpl implements ActividadesService{
     public ActividadVo add(ActividadVo actividad) {
         return actividadesDao.add(actividad);
     }
+
+    @Override
+    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
+        return actividadesDao.getAllDetalle(page, pageSize, idActividad, ciclo);
+    }
 }

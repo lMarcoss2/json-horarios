@@ -3,6 +3,7 @@ package edu.calc.becas.mcatalogos.actividades.dao;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,6 +51,31 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     return new WrapperData(data, page, pageSize, lengthDatatble);
   }
 
+
+  @Override
+  public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
+
+    boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+    boolean byActividad = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
+
+
+    String queryGetALl = QRY_DETALLE_ACTIVIDADES;
+    String queryCountItem = QRY_COUNT_DETALLE_ACTIVIDADES;
+
+    if (byActividad) {
+      queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+      queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+    }
+
+    if (pageable) {
+      queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+    }
+
+    int lengthDatatble = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+    List<DetalleActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum)-> mapperDetalleActividades(rs));
+    return new WrapperData(data, page, pageSize, lengthDatatble);
+  }
+
   @Override
   public ActividadVo add(ActividadVo actividad) {
     this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
@@ -60,10 +86,25 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
     actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
     actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-    actividadVo.setCicloEscolar(rs.getString("CICLO_ESCOLAR"));
     actividadVo.setObligatorio(rs.getString("OBLIGATORIO"));
-    actividadVo.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
     return actividadVo;
+  }
+
+  private DetalleActividadVo mapperDetalleActividades(ResultSet rs) throws SQLException{
+    ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
+
+    actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+    actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+
+    DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
+    detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
+    detalle.setHora(rs.getInt("HORA"));
+    detalle.setFormat(rs.getString("AM_PM"));
+    detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
+    detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+    detalle.setCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
+    actividadVo.setDetalle(detalle);
+    return detalle;
   }
 
   private Object[]createObjectParamUpdate(ActividadVo actividad){
