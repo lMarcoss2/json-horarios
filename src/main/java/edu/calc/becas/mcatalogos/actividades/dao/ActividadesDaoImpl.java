@@ -1,6 +1,7 @@
 package edu.calc.becas.mcatalogos.actividades.dao;
 
 import edu.calc.becas.common.base.dao.BaseDao;
+import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
@@ -74,6 +75,11 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     int lengthDatatble = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
     List<DetalleActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum)-> mapperDetalleActividades(rs));
     return new WrapperData(data, page, pageSize, lengthDatatble);
+  }
+
+  @Override
+  public List<LabelValueData> getActividades() {
+    return this.jdbcTemplate.query(QRY_LIST_ACTIVIDAD, (rs, rowNum) -> LabelValueData.mapperLavelValue(rs));
   }
 
   @Override

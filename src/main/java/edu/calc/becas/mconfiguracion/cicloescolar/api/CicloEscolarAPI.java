@@ -37,7 +37,7 @@ public class CicloEscolarAPI {
         return ciclo;
     }
 
-    @GetMapping("/ciclos")
+    @GetMapping("/list")
     public List<LabelValueData> getListCiclos(){
         return cicloEscolarService.getListCatalog();
     }

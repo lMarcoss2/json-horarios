@@ -1,5 +1,6 @@
 package edu.calc.becas.mcatalogos.actividades.api;
 
+import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
@@ -8,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static edu.calc.becas.common.utils.Constant.*;
 
@@ -58,6 +61,11 @@ public class ActividadesAPI {
         return actividadesService.getAllDetalle(Integer.parseInt(page), Integer.parseInt(pageSize), idActividad, idCiclo);
     }
 
+
+    @GetMapping("/list")
+    public List<LabelValueData> getActividades(){
+    return actividadesService.getActividades();
+    }
 
     @PostMapping
     @ApiOperation(value = "Registra una nueva Actividad")
