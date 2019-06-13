@@ -3,6 +3,7 @@ package edu.calc.becas.mcatalogos.actividades.api;
 import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
 import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -72,5 +73,12 @@ public class ActividadesAPI {
     public ActividadVo add(@ApiParam(value = "Actividad a registrar", defaultValue = "0") @RequestBody ActividadVo actividad){
         actividad.setActualizadoPor("Admin");
         return actividadesService.add(actividad);
+    }
+
+    @PostMapping("/detallehoras")
+    public DetalleActividadVo add(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
+        return  actividadesService.add(
+                detalle
+        );
     }
 }

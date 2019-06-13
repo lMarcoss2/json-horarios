@@ -15,6 +15,7 @@ public class DetalleActividadVo extends CommonData {
     private int numeroAlumnos;
     private String nombreActividad;
     private String cicloEscolar;
+    private String idActividad;
     public DetalleActividadVo(){};
 
     public DetalleActividadVo(String estatus) {

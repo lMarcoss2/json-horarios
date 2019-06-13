@@ -4,6 +4,7 @@ import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.dao.ActividadesDao;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,11 @@ public class ActividadesServiceImpl implements ActividadesService{
     @Override
     public List<LabelValueData> getActividades() {
         return actividadesDao.getActividades();
+    }
+
+    @Override
+    public DetalleActividadVo add(DetalleActividadVo detalle) {
+        return actividadesDao.add(detalle);
     }
 
 
