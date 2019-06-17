@@ -1,5 +1,6 @@
 package edu.calc.becas.mcarga.hrs.blibioteca.service;
 
+import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcarga.hrs.ProcessHoursService;
@@ -7,6 +8,8 @@ import edu.calc.becas.mcarga.hrs.ProcessRow;
 import edu.calc.becas.mcarga.hrs.blibioteca.model.Hora;
 import edu.calc.becas.mcarga.hrs.read.files.model.RowFile;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
+import edu.calc.becas.mconfiguracion.parciales.service.ParcialService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,15 +48,22 @@ public class CargaHrsBibliotecaServiceImpl extends ProcessRow implements Process
     private int posEndCell = 4;
 
     private final CargaHrsDao cargaHrsBibliotecaDao;
+    private final ParcialService parcialService;
 
     @Autowired
-    public CargaHrsBibliotecaServiceImpl(@Qualifier("cargaHrsBibliotecaRepository") CargaHrsDao cargaHrsBibliotecaDao) {
+    public CargaHrsBibliotecaServiceImpl(
+            @Qualifier("cargaHrsBibliotecaRepository") CargaHrsDao cargaHrsBibliotecaDao, ParcialService parcialService) {
         this.cargaHrsBibliotecaDao = cargaHrsBibliotecaDao;
+        this.parcialService = parcialService;
     }
 
 
     @Override
-    public void processData(Workbook pages) {
+    public void processData(Workbook pages, CommonData commonData) {
+
+        Parcial parcialActual = parcialService.getParcialActual();
+        int parcial = parcialActual.getIdParcial();
+
         List<RowFile> rows = readRows(pages);
 
         List<Alumno> alumnos = new ArrayList<>();
@@ -92,9 +102,14 @@ public class CargaHrsBibliotecaServiceImpl extends ProcessRow implements Process
                     }
                 }
             }
+
+            // datos de auditoria
+            alumno.setActualizadoPor(commonData.getActualizadoPor());
+            alumno.setAgregadoPor(commonData.getAgregadoPor());
+
             alumnos.add(alumno);
         }
 
-        this.cargaHrsBibliotecaDao.persistenceHours(alumnos);
+        this.cargaHrsBibliotecaDao.persistenceHours(alumnos, parcial);
     }
 }

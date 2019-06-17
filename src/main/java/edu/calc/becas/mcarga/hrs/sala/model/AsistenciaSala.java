@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class Asistencia implements Serializable {
+public class AsistenciaSala implements Serializable {
     private int asistencia;
     private int falta;
     private int porcentaje;

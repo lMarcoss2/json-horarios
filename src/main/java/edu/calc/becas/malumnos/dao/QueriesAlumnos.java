@@ -9,6 +9,7 @@ public class QueriesAlumnos {
             "      ACTIVIDADES AC\n" +
             "WHERE 1 = 1 AND AL.ID_ALUMNO = ACAL.ID_ALUMNO\n" +
             "AND ACAL.ID_ACTIVIDAD = AC.ID_ACTIVIDAD";
+    static final String QRY_CONDITION_MATRICULA = "\nAND AL.MATRICULA = ?";
     static final String QRY_CONDITION_ESTATUS = " AND AL.ESTATUS = ? ";
     static final String QRY_CONDITION_ACTIVIDAD = "AND ACAL.ID_ACTIVIDAD = ? ";
     static final String QRY_ORDER_BY_NOMBRE_ALUMNO = "\nORDER BY APE_PATERNO, APE_MATERNO, NOMBRES ASC\n";

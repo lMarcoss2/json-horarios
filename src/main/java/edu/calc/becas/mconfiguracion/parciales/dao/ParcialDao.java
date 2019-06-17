@@ -14,4 +14,6 @@ public interface ParcialDao {
     List<Parcial> getAll();
 
     Parcial update(Parcial parcial);
+
+    Parcial getParcialActual();
 }

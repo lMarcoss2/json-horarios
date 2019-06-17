@@ -14,4 +14,6 @@ public interface ParcialService {
     List<Parcial> getAll();
 
     Parcial update(Parcial parcial);
+
+    Parcial getParcialActual();
 }

@@ -32,4 +32,9 @@ public class ParcialServiceImpl implements ParcialService {
     public Parcial update(Parcial parcial) {
         return this.parcialDao.update(parcial);
     }
+
+    @Override
+    public Parcial getParcialActual() {
+        return parcialDao.getParcialActual();
+    }
 }

@@ -1,5 +1,6 @@
 package edu.calc.becas.mcarga.hrs;
 
+import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mcarga.hrs.read.files.ReadFile;
 import edu.calc.becas.mcarga.hrs.read.files.model.ProcessedFile;
@@ -41,7 +42,10 @@ public class UploadFileAPI {
     public ProcessedFile uploadFactura(@RequestParam("file") MultipartFile file) throws GenericException {
         String pathfile = saveFile(file);
         Workbook pages = ReadFile.pages(pathfile);
-        processHoursService.processData(pages);
+        CommonData commonData = new CommonData();
+        commonData.setAgregadoPor("ADMIN");
+        commonData.setActualizadoPor("ADMIN");
+        processHoursService.processData(pages, commonData);
         return ProcessedFile.builder()
                 .error(false)
                 .file(pathfile)

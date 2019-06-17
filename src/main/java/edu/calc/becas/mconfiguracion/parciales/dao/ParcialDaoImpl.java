@@ -43,4 +43,9 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
         parcial.setParcialActual(true);
         return parcial;
     }
+
+    @Override
+    public Parcial getParcialActual() {
+        return this.jdbcTemplate.queryForObject(QueriesParcial.QRY_GET_PARCIAL_ACTUAL, ((rs, i) -> mapperParcial(rs)));
+    }
 }
