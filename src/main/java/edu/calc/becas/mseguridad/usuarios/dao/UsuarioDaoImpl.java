@@ -3,7 +3,6 @@ package edu.calc.becas.mseguridad.usuarios.dao;
 import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mseguridad.usuarios.model.Usuario;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
-import static edu.calc.becas.common.utils.Constant.TIPO_USUARIO_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.*;
 import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 
 /**
@@ -25,13 +22,11 @@ import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 @Repository
 public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
 
-    private final JdbcTemplate jdbcTemplate;
     private final String secretKeyStart = "4^%m@=C*&c#L+%";
     private final String secretKeyEnd = "U$|2AT>30!";
 
-    @Autowired
     public UsuarioDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        super(jdbcTemplate);
     }
 
     @Override

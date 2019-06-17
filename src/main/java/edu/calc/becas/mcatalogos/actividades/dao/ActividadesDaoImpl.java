@@ -5,7 +5,6 @@ import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +19,9 @@ import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 @Repository
 public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
-  private final JdbcTemplate jdbcTemplate;
-
-  @Autowired
-  public ActividadesDaoImpl(JdbcTemplate jdbcTemplate){
-    this.jdbcTemplate=jdbcTemplate;
+  public ActividadesDaoImpl(JdbcTemplate jdbcTemplate) {
+    super(jdbcTemplate);
   }
-
 
   @Override
   public WrapperData getAll(int page, int pageSize, String status) {

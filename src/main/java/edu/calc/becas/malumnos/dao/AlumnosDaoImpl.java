@@ -4,7 +4,6 @@ import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +19,10 @@ import static edu.calc.becas.malumnos.dao.QueriesAlumnos.*;
 @Repository
 public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
 
-    private final JdbcTemplate jdbcTemplate;
 
-
-    @Autowired
-    public AlumnosDaoImpl(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
+    public AlumnosDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public WrapperData getAll(int page, int pageSize, String status, String idActividad) {
@@ -40,7 +38,7 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
             queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
         }
 
-        if(byActivity){
+        if (byActivity) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
             //queryCountItem = queryCountItem.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
         }
@@ -54,7 +52,7 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
 
-        List<Alumno > data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperAlumno(rs));
+        List<Alumno> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperAlumno(rs));
 
         if (!pageable) {
             page = 0;
@@ -64,19 +62,27 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
 
     }
 
-        private Alumno mapperAlumno(ResultSet rs) throws SQLException {
+    @Override
+    public Alumno getByMatricula(String matricula) {
+
+        return jdbcTemplate.queryForObject(
+                QRY_GET_ALL.concat(QRY_CONDITION_MATRICULA),
+                new Object[]{matricula}, (rs, rowNum) -> mapperAlumno(rs));
+    }
+
+    private Alumno mapperAlumno(ResultSet rs) throws SQLException {
         Alumno alumno = new Alumno(rs.getString("ESTATUS"));
         ActividadVo actividadVo = new ActividadVo();
-            alumno.setIdAlumno(rs.getString("ID_ALUMNO"));
-            alumno.setMatricula(rs.getString("MATRICULA"));
-            alumno.setNombres(rs.getString("NOMBRES"));
-            alumno.setApePaterno(rs.getString("APE_PATERNO"));
-            alumno.setApeMaterno(rs.getString("APE_MATERNO"));
-            actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
-            actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-            alumno.setActividad(actividadVo);
-            return alumno;
-        }
-
-
+        alumno.setIdAlumno(rs.getString("ID_ALUMNO"));
+        alumno.setMatricula(rs.getString("MATRICULA"));
+        alumno.setNombres(rs.getString("NOMBRES"));
+        alumno.setApePaterno(rs.getString("APE_PATERNO"));
+        alumno.setApeMaterno(rs.getString("APE_MATERNO"));
+        actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+        actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+        alumno.setActividad(actividadVo);
+        return alumno;
     }
+
+
+}

@@ -5,7 +5,6 @@ import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.common.utils.Constant;
 import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,10 +18,9 @@ import static edu.calc.becas.mconfiguracion.cicloescolar.dao.QueriesCicloEscolar
 @Repository
 public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public CicloEscolarDaoImpl(JdbcTemplate jdbcTemplate){this.jdbcTemplate= jdbcTemplate;}
+    public CicloEscolarDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public WrapperData getAll(int page, int pageSize) {

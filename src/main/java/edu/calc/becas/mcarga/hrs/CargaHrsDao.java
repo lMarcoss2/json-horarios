@@ -11,5 +11,5 @@ import java.util.List;
  * Date: 6/3/19
  */
 public interface CargaHrsDao {
-    void persistenceHours(List<Alumno> alumnos);
+    void persistenceHours(List<Alumno> alumnos, int parcial);
 }

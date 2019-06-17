@@ -1,12 +1,14 @@
 package edu.calc.becas.mcarga.hrs.sala.service;
 
+import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcarga.hrs.ProcessHoursService;
 import edu.calc.becas.mcarga.hrs.ProcessRow;
 import edu.calc.becas.mcarga.hrs.read.files.model.RowFile;
-import edu.calc.becas.mcarga.hrs.sala.model.Asistencia;
-import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mcarga.hrs.sala.model.AsistenciaSala;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
+import edu.calc.becas.mconfiguracion.parciales.service.ParcialService;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +35,7 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
 
     private static final Logger LOG = LoggerFactory.getLogger(CargaHrsSalaServiceImpl.class);
     private final CargaHrsDao cargaHrsDao;
+    private final ParcialService parcialService;
 
     @Value("${prop.carga.hrs.sala.id}")
     private int idActividadSala;
@@ -53,12 +56,18 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
     private String falta;
 
     @Autowired
-    public CargaHrsSalaServiceImpl(@Qualifier("cargaHrsSalaRepository") CargaHrsDao cargaHrsDao) {
+    public CargaHrsSalaServiceImpl(
+            @Qualifier("cargaHrsSalaRepository") CargaHrsDao cargaHrsDao,
+            ParcialService parcialService) {
         this.cargaHrsDao = cargaHrsDao;
+        this.parcialService = parcialService;
     }
 
     @Override
-    public void processData(Workbook pages) {
+    public void processData(Workbook pages, CommonData commonData) {
+
+        Parcial parcialActual = parcialService.getParcialActual();
+        int parcial = parcialActual.getIdParcial();
         List<RowFile> rows = readRows(pages);
 
         List<Alumno> alumnos = new ArrayList<>();
@@ -66,11 +75,6 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
         for (RowFile row : rows) {
 
             Alumno alumno = new Alumno();
-            ActividadVo actividadVo = new ActividadVo("S");
-            actividadVo.setIdActividad(idActividadSala);
-            alumno.setActividad(actividadVo);
-
-
             int asistence = 0;
             int missing = 0;
 
@@ -100,18 +104,20 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
                 BigDecimal multiplica = assis.multiply(BigDecimal.valueOf(100));
                 BigDecimal percent = multiplica.divide(sum, 0, ROUND_HALF_UP);
 
-                Asistencia asistencia = new Asistencia();
-                asistencia.setAsistencia(asistence);
-                asistencia.setFalta(missing);
-                asistencia.setPorcentaje(percent.intValue());
-                alumno.setAsistencia(asistencia);
+                AsistenciaSala asistenciaSala = new AsistenciaSala();
+                asistenciaSala.setAsistencia(asistence);
+                asistenciaSala.setFalta(missing);
+                asistenciaSala.setPorcentaje(percent.intValue());
+                alumno.setAsistenciaSala(asistenciaSala);
             }
+            // datos de auditoria
+            alumno.setActualizadoPor(commonData.getActualizadoPor());
+            alumno.setAgregadoPor(commonData.getAgregadoPor());
+
             alumnos.add(alumno);
         }
-        for (Alumno alumno : alumnos) {
-            LOG.info(alumno.toString());
-        }
-        //this.cargaHrsBibliotecaDao.persistenceHours(alumnos);
+
+        this.cargaHrsDao.persistenceHours(alumnos, parcial);
     }
 
     private boolean endAssits(String value) {

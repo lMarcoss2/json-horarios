@@ -11,6 +11,7 @@ final class QueriesParcial {
     }
 
     static final String QRY_GET_ALL = "SELECT * FROM PARCIALES";
+    static final String QRY_GET_PARCIAL_ACTUAL = "SELECT * FROM PARCIALES WHERE PARCIAL_ACTUAL = 'S'";
     static final String QRY_INACTIVE_ESTATUS = "UPDATE PARCIALES SET PARCIAL_ACTUAL = 'N' WHERE ID_PARCIAL != ?";
     static final String QRY_ACTIVE_ESTATUS = "UPDATE PARCIALES SET PARCIAL_ACTUAL = 'S' WHERE ID_PARCIAL = ?";
 
