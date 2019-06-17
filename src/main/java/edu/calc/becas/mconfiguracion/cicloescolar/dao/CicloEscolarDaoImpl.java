@@ -19,10 +19,9 @@ import static edu.calc.becas.mconfiguracion.cicloescolar.dao.QueriesCicloEscolar
 @Repository
 public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public CicloEscolarDaoImpl(JdbcTemplate jdbcTemplate){this.jdbcTemplate= jdbcTemplate;}
+    public CicloEscolarDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public WrapperData getAll(int page, int pageSize) {

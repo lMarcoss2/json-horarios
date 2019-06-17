@@ -25,13 +25,11 @@ import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 @Repository
 public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
 
-    private final JdbcTemplate jdbcTemplate;
     private final String secretKeyStart = "4^%m@=C*&c#L+%";
     private final String secretKeyEnd = "U$|2AT>30!";
 
-    @Autowired
     public UsuarioDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        super(jdbcTemplate);
     }
 
     @Override

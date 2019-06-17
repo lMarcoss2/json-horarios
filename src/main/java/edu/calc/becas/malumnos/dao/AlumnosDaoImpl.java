@@ -20,11 +20,10 @@ import static edu.calc.becas.malumnos.dao.QueriesAlumnos.*;
 @Repository
 public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
 
-    private final JdbcTemplate jdbcTemplate;
 
-
-    @Autowired
-    public AlumnosDaoImpl(JdbcTemplate jdbcTemplate) {this.jdbcTemplate = jdbcTemplate;}
+    public AlumnosDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     @Override
     public WrapperData getAll(int page, int pageSize, String status, String idActividad) {

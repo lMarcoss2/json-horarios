@@ -111,7 +111,7 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
         for (Alumno alumno : alumnos) {
             LOG.info(alumno.toString());
         }
-        //this.cargaHrsBibliotecaDao.persistenceHours(alumnos);
+        this.cargaHrsDao.persistenceHours(alumnos);
     }
 
     private boolean endAssits(String value) {

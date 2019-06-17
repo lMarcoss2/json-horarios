@@ -28,11 +28,8 @@ import static edu.calc.becas.mcatalogos.grupos.dao.QueriesGrupo.*;
 @Repository
 public class GrupoDaoImpl extends BaseDao implements GrupoDao {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
     public GrupoDaoImpl(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        super(jdbcTemplate);
     }
 
     @Override
