@@ -5,6 +5,7 @@ import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
+import edu.calc.becas.mseguridad.usuarios.model.Usuario;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -101,18 +102,24 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
   private DetalleActividadVo mapperDetalleActividades(ResultSet rs) throws SQLException{
     ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
-
+    Usuario usuario = new Usuario();
     actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
     actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
 
     DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
     detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
-    detalle.setHora(rs.getInt("HORA"));
+    detalle.setHora(rs.getString("HORA"));
     detalle.setFormat(rs.getString("AM_PM"));
     detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
     detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
     detalle.setCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
-    actividadVo.setDetalle(detalle);
+
+    usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+    usuario.setNombres(rs.getString("NOMBRES"));
+    usuario.setApePaterno(rs.getString("APE_PATERNO"));
+    usuario.setApeMaterno(rs.getString("APE_MATERNO"));
+
+    detalle.setUsuario(usuario);
     return detalle;
   }
 
