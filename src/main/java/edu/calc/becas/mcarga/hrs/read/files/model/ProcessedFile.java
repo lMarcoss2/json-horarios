@@ -15,7 +15,7 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
-@ApiModel(value = "Archivo procesado", description = "Respuesta del servicio de carga de horas por archivo")
+@ApiModel(description = "Entidad con los datos de carga de archivos")
 public class ProcessedFile {
     @ApiModelProperty("Identificador del archivo")
     private int idFile;

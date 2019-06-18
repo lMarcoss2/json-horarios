@@ -1,6 +1,7 @@
 package edu.calc.becas.mcatalogos.licenciaturas.model;
 
 import edu.calc.becas.common.model.CommonData;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@ApiModel(description = "Entidad con los datos de la licenciatura")
 public class Licenciatura extends CommonData {
 
     @ApiModelProperty(notes = "Identificador único de la licenciatura")
