@@ -1,6 +1,7 @@
 package edu.calc.becas.mseguridad.usuarios.model;
 
 import edu.calc.becas.common.model.CommonData;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @NoArgsConstructor
+@ApiModel(description = "Entidad con los datos del usuario")
 public class Usuario extends CommonData implements Serializable {
     @ApiModelProperty("Indentificador único del usuario")
     private int idUsuario;

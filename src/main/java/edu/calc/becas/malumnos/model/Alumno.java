@@ -4,6 +4,8 @@ import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.mcarga.hrs.blibioteca.model.Hora;
 import edu.calc.becas.mcarga.hrs.sala.model.AsistenciaSala;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,15 +21,33 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
+@ApiModel(description = "Entidad con los datos del alumno")
 public class Alumno extends CommonData {
+    @ApiModelProperty("Identificador único del alumno")
     private String IdAlumno;
+
+    @ApiModelProperty("Matrícula alumno")
     private String matricula;
+
+    @ApiModelProperty("Nombre(s) del alumno")
     private String nombres;
+
+    @ApiModelProperty("Apellido paterno del alumno")
     private String apePaterno;
+
+    @ApiModelProperty("Apellido materno del alumno")
     private String apeMaterno;
+
+    @ApiModelProperty("Horas de biblioteca cumplidas")
     private Hora hora;
+
+    @ApiModelProperty("Asistencias a sala de cómputo")
     private AsistenciaSala asistenciaSala;
+
+    @ApiModelProperty("Actividad en la que está inscripto el alumno")
     private ActividadVo actividad;
 
-    public Alumno(String estatus){super(estatus);}
+    public Alumno(String estatus) {
+        super(estatus);
+    }
 }

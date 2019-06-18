@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
-@ApiModel(value = "Información recuperada", description = "Envoltura de información paginada")
+@ApiModel(description = "Envoltura de información paginada de los servicios")
 public class WrapperData<T> implements Serializable {
     @ApiModelProperty("Lista de datos recuperados de un total de lengthData")
     private List<T> data;
