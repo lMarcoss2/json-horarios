@@ -108,7 +108,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
     DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
     detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
-    detalle.setHora(rs.getString("HORA"));
+    detalle.setHora(rs.getString("HORA")+ ":00");
     detalle.setFormat(rs.getString("AM_PM"));
     detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
     detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
