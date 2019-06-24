@@ -92,6 +92,19 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     return detalle;
   }
 
+  @Override
+  public DetalleActividadVo udateDetail(DetalleActividadVo detalle) {
+    this.jdbcTemplate.update(QRY_UPDATE_HORA_ACTIVIDAD,new Object[]{
+            detalle.getHora(),
+            detalle.getFormat(),
+            detalle.getNumeroAlumnos(),
+            detalle.getUsuario().getIdUsuario(),
+            detalle.getIdDetalleActividad()
+    });
+
+    return detalle;
+  }
+
   private ActividadVo mapperActividades(ResultSet rs) throws SQLException{
     ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
     actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));

@@ -44,5 +44,10 @@ public class ActividadesServiceImpl implements ActividadesService{
         return actividadesDao.add(detalle);
     }
 
+    @Override
+    public DetalleActividadVo udateDetail(DetalleActividadVo detalle) {
+        return actividadesDao.udateDetail(detalle);
+    }
+
 
 }

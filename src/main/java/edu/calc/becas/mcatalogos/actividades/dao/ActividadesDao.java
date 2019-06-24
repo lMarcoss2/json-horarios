@@ -13,5 +13,6 @@ public interface ActividadesDao {
   WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo);
   List<LabelValueData> getActividades();
   DetalleActividadVo add(DetalleActividadVo detalle);
+  DetalleActividadVo udateDetail(DetalleActividadVo detalle);
 }
 

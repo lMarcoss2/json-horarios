@@ -36,4 +36,7 @@ final class QueriesActividades {
     static final String QRY_ADD_HORA_ACTIVIDAD = "INSERT INTO HORARIO_ACTIVIDAD (ID_ACTIVIDAD, HORA, AM_PM, " +
             "NUMERO_ALUMNOS, ID_CICLO_ESCOLAR, ID_USUARIO, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
             "VALUES (?,?,?,?,?,?,?,?,CURDATE())";
+
+    static final String QRY_UPDATE_HORA_ACTIVIDAD = "UPDATE HORARIO_ACTIVIDAD SET HORA = ?, AM_PM = ?, " +
+            "NUMERO_ALUMNOS = ?, ID_USUARIO = ? WHERE ID_HORARIO_ACTIVIDAD = ?";
 }

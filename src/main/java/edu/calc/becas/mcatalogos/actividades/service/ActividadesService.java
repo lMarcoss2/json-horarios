@@ -14,4 +14,5 @@ public interface ActividadesService {
     WrapperData getAllDetalle(int page, int pageSize, String status, String ciclo);
     List<LabelValueData> getActividades();
     DetalleActividadVo add(DetalleActividadVo detalle);
+    DetalleActividadVo udateDetail(DetalleActividadVo detalle);
 }
