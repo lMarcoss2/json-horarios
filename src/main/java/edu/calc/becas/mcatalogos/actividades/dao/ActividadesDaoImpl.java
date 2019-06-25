@@ -20,137 +20,138 @@ import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 @Repository
 public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
-  public ActividadesDaoImpl(JdbcTemplate jdbcTemplate) {
-    super(jdbcTemplate);
-  }
-
-  @Override
-  public WrapperData getAll(int page, int pageSize, String status) {
-
-    boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-    boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
-
-
-    String queryGetALl = QRY_GET_ALL;
-    String queryCountItem = QRY_COUNT_ITEM;
-
-    if (byStatus) {
-      queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-      queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
+    public ActividadesDaoImpl(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
     }
 
-    if (pageable) {
-      queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+    @Override
+    public WrapperData getAll(int page, int pageSize, String status) {
+
+        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+
+        String queryGetALl = addConditionFilterByStatus(status, QRY_ACTIVIDADES, QRY_CONDITION_ESTATUS);
+        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
+
+
+        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
+
+        int lengthDatable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        List<ActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperActividades(rs));
+
+        if (!pageable) {
+            page = 0;
+            pageSize = lengthDatable;
+        }
+
+        return new WrapperData(data, page, pageSize, lengthDatable);
     }
 
-    int lengthDatatble = this.jdbcTemplate.queryForObject(QRY_COUNT_ITEM, Integer.class);
-    List<ActividadVo> data = this.jdbcTemplate.query(QRY_ACTIVIDADES, (rs, rowNum)-> mapperActividades(rs));
-    return new WrapperData(data, page, pageSize, lengthDatatble);
-  }
+
+    @Override
+    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
+
+        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
+        boolean byActividad = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
 
 
-  @Override
-  public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
+        String queryGetALl = QRY_DETALLE_ACTIVIDADES;
+        String queryCountItem = QRY_COUNT_DETALLE_ACTIVIDADES;
 
-    boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-    boolean byActividad = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
+        if (byActividad) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+        }
 
+        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-    String queryGetALl = QRY_DETALLE_ACTIVIDADES;
-    String queryCountItem = QRY_COUNT_DETALLE_ACTIVIDADES;
+        int lengthDatable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
 
-    if (byActividad) {
-      queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
-      queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+        List<DetalleActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperDetalleActividades(rs));
+
+        if (!pageable) {
+            page = 0;
+            pageSize = lengthDatable;
+        }
+        return new WrapperData(data, page, pageSize, lengthDatable);
     }
 
-    if (pageable) {
-      queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
+
+    @Override
+    public List<LabelValueData> getActividades() {
+        return this.jdbcTemplate.query(QRY_LIST_ACTIVIDAD, (rs, rowNum) -> LabelValueData.mapperLavelValue(rs));
     }
 
-    int lengthDatatble = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
-    List<DetalleActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum)-> mapperDetalleActividades(rs));
-    return new WrapperData(data, page, pageSize, lengthDatatble);
-  }
+    @Override
+    public ActividadVo add(ActividadVo actividad) {
+        this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
+        return actividad;
+    }
 
+    @Override
+    public DetalleActividadVo add(DetalleActividadVo detalle) {
+        this.jdbcTemplate.update(QRY_ADD_HORA_ACTIVIDAD, createObjectParamDetalle(detalle));
+        return detalle;
+    }
 
+    @Override
+    public DetalleActividadVo udateDetail(DetalleActividadVo detalle) {
+        this.jdbcTemplate.update(QRY_UPDATE_HORA_ACTIVIDAD, new Object[]{
+                detalle.getHora(),
+                detalle.getFormat(),
+                detalle.getNumeroAlumnos(),
+                detalle.getUsuario().getIdUsuario(),
+                detalle.getIdDetalleActividad()
+        });
 
-  @Override
-  public List<LabelValueData> getActividades() {
-    return this.jdbcTemplate.query(QRY_LIST_ACTIVIDAD, (rs, rowNum) -> LabelValueData.mapperLavelValue(rs));
-  }
+        return detalle;
+    }
 
-  @Override
-  public ActividadVo add(ActividadVo actividad) {
-    this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
-    return actividad;
-  }
+    private ActividadVo mapperActividades(ResultSet rs) throws SQLException {
+        ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
+        actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+        actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+        actividadVo.setObligatorio(rs.getString("OBLIGATORIO"));
+        return actividadVo;
+    }
 
-  @Override
-  public DetalleActividadVo add(DetalleActividadVo detalle){
-    this.jdbcTemplate.update(QRY_ADD_HORA_ACTIVIDAD, createObjectParamDetalle(detalle));
-    return detalle;
-  }
+    private DetalleActividadVo mapperDetalleActividades(ResultSet rs) throws SQLException {
+        ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
+        Usuario usuario = new Usuario();
+        actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+        actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
 
-  @Override
-  public DetalleActividadVo udateDetail(DetalleActividadVo detalle) {
-    this.jdbcTemplate.update(QRY_UPDATE_HORA_ACTIVIDAD,new Object[]{
-            detalle.getHora(),
-            detalle.getFormat(),
-            detalle.getNumeroAlumnos(),
-            detalle.getUsuario().getIdUsuario(),
-            detalle.getIdDetalleActividad()
-    });
+        DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
+        detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
+        detalle.setHora(rs.getString("HORA") + ":00");
+        detalle.setFormat(rs.getString("AM_PM"));
+        detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
+        detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+        detalle.setCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
 
-    return detalle;
-  }
+        usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+        usuario.setNombres(rs.getString("NOMBRES"));
+        usuario.setApePaterno(rs.getString("APE_PATERNO"));
+        usuario.setApeMaterno(rs.getString("APE_MATERNO"));
 
-  private ActividadVo mapperActividades(ResultSet rs) throws SQLException{
-    ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
-    actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
-    actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-    actividadVo.setObligatorio(rs.getString("OBLIGATORIO"));
-    return actividadVo;
-  }
+        detalle.setUsuario(usuario);
+        return detalle;
+    }
 
-  private DetalleActividadVo mapperDetalleActividades(ResultSet rs) throws SQLException{
-    ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
-    Usuario usuario = new Usuario();
-    actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
-    actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+    private Object[] createObjectParamUpdate(ActividadVo actividad) {
+        return new Object[]{};
+    }
 
-    DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
-    detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
-    detalle.setHora(rs.getString("HORA")+ ":00");
-    detalle.setFormat(rs.getString("AM_PM"));
-    detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
-    detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-    detalle.setCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
-
-    usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
-    usuario.setNombres(rs.getString("NOMBRES"));
-    usuario.setApePaterno(rs.getString("APE_PATERNO"));
-    usuario.setApeMaterno(rs.getString("APE_MATERNO"));
-
-    detalle.setUsuario(usuario);
-    return detalle;
-  }
-
-  private Object[]createObjectParamUpdate(ActividadVo actividad){
-    return new Object[]{};
-  }
-
-  private Object[]createObjectParamDetalle(DetalleActividadVo detalle){
-    return new Object[]{
-            detalle.getIdActividad(),
-            detalle.getHora(),
-            detalle.getFormat(),
-            detalle.getNumeroAlumnos(),
-            detalle.getCicloEscolar(),
-            "1",
-            "S",
-            "Admin"
-    };
-  }
+    private Object[] createObjectParamDetalle(DetalleActividadVo detalle) {
+        return new Object[]{
+                detalle.getIdActividad(),
+                detalle.getHora(),
+                detalle.getFormat(),
+                detalle.getNumeroAlumnos(),
+                detalle.getCicloEscolar(),
+                "1",
+                "S",
+                "Admin"
+        };
+    }
 
 }

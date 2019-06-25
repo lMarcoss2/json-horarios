@@ -7,5 +7,5 @@ package edu.calc.becas.common.base.dao;
  * Date: 3/26/19
  */
 final class QueriesBaseDao {
-    static final String QRY_PAGEABLE = " LIMIT %s OFFSET %s ";
+    static final String QRY_PAGEABLE = "\nLIMIT %s OFFSET %s ";
 }

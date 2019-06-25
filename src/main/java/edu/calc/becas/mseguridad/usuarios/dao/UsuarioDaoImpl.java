@@ -33,17 +33,10 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
     public WrapperData getAll(int page, int pageSize, String status, String tipoUsuario) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
         boolean byTipoUsuario = !tipoUsuario.equalsIgnoreCase(TIPO_USUARIO_DEFAULT);
 
-
-        String queryGetALl = QRY_GET_ALL;
-        String queryCountItem = QRY_COUNT_ITEM;
-
-        if (byStatus) {
-            queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-        }
+        String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
+        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byTipoUsuario) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_TIPO_USUARIO.replace("?", "'" + tipoUsuario + "'"));
@@ -52,9 +45,7 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
 
-        if (pageable) {
-            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
-        }
+        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
 

@@ -4,12 +4,12 @@ final class QueriesActividades {
     private QueriesActividades() {
     }
 
-    static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM ACTIVIDADES";
+    static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM ACTIVIDADES WHERE 1 = 1\n";
 
     static String QRY_ACTIVIDADES = "SELECT AC.ID_ACTIVIDAD, AC.NOMBRE_ACTIVIDAD,\n" +
             "       CASE WHEN  AC.OBLIGATORIO = 'S' THEN 'SI' WHEN AC.OBLIGATORIO = 'N' THEN 'NO' END AS OBLIGATORIO,\n" +
             "       AC.ESTATUS " +
-            "FROM ACTIVIDADES AC";
+            "FROM ACTIVIDADES AC WHERE 1 = 1\n";
 
     public static String QRY_ADD = "INSERT INTO CICLO_ESCOLAR (DESCRIPCION_CICLO, PERIODO_ACTUAL, ESTATUS, AGREGADO_POR," +
             " FECHA_CREACION)\n" +
@@ -17,7 +17,7 @@ final class QueriesActividades {
 
     static String QRY_GET_ALL = "";
 
-    static final String QRY_CONDITION_ESTATUS = " AND ESTATUS = ? ";
+    static final String QRY_CONDITION_ESTATUS = "\nAND ESTATUS = ? ";
 
     static final String QRY_DETALLE_ACTIVIDADES = "SELECT A.NOMBRE_ACTIVIDAD, CI.DESCRIPCION_CICLO, US.ID_USUARIO, " +
             "US.NOMBRES, US.APE_PATERNO , US.APE_MATERNO, DA.* " +
@@ -29,7 +29,7 @@ final class QueriesActividades {
     static final String QRY_COUNT_DETALLE_ACTIVIDADES = "SELECT COUNT(1) FROM HORARIO_ACTIVIDAD DA , " +
             "ACTIVIDADES A WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD\n";
 
-    static final String QRY_CONDITION_ID_ACTIVIDAD = " AND A.ID_ACTIVIDAD = ?";
+    static final String QRY_CONDITION_ID_ACTIVIDAD = "\nAND A.ID_ACTIVIDAD = ?";
 
     static final String QRY_LIST_ACTIVIDAD = "SELECT ID_ACTIVIDAD, NOMBRE_ACTIVIDAD FROM ACTIVIDADES";
 

@@ -27,28 +27,20 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
     @Override
     public WrapperData getAll(int page, int pageSize, String status, String idActividad) {
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
         boolean byActivity = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
 
-        String queryCountItem = QRY_COUNT_ITEM;
-        String queryGetALl = QRY_GET_ALL;
-
-        if (byStatus) {
-            queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-        }
+        String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
+        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byActivity) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
-            //queryCountItem = queryCountItem.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
         }
 
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY_NOMBRE_ALUMNO);
 
-        if (pageable) {
-            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
-        }
+        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
 

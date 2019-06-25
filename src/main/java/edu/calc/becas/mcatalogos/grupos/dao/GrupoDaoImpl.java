@@ -32,18 +32,12 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     @Override
     public WrapperData getAll(int page, int pageSize, String status, String licenciatura) {
 
+
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
         boolean byLicenciatura = !licenciatura.equalsIgnoreCase(LICENCIATURA_DEFAULT);
 
-
-        String queryGetALl = QRY_GET_ALL;
-        String queryCountItem = QRY_COUNT_ITEM;
-
-        if (byStatus) {
-            queryGetALl = queryGetALl.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ESTATUS.replace("?", "'" + status + "'"));
-        }
+        String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
+        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byLicenciatura) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_LICENCIATURA.replace("?", "'" + licenciatura + "'"));
@@ -52,10 +46,7 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
 
-        if (pageable) {
-            queryGetALl = queryGetALl.concat(createQueryPageable(page, pageSize));
-        }
-
+        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
 
