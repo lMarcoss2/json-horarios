@@ -68,43 +68,7 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
     public Licenciatura update(Licenciatura lic) {
         this.jdbcTemplate.update(QRY_UPDATE, createObjectParamUpdate(lic));
         return lic;
-    }
-
-    private Licenciatura getByAllAttributes(Licenciatura lic) {
-        String query = QRY_GET_BY_CUSTOM_PARAM;
-        List params = new ArrayList();
-        if (lic.getIdLicenciatura() > 0) {
-            query = query.concat(QRY_CONDITION_ID_LICENCIATURA);
-            params.add(lic.getIdLicenciatura());
-        }
-        if (lic.getCveLicenciatura() != null) {
-            query = query.concat(QRY_CONDITION_CVE_LICENCIATURA);
-            params.add(lic.getCveLicenciatura());
-        }
-
-        if (lic.getNombreLicenciatura() != null) {
-            query = query.concat(QRY_CONDITION_NOMBRE_LICENCIATURA);
-            params.add(lic.getNombreLicenciatura());
-        }
-
-        if (lic.getEstatus() != null) {
-            query = query.concat(QRY_CONDITION_ESTATUS);
-            params.add(lic.getEstatus());
-        }
-
-        if (lic.getAgregadoPor() != null) {
-            query = query.concat(QRY_CONDITION_AGREGADO_POR);
-            params.add(lic.getAgregadoPor());
-        }
-
-        if (lic.getActualizadoPor() != null) {
-            query = query.concat(QRY_CONDITION_ACTUALIZADO_POR);
-            params.add(lic.getActualizadoPor());
-        }
-
-
-        return this.jdbcTemplate.queryForObject(query, params.toArray(), ((rs, rowNum) -> mapperLicenciatura(rs)));
-    }
+    } 
 
     private Object[] createObjectParam(Licenciatura lic) {
         return new Object[]{lic.getCveLicenciatura(), lic.getNombreLicenciatura(), lic.getEstatus(), lic.getAgregadoPor()};
