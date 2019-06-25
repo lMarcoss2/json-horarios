@@ -21,12 +21,23 @@ public class AlumnosServiceImpl implements AlumnosService {
 
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status, String idActividad) {
-        return alumnosDao.getAll(page, pageSize, status, idActividad);
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
     }
 
     @Override
-    public Alumno getByMatricula(String matricula) {
-        return alumnosDao.getByMatricula(matricula);
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String idActividad) {
+        return alumnosDao.getAllByStatusAndOneParam(page, pageSize, status, idActividad);
     }
+
+    @Override
+    public Alumno add(Alumno alumno) {
+        return null;
+    }
+
+    @Override
+    public Alumno update(Alumno alumno) {
+        return null;
+    }
+
 }

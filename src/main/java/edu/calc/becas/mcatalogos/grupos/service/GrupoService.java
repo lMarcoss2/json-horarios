@@ -1,6 +1,6 @@
 package edu.calc.becas.mcatalogos.grupos.service;
 
-import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.common.service.CrudGenericService;
 import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 
 /**
@@ -9,10 +9,5 @@ import edu.calc.becas.mcatalogos.grupos.model.Grupo;
  * Description:
  * Date: 3/26/19
  */
-public interface GrupoService {
-    WrapperData getAll(int page, int pageSize, String status, String licenciatura);
-
-    Grupo add(Grupo grupo);
-
-    Grupo update(Grupo grupo);
+public interface GrupoService extends CrudGenericService<Grupo> {
 }

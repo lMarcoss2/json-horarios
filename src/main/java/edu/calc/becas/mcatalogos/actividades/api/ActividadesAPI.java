@@ -31,13 +31,13 @@ public class ActividadesAPI {
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS)
             @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT)
-            @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status){
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = DEFAULT_ESTATUS)
+            @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status){
 
             if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
                 pageSize = ITEMS_FOR_PAGE;
             }
-        return actividadesService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status);
+        return actividadesService.getAllByStatus(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
 
@@ -49,12 +49,12 @@ public class ActividadesAPI {
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS)
             @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT)
-            @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
-            @ApiParam(value = "Identificador de la actividad a recuperar el detalle", defaultValue = ESTATUS_DEFAULT)
-            @RequestParam(value = "actividad", defaultValue = ESTATUS_DEFAULT, required = false) String idActividad,
-            @ApiParam(value = "Identificador del ciclo escolar asociado a la actividad", defaultValue = ESTATUS_DEFAULT)
-            @RequestParam(value = "ciclo", defaultValue = ESTATUS_DEFAULT, required = false) String idCiclo){
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = DEFAULT_ESTATUS)
+            @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status,
+            @ApiParam(value = "Identificador de la actividad a recuperar el detalle", defaultValue = DEFAULT_ESTATUS)
+            @RequestParam(value = "actividad", defaultValue = DEFAULT_ESTATUS, required = false) String idActividad,
+            @ApiParam(value = "Identificador del ciclo escolar asociado a la actividad", defaultValue = DEFAULT_ESTATUS)
+            @RequestParam(value = "ciclo", defaultValue = DEFAULT_ESTATUS, required = false) String idCiclo){
 
         if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
             pageSize = ITEMS_FOR_PAGE;

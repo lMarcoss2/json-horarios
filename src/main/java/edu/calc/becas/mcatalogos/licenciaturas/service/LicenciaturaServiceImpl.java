@@ -23,8 +23,13 @@ public class LicenciaturaServiceImpl implements LicenciaturaService {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
-        return licenciaturaDao.getAll(page, pageSize, status);
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return licenciaturaDao.getAllByStatus(page, pageSize, status);
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
     }
 
     @Override

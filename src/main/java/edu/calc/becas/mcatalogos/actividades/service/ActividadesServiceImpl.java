@@ -19,14 +19,24 @@ public class ActividadesServiceImpl implements ActividadesService{
     public ActividadesServiceImpl(ActividadesDao actividadesDao){this.actividadesDao = actividadesDao;}
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status)
+    public WrapperData getAllByStatus(int page, int pageSize, String status)
     {
-        return actividadesDao.getAll(page,pageSize, status);
+        return actividadesDao.getAllByStatus(page,pageSize, status);
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
     }
 
     @Override
     public ActividadVo add(ActividadVo actividad) {
         return actividadesDao.add(actividad);
+    }
+
+    @Override
+    public ActividadVo update(ActividadVo actividadVo) {
+        return null;
     }
 
     @Override

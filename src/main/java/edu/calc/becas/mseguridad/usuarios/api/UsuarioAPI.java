@@ -45,12 +45,12 @@ public class UsuarioAPI {
     public WrapperData getAll(
             @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE) @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
             @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS) @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
-            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = ESTATUS_DEFAULT) @RequestParam(value = "status", defaultValue = ESTATUS_DEFAULT, required = false) String status,
+            @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = DEFAULT_ESTATUS) @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status,
             @ApiParam(value = "Tipo de usuario a recuperar", defaultValue = TIPO_USUARIO_DEFAULT) @RequestParam(value = "tipo-usuario", defaultValue = TIPO_USUARIO_DEFAULT, required = false) String tipoUsuario) {
         if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
             pageSize = ITEMS_FOR_PAGE;
         }
-        return this.usuarioService.getAll(Integer.parseInt(page), Integer.parseInt(pageSize), status, tipoUsuario);
+        return this.usuarioService.getAllByStatusAndOneParam(Integer.parseInt(page), Integer.parseInt(pageSize), status, tipoUsuario);
     }
 
 

@@ -7,7 +7,6 @@ package edu.calc.becas.mcatalogos.licenciaturas.dao;
  * Date: 3/23/19
  */
 final class QueriesLicenciatura {
-    static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM LICENCIATURAS WHERE 1 = 1";
     static final String QRY_GET_ALL = "SELECT * FROM LICENCIATURAS WHERE 1 = 1 ";
     static final String QRY_GET_BY_CUSTOM_PARAM = "SELECT * FROM LICENCIATURAS WHERE 1 = 1 ";
     static final String QRY_CONDITION_CVE_LICENCIATURA = "AND CVE_LICENCIATURA = ? ";

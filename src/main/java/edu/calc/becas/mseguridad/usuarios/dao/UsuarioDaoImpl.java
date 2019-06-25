@@ -10,7 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.*;
+import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.TIPO_USUARIO_DEFAULT;
 import static edu.calc.becas.mseguridad.usuarios.dao.QueriesUsuario.*;
 
 /**
@@ -30,24 +31,27 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status, String tipoUsuario) {
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String tipoUsuario) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
         boolean byTipoUsuario = !tipoUsuario.equalsIgnoreCase(TIPO_USUARIO_DEFAULT);
 
         String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
-        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byTipoUsuario) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_TIPO_USUARIO.replace("?", "'" + tipoUsuario + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_TIPO_USUARIO.replace("?", "'" + tipoUsuario + "'"));
         }
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        int lengthDataTable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
 
         List<Usuario> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperUsuario(rs));
 
@@ -56,17 +60,6 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
             pageSize = lengthDataTable;
         }
         return new WrapperData(data, page, pageSize, lengthDataTable);
-    }
-
-    private Usuario mapperUsuario(ResultSet rs) throws SQLException {
-        Usuario usuario = new Usuario(rs.getString("ESTATUS"));
-        usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
-        usuario.setNombres(rs.getString("NOMBRES"));
-        usuario.setApePaterno(rs.getString("APE_PATERNO"));
-        usuario.setApeMaterno(rs.getString("APE_MATERNO"));
-        usuario.setTipoUsuario(rs.getString("TIPO_USUARIO"));
-        usuario.setUsername(rs.getString("USERNAME"));
-        return usuario;
     }
 
     @Override
@@ -90,6 +83,17 @@ public class UsuarioDaoImpl extends BaseDao implements UsuarioDao {
                     usuario.getTipoUsuario().trim(), usuario.getUsername().trim(), usuario.getEstatus().trim(), usuario.getActualizadoPor().trim(), usuario.getIdUsuario());
         }
 
+        return usuario;
+    }
+
+    private Usuario mapperUsuario(ResultSet rs) throws SQLException {
+        Usuario usuario = new Usuario(rs.getString("ESTATUS"));
+        usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+        usuario.setNombres(rs.getString("NOMBRES"));
+        usuario.setApePaterno(rs.getString("APE_PATERNO"));
+        usuario.setApeMaterno(rs.getString("APE_MATERNO"));
+        usuario.setTipoUsuario(rs.getString("TIPO_USUARIO"));
+        usuario.setUsername(rs.getString("USERNAME"));
         return usuario;
     }
 }

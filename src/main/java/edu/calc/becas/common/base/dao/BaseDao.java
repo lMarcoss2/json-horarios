@@ -4,8 +4,9 @@ package edu.calc.becas.common.base.dao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import static edu.calc.becas.common.base.dao.QueriesBaseDao.QRY_COUNT_ITEM;
 import static edu.calc.becas.common.base.dao.QueriesBaseDao.QRY_PAGEABLE;
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.DEFAULT_ESTATUS;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 
 /**
@@ -37,10 +38,20 @@ public class BaseDao {
     }
 
     protected String addConditionFilterByStatus(String status, String queryBase, String qryConditionStatus) {
-        boolean byStatus = !status.equalsIgnoreCase(ESTATUS_DEFAULT);
+        boolean byStatus = !status.equalsIgnoreCase(DEFAULT_ESTATUS);
         if (byStatus) {
             queryBase = queryBase.concat(qryConditionStatus.replace("?", "'" + status + "'"));
         }
         return queryBase;
+    }
+
+    protected String createQueryCountItem(String queryGetALl) {
+        int startQryPageable = queryGetALl.indexOf("LIMIT");
+        if (startQryPageable >= 0) {
+            return String.format(QRY_COUNT_ITEM, queryGetALl.substring(0, startQryPageable));
+        } else {
+            return String.format(QRY_COUNT_ITEM, queryGetALl);
+        }
+
     }
 }

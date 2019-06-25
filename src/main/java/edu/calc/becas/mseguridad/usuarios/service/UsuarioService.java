@@ -1,6 +1,6 @@
 package edu.calc.becas.mseguridad.usuarios.service;
 
-import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.common.service.CrudGenericService;
 import edu.calc.becas.mseguridad.usuarios.model.Usuario;
 
 /**
@@ -9,10 +9,5 @@ import edu.calc.becas.mseguridad.usuarios.model.Usuario;
  * Description:
  * Date: 4/14/19
  */
-public interface UsuarioService {
-    WrapperData getAll(int page, int pageSize, String status, String tipoUsuario);
-
-    Usuario add(Usuario usuario);
-
-    Usuario update(Usuario usuario);
+public interface UsuarioService extends CrudGenericService<Usuario> {
 }

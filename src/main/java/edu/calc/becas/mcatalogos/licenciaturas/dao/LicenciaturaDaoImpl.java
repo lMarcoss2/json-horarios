@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.DEFAULT_ESTATUS;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 import static edu.calc.becas.mcatalogos.licenciaturas.dao.QueriesLicenciatura.*;
 
@@ -29,13 +29,12 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
 
 
         String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
-        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY_NOMBRE_LICENCIATURA);
 
@@ -43,7 +42,7 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        int lengthDataTable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
 
         List<Licenciatura> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperLicenciatura(rs));
 
@@ -52,6 +51,11 @@ public class LicenciaturaDaoImpl extends BaseDao implements LicenciaturaDao {
             pageSize = lengthDataTable;
         }
         return new WrapperData(data, page, pageSize, lengthDataTable);
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
     }
 
     @Override

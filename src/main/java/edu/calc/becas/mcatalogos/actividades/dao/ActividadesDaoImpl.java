@@ -13,7 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.DEFAULT_ESTATUS;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 
@@ -25,17 +25,15 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status) {
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
 
         String queryGetALl = addConditionFilterByStatus(status, QRY_ACTIVIDADES, QRY_CONDITION_ESTATUS);
-        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
-
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-        int lengthDatable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        int lengthDatable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
         List<ActividadVo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperActividades(rs));
 
         if (!pageable) {
@@ -46,12 +44,17 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
         return new WrapperData(data, page, pageSize, lengthDatable);
     }
 
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
+    }
+
 
     @Override
     public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byActividad = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
+        boolean byActividad = !idActividad.equalsIgnoreCase(DEFAULT_ESTATUS);
 
 
         String queryGetALl = QRY_DETALLE_ACTIVIDADES;
@@ -85,6 +88,11 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     public ActividadVo add(ActividadVo actividad) {
         this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
         return actividad;
+    }
+
+    @Override
+    public ActividadVo update(ActividadVo object) {
+        return null;
     }
 
     @Override

@@ -8,4 +8,5 @@ package edu.calc.becas.common.base.dao;
  */
 final class QueriesBaseDao {
     static final String QRY_PAGEABLE = "\nLIMIT %s OFFSET %s ";
+    static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM (%s) ABCDEF";
 }

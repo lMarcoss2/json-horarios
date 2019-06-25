@@ -1,6 +1,6 @@
 package edu.calc.becas.mseguridad.usuarios.dao;
 
-import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.common.base.dao.CrudGenericDao;
 import edu.calc.becas.mseguridad.usuarios.model.Usuario;
 
 /**
@@ -9,10 +9,5 @@ import edu.calc.becas.mseguridad.usuarios.model.Usuario;
  * Description:
  * Date: 4/14/19
  */
-public interface UsuarioDao {
-    WrapperData getAll(int page, int pageSize, String status, String tipoUsuario);
-
-    Usuario add(Usuario usuario);
-
-    Usuario update(Usuario usuario);
+public interface UsuarioDao extends CrudGenericDao<Usuario> {
 }

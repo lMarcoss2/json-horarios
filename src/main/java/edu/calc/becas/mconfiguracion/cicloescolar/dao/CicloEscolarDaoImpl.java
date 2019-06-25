@@ -23,15 +23,20 @@ public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        int lengthDatatable = this.jdbcTemplate.queryForObject(QRY_COUNT_CICLO_ESCOLAR, Integer.class);
-        List<CicloEscolarVo> data = this.jdbcTemplate.query(QRY_CICLO_ESCOLAR, (rs, rowNum)-> mapperCicloEscolar(rs));
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        int lengthDatatable = this.jdbcTemplate.queryForObject(createQueryCountItem(QRY_CICLO_ESCOLAR), Integer.class);
+        List<CicloEscolarVo> data = this.jdbcTemplate.query(QRY_CICLO_ESCOLAR, (rs, rowNum) -> mapperCicloEscolar(rs));
         return new WrapperData(data, page, pageSize, lengthDatatable);
     }
 
-    public List<LabelValueData> getListCatalog(){
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
+    }
 
-        return this.jdbcTemplate.query(QRY_LIST_CICLO, (rs, rowNum)-> mapperLavelValue(rs));
+    public List<LabelValueData> getListCatalog() {
+
+        return this.jdbcTemplate.query(QRY_LIST_CICLO, (rs, rowNum) -> mapperLavelValue(rs));
     }
 
 
@@ -41,12 +46,17 @@ public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
         return ciclo;
     }
 
+    @Override
+    public CicloEscolarVo update(CicloEscolarVo object) {
+        return null;
+    }
+
     private Object[] createObjectParam(CicloEscolarVo ciclo) {
         return new Object[]{ciclo.getDescripcionCiclo(), ciclo.getEstatus()};
     }
 
-    private CicloEscolarVo mapperCicloEscolar(ResultSet rs) throws SQLException{
-        CicloEscolarVo cicloEscolarVo = new CicloEscolarVo (rs.getString("ESTATUS"));
+    private CicloEscolarVo mapperCicloEscolar(ResultSet rs) throws SQLException {
+        CicloEscolarVo cicloEscolarVo = new CicloEscolarVo(rs.getString("ESTATUS"));
 
         cicloEscolarVo.setIdCicloEscolar(rs.getInt("ID_CICLO_ESCOLAR"));
         cicloEscolarVo.setDescripcionCiclo(rs.getString("DESCRIPCION_CICLO"));

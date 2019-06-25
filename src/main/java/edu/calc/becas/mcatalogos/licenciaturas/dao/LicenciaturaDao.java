@@ -1,6 +1,6 @@
 package edu.calc.becas.mcatalogos.licenciaturas.dao;
 
-import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.common.base.dao.CrudGenericDao;
 import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 
 /**
@@ -9,10 +9,5 @@ import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
  * Description: define dao for the major service
  * Date: 3/23/19
  */
-public interface LicenciaturaDao {
-    WrapperData getAll(int page, int pageSize, String status);
-
-    Licenciatura add(Licenciatura lic);
-
-    Licenciatura update(Licenciatura lic);
+public interface LicenciaturaDao extends CrudGenericDao<Licenciatura> {
 }

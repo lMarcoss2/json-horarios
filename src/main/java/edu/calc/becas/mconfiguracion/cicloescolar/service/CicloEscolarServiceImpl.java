@@ -17,13 +17,23 @@ public class CicloEscolarServiceImpl implements CicloEscolarService{
     public CicloEscolarServiceImpl(CicloEscolarDao cicloEscolarDao){this.cicloEscolarDao = cicloEscolarDao;}
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        return cicloEscolarDao.getAll(page,pageSize);
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return cicloEscolarDao.getAllByStatus(page,pageSize, status);
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
     }
 
     @Override
     public CicloEscolarVo add(CicloEscolarVo ciclo) {
         return cicloEscolarDao.add(ciclo);
+    }
+
+    @Override
+    public CicloEscolarVo update(CicloEscolarVo cicloEscolarVo) {
+        return null;
     }
 
     @Override

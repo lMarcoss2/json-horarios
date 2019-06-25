@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.ESTATUS_DEFAULT;
+import static edu.calc.becas.common.utils.Constant.DEFAULT_ESTATUS;
 import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
 import static edu.calc.becas.malumnos.dao.QueriesAlumnos.*;
 
@@ -25,16 +25,19 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status, String idActividad) {
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String idActividad) {
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byActivity = !idActividad.equalsIgnoreCase(ESTATUS_DEFAULT);
+        boolean byActivity = !idActividad.equalsIgnoreCase(DEFAULT_ESTATUS);
 
         String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
-        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byActivity) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
         }
 
 
@@ -42,7 +45,7 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        int lengthDataTable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
 
         List<Alumno> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperAlumno(rs));
 
@@ -55,11 +58,13 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
     }
 
     @Override
-    public Alumno getByMatricula(String matricula) {
+    public Alumno add(Alumno object) {
+        return null;
+    }
 
-        return jdbcTemplate.queryForObject(
-                QRY_GET_ALL.concat(QRY_CONDITION_MATRICULA),
-                new Object[]{matricula}, (rs, rowNum) -> mapperAlumno(rs));
+    @Override
+    public Alumno update(Alumno object) {
+        return null;
     }
 
     private Alumno mapperAlumno(ResultSet rs) throws SQLException {

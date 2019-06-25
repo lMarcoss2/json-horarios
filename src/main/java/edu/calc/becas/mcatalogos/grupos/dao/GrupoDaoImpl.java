@@ -30,25 +30,28 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize, String status, String licenciatura) {
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String licenciatura) {
 
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
         boolean byLicenciatura = !licenciatura.equalsIgnoreCase(LICENCIATURA_DEFAULT);
 
         String queryGetALl = addConditionFilterByStatus(status, QRY_GET_ALL, QRY_CONDITION_ESTATUS);
-        String queryCountItem = addConditionFilterByStatus(status, QRY_COUNT_ITEM, QRY_CONDITION_ESTATUS);
 
         if (byLicenciatura) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_LICENCIATURA.replace("?", "'" + licenciatura + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_LICENCIATURA.replace("?", "'" + licenciatura + "'"));
         }
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);
+        int lengthDataTable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
 
         List<Grupo> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperGrupo(rs));
 

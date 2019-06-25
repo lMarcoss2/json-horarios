@@ -2,7 +2,6 @@ package edu.calc.becas.malumnos.dao;
 
 public class QueriesAlumnos {
 
-    static final String QRY_COUNT_ITEM = "SELECT COUNT(1) FROM ALUMNOS AL WHERE 1 = 1 ";
     static final String QRY_GET_ALL = "SELECT AL.*, AC.ID_ACTIVIDAD, AC.NOMBRE_ACTIVIDAD\n" +
             "  FROM ALUMNOS AL,\n" +
             "      ACTIVIDAD_ALUMNO ACAL,\n" +
