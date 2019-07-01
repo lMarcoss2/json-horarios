@@ -11,5 +11,5 @@ import org.apache.poi.ss.usermodel.Workbook;
  * Date: 5/13/19
  */
 public interface ProcessHoursService {
-    void processData(Workbook pages, CommonData commonData);
+    int processData(Workbook pages, CommonData commonData);
 }

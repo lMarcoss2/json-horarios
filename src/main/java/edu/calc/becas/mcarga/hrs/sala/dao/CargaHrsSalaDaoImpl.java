@@ -39,7 +39,8 @@ public class CargaHrsSalaDaoImpl extends BaseDao implements CargaHrsDao {
     }
 
     @Override
-    public void persistenceHours(List<Alumno> alumnos, int parcial) {
+    public int persistenceHours(List<Alumno> alumnos, int parcial) {
+        int count = 0;
         for (Alumno alumno : alumnos) {
             try {
                 // obtiene la actividad del alumno
@@ -61,12 +62,14 @@ public class CargaHrsSalaDaoImpl extends BaseDao implements CargaHrsDao {
                     );
                 }
 
-
+                count++;
             } catch (Exception e) {
                 LOG.error(e.getMessage());
             }
 
         }
+
+        return count;
     }
 
 }

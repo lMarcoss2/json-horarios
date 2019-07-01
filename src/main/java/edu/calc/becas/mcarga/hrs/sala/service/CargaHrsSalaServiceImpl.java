@@ -64,7 +64,7 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
     }
 
     @Override
-    public void processData(Workbook pages, CommonData commonData) {
+    public int processData(Workbook pages, CommonData commonData) {
 
         Parcial parcialActual = parcialService.getParcialActual();
         int parcial = parcialActual.getIdParcial();
@@ -117,7 +117,7 @@ public class CargaHrsSalaServiceImpl extends ProcessRow implements ProcessHoursS
             alumnos.add(alumno);
         }
 
-        this.cargaHrsDao.persistenceHours(alumnos, parcial);
+        return this.cargaHrsDao.persistenceHours(alumnos, parcial);
     }
 
     private boolean endAssits(String value) {

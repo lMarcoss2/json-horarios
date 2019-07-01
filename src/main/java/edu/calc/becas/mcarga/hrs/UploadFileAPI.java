@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static edu.calc.becas.common.utils.Message.MESSAGE_ROWS_PROCESSED_ROOM_COMPUTER;
 import static edu.calc.becas.utils.ExtensionFile.XLSX_EXTENSION;
 import static edu.calc.becas.utils.ExtensionFile.XLS_EXTENSION;
 
@@ -45,11 +46,11 @@ public class UploadFileAPI {
         CommonData commonData = new CommonData();
         commonData.setAgregadoPor("ADMIN");
         commonData.setActualizadoPor("ADMIN");
-        processHoursService.processData(pages, commonData);
+        int resultProcessed = processHoursService.processData(pages, commonData);
         return ProcessedFile.builder()
                 .error(false)
                 .file(pathfile)
-                .message(null)
+                .message(String.format(MESSAGE_ROWS_PROCESSED_ROOM_COMPUTER, resultProcessed))
                 .idFile(1)
                 .build();
 
