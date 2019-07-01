@@ -62,43 +62,6 @@ public class GrupoDaoImpl extends BaseDao implements GrupoDao {
         return new WrapperData(data, page, pageSize, lengthDataTable);
     }
 
-
-    private Grupo getByAllAttributes(Grupo grupo) {
-        String query = QRY_GET_ALL;
-        List params = new ArrayList();
-        if (grupo.getIdGrupo() > 0) {
-            query = query.concat(QRY_CONDITION_ID_GRUPO);
-            params.add(grupo.getIdGrupo());
-        }
-
-        if (grupo.getCveGrupo() != null && !grupo.getCveGrupo().equalsIgnoreCase("")) {
-            query = query.concat(QRY_CONDITION_CVE_GRUPO);
-            params.add(grupo.getCveGrupo());
-        }
-
-        if (grupo.getLicenciatura().getIdLicenciatura() > 0) {
-            query = query.concat(QRY_CONDITION_ID_LICENCIATURA);
-            params.add(grupo.getLicenciatura().getIdLicenciatura());
-        }
-
-        if (grupo.getEstatus() != null && !grupo.getEstatus().equalsIgnoreCase("")) {
-            query = query.concat(QRY_CONDITION_ESTATUS);
-            params.add(grupo.getEstatus());
-        }
-
-        if (grupo.getAgregadoPor() != null && !grupo.getAgregadoPor().equalsIgnoreCase("")) {
-            query = query.concat(QRY_CONDITION_AGREGADO_POR);
-            params.add(grupo.getAgregadoPor());
-        }
-
-        if (grupo.getActualizadoPor() != null && !grupo.getActualizadoPor().equalsIgnoreCase("")) {
-            query = query.concat(QRY_CONDITION_ACTUALIZADO_POR);
-            params.add(grupo.getActualizadoPor());
-        }
-
-        return jdbcTemplate.queryForObject(query, params.toArray(), (rs, i) -> mapperGrupo(rs));
-    }
-
     @Override
     public Grupo add(Grupo grupo) {
         this.jdbcTemplate.update(QRY_ADD, createParamInsert(grupo));
