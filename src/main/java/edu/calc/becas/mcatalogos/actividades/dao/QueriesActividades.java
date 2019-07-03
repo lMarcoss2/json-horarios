@@ -24,7 +24,7 @@ final class QueriesActividades {
             "FROM HORARIO_ACTIVIDAD DA , ACTIVIDADES A, CICLO_ESCOLAR CI, USUARIOS US " +
             "WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD " +
             "AND DA.ID_CICLO_ESCOLAR = CI.ID_CICLO_ESCOLAR " +
-            "AND DA.ID_USUARIO = US.ID_USUARIO";
+            "AND DA.ID_USUARIO = US.ID_USUARIO " ;
 
     static final String QRY_COUNT_DETALLE_ACTIVIDADES = "SELECT COUNT(1) FROM HORARIO_ACTIVIDAD DA , " +
             "ACTIVIDADES A WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD\n";
@@ -39,4 +39,6 @@ final class QueriesActividades {
 
     static final String QRY_UPDATE_HORA_ACTIVIDAD = "UPDATE HORARIO_ACTIVIDAD SET HORA = ?, AM_PM = ?, " +
             "NUMERO_ALUMNOS = ?, ID_USUARIO = ? WHERE ID_HORARIO_ACTIVIDAD = ?";
+
+    static final String QRY_ORDER_BY = "ORDER BY A.ID_ACTIVIDAD, HORA, AM_PM ";
 }

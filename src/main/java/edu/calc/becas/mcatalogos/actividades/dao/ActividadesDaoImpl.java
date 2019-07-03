@@ -65,6 +65,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
             queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
         }
 
+        queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
         int lengthDatable = this.jdbcTemplate.queryForObject(queryCountItem, Integer.class);

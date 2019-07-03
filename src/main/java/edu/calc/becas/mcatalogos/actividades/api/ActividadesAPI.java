@@ -62,6 +62,13 @@ public class ActividadesAPI {
         return actividadesService.getAllDetalle(Integer.parseInt(page), Integer.parseInt(pageSize), idActividad, idCiclo);
     }
 
+    @PutMapping
+    public DetalleActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
+        return  actividadesService.udateDetail(
+                detalle
+        );
+    }
+
 
     @GetMapping("/list")
     public List<LabelValueData> getActividades(){
