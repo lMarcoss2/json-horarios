@@ -50,6 +50,11 @@ public class ActividadesServiceImpl implements ActividadesService{
     }
 
     @Override
+    public DetalleActividadVo udateActividad(DetalleActividadVo detalle) {
+        return null;
+    }
+
+    @Override
     public DetalleActividadVo add(DetalleActividadVo detalle) {
         return actividadesDao.add(detalle);
     }
@@ -58,6 +63,8 @@ public class ActividadesServiceImpl implements ActividadesService{
     public DetalleActividadVo udateDetail(DetalleActividadVo detalle) {
         return actividadesDao.udateDetail(detalle);
     }
+
+
 
 
 }
