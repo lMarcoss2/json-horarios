@@ -1,7 +1,9 @@
 package edu.calc.becas.reporte.percent.beca.service;
 
+import edu.calc.becas.common.model.Pageable;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.reporte.percent.beca.dao.ReportPercentBecaDao;
+import edu.calc.becas.reporte.percent.beca.model.ReporteActividad;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,7 +22,7 @@ public class ReportPercentBecaServiceImpl implements ReportPercentBecaService {
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        return reportPercentBecaDao.getAll(page, pageSize);
+    public WrapperData getAll(Pageable pageable, ReporteActividad reporteActividad) {
+        return reportPercentBecaDao.getAll(pageable, reporteActividad);
     }
 }

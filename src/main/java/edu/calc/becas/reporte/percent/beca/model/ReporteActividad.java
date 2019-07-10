@@ -37,4 +37,5 @@ public class ReporteActividad implements Serializable {
     private int idLicenciatura;
     private String cveLicenciatura;
     private String nombreLicenciatura;
+    private String palabraClave;
 }

@@ -63,5 +63,10 @@ final class QueriesReportPercentBeca {
                     "  AND L.ESTATUS = 'S'\n" +
                     "  AND G.ID_LICENCIATURA = L.ID_LICENCIATURA\n";
 
-
+    static final String ADD_CONDITION_ACTIVIDAD = "\nAND AC.ID_ACTIVIDAD = %s\n";
+    static final String ADD_CONDITION_CICLO_ESCOLAR = "\nAND CE.ID_CICLO_ESCOLAR = %s\n";
+    static final String ADD_CONDITION_GRUPO = "\nAND G.ID_GRUPO = %s\n";
+    static final String ADD_CONDITION_LICENCIATURA = "\nAND L.ID_LICENCIATURA = %s\n";
+    static final String ADD_CONDITION_PARCIAL = "\nAND PA.ID_PARCIAL = %s\n";
+    static final String ADD_CONDITION_LIKE_WORD_KEY = "\nAND CONCAT(A.NOMBRES, ' ', A.APE_PATERNO, ' ', A.APE_MATERNO) LIKE %s\n";
 }

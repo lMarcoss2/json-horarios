@@ -1,7 +1,9 @@
 package edu.calc.becas.reporte.percent.beca.dao;
 
+import edu.calc.becas.common.model.Pageable;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.reporte.percent.beca.model.ReporteActividad;
 
 
 /**
@@ -13,5 +15,5 @@ import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 public interface ReportPercentBecaDao {
     boolean actividadAlumnoExists(ActividadVo actividadVo);
 
-    WrapperData getAll(int page, int pageSize);
+    WrapperData getAll(Pageable pageable, ReporteActividad reporteActividad);
 }

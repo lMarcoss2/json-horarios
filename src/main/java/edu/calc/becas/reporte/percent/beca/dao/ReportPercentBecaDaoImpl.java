@@ -1,6 +1,7 @@
 package edu.calc.becas.reporte.percent.beca.dao;
 
 import edu.calc.becas.common.base.dao.BaseDao;
+import edu.calc.becas.common.model.Pageable;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.reporte.percent.beca.model.ReporteActividad;
@@ -42,22 +43,59 @@ public class ReportPercentBecaDaoImpl extends BaseDao implements ReportPercentBe
     }
 
     @Override
-    public WrapperData getAll(int page, int pageSize) {
-        boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        String queryGetALl = QRY_SELECT_DATA_REPORT.concat(QRY_FROM_DATA_REPORTE_ACTIVIDADES).concat(QRY_ORDER_BY);
+    public WrapperData getAll(Pageable pageableQ, ReporteActividad filter) {
+        boolean pageable = pageableQ.getPageSize() != Integer.parseInt(ITEMS_FOR_PAGE);
+        String queryGetALl = QRY_SELECT_DATA_REPORT.concat(QRY_FROM_DATA_REPORTE_ACTIVIDADES);
         String queryCountALl = QRY_COUNT_DATA_REPORT.concat(QRY_FROM_DATA_REPORTE_ACTIVIDADES);
 
-        queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
+        String conditions = createCondition(filter);
+        queryGetALl = queryGetALl.concat(conditions);
+        queryCountALl = queryCountALl.concat(conditions);
+        queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
+
+        queryGetALl = addQueryPageable(pageableQ.getPage(), pageableQ.getPageSize(), queryGetALl);
 
         int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountALl, Integer.class);
 
         List<ReporteActividad> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperReporteActividad(rs));
+
+        int page = pageableQ.getPage();
+        int pageSize = pageableQ.getPageSize();
 
         if (!pageable) {
             page = 0;
             pageSize = lengthDataTable;
         }
         return new WrapperData(data, page, pageSize, lengthDataTable);
+    }
+
+    private String createCondition(ReporteActividad filter) {
+        String conditions = "";
+        if (filter.getIdActividad() != 0) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_ACTIVIDAD, filter.getIdActividad()));
+        }
+
+        if (filter.getIdCicloEscolar() != 0) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_CICLO_ESCOLAR, filter.getIdCicloEscolar()));
+        }
+
+        if (filter.getIdGrupo() != 0) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_GRUPO, filter.getIdGrupo()));
+        }
+
+        if (filter.getIdLicenciatura() != 0) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_LICENCIATURA, filter.getIdLicenciatura()));
+        }
+
+        if (filter.getIdParcial() != 0) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_PARCIAL, filter.getIdParcial()));
+        }
+
+        if (filter.getPalabraClave() != null && !filter.getPalabraClave().trim().equalsIgnoreCase("")) {
+            conditions = conditions.concat(String.format(ADD_CONDITION_LIKE_WORD_KEY, "'%" + filter.getPalabraClave() + "%'"));
+        }
+
+        return conditions;
     }
 
     private ReporteActividad mapperReporteActividad(ResultSet rs) throws SQLException {
