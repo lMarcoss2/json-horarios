@@ -9,4 +9,45 @@ package edu.calc.becas.reporte.percent.beca.dao;
 final class QueriesReportPercentBeca {
     static final String QRY_COUNT_ID_ACTIVIDAD_ALUMNO =
             "SELECT COUNT(1) FROM PORCENTAJE_BECA WHERE ID_ACTIVIDAD_ALUMNO = ?";
+
+    static final String QRY_ORDER_BY = "\nORDER BY A.NOMBRES ASC, A.APE_PATERNO ASC, A.APE_MATERNO ASC, G.CVE_GRUPO ASC, L.NOMBRE_LICENCIATURA ASC";
+    static final String QRY_GET_REPORTE_ACTIVIDADES =
+            "SELECT P.ID_PORCENTAJE_BECA,\n" +
+                    "       A.ID_ALUMNO,\n" +
+                    "       A.MATRICULA,\n" +
+                    "       A.NOMBRES,\n" +
+                    "       A.APE_PATERNO,\n" +
+                    "       A.APE_MATERNO,\n" +
+                    "       P.ID_ACTIVIDAD_ALUMNO,\n" +
+                    "       P.PORCENTAJE_SALA,\n" +
+                    "       P.PORCENTAJE_BIBLIOTECA,\n" +
+                    "       P.PORCENTAJE_ACTIVIDAD,\n" +
+                    "       AC.ID_ACTIVIDAD,\n" +
+                    "       AC.NOMBRE_ACTIVIDAD,\n" +
+                    "       P.ID_PARCIAL,\n" +
+                    "       PA.DESC_PARCIAL,\n" +
+                    "       AL.ID_GRUPO,\n" +
+                    "       G.CVE_GRUPO,\n" +
+                    "       L.ID_LICENCIATURA,\n" +
+                    "       L.CVE_LICENCIATURA,\n" +
+                    "       L.NOMBRE_LICENCIATURA\n" +
+                    "FROM PORCENTAJE_BECA P,\n" +
+                    "     PARCIALES PA,\n" +
+                    "     ACTIVIDAD_ALUMNO AL,\n" +
+                    "     ACTIVIDADES AC,\n" +
+                    "     ALUMNOS A,\n" +
+                    "     GRUPOS G,\n" +
+                    "     LICENCIATURAS L\n" +
+                    "WHERE P.ID_PARCIAL = PA.ID_PARCIAL\n" +
+                    "  AND P.ID_ACTIVIDAD_ALUMNO = AL.ID_ACTIVIDAD_ALUMNO\n" +
+                    "  AND A.ESTATUS = 'S'\n" +
+                    "  AND G.ESTATUS = 'S'\n" +
+                    "  AND L.ESTATUS = 'S'\n" +
+                    "  AND AC.ESTATUS = 'S'\n" +
+                    "  AND AL.ID_GRUPO = G.ID_GRUPO\n" +
+                    "  AND AL.ID_ACTIVIDAD = AC.ID_ACTIVIDAD\n" +
+                    "  AND G.ID_LICENCIATURA = L.ID_LICENCIATURA\n" +
+                    "  AND AL.ID_ALUMNO = A.ID_ALUMNO\n";
+
+
 }
