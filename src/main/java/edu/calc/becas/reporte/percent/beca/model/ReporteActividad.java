@@ -30,6 +30,8 @@ public class ReporteActividad implements Serializable {
     private String nombreActividad;
     private int idParcial;
     private String descParcial;
+    private int idCicloEscolar;
+    private String descCicloEscolar;
     private int idGrupo;
     private String cveGrupo;
     private int idLicenciatura;

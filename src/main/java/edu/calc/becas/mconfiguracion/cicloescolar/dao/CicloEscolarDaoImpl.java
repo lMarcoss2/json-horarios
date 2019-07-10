@@ -60,7 +60,8 @@ public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
 
         cicloEscolarVo.setIdCicloEscolar(rs.getInt("ID_CICLO_ESCOLAR"));
         cicloEscolarVo.setDescripcionCiclo(rs.getString("DESCRIPCION_CICLO"));
-        cicloEscolarVo.setPeriodoActual(valueActivo(rs.getString("PERIODO_ACTUAL")));
+        cicloEscolarVo.setPeriodoActual(rs.getString("PERIODO_ACTUAL"));
+        cicloEscolarVo.setDesPeriodoActual(valueActivo(rs.getString("PERIODO_ACTUAL")));
         return cicloEscolarVo;
     }
 

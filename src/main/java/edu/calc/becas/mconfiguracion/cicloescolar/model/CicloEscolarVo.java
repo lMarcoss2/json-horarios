@@ -18,10 +18,10 @@ public class CicloEscolarVo extends CommonData {
     @ApiModelProperty("descripción del ciclo escolar")
     private String descripcionCiclo;
 
-    @ApiModelProperty("Indica si es periodo en curso")
+    @ApiModelProperty("Indica si es periodo en curso S/N")
     private String periodoActual;
 
-    @ApiModelProperty("Indica si es periodo en curso (descripción)")
+    @ApiModelProperty("Indica si es periodo en curso (descripción -> SI/NO)")
     private String desPeriodoActual;
 
     public CicloEscolarVo(String estatus) {

@@ -44,14 +44,12 @@ public class ReportPercentBecaDaoImpl extends BaseDao implements ReportPercentBe
     @Override
     public WrapperData getAll(int page, int pageSize) {
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        String queryGetALl = QRY_GET_REPORTE_ACTIVIDADES;
-
-
-        queryGetALl = queryGetALl.concat(QRY_ORDER_BY);
+        String queryGetALl = QRY_SELECT_DATA_REPORT.concat(QRY_FROM_DATA_REPORTE_ACTIVIDADES).concat(QRY_ORDER_BY);
+        String queryCountALl = QRY_COUNT_DATA_REPORT.concat(QRY_FROM_DATA_REPORTE_ACTIVIDADES);
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
-        int lengthDataTable = this.jdbcTemplate.queryForObject(createQueryCountItem(queryGetALl), Integer.class);
+        int lengthDataTable = this.jdbcTemplate.queryForObject(queryCountALl, Integer.class);
 
         List<ReporteActividad> data = this.jdbcTemplate.query(queryGetALl, (rs, rowNum) -> mapperReporteActividad(rs));
 
@@ -64,25 +62,6 @@ public class ReportPercentBecaDaoImpl extends BaseDao implements ReportPercentBe
 
     private ReporteActividad mapperReporteActividad(ResultSet rs) throws SQLException {
         ReporteActividad reporte = new ReporteActividad();
-        /*
-                    "FROM PORCENTAJE_BECA P,\n" +
-                    "     PARCIALES PA,\n" +
-                    "     ACTIVIDAD_ALUMNO AL,\n" +
-                    "     ACTIVIDADES AC,\n" +
-                    "     ALUMNOS A,\n" +
-                    "     GRUPOS G,\n" +
-                    "     LICENCIATURAS L\n" +
-                    "WHERE P.ID_PARCIAL = PA.ID_PARCIAL\n" +
-                    "  AND P.ID_ACTIVIDAD_ALUMNO = AL.ID_ACTIVIDAD_ALUMNO\n" +
-                    "  AND A.ESTATUS = 'S'\n" +
-                    "  AND G.ESTATUS = 'S'\n" +
-                    "  AND L.ESTATUS = 'S'\n" +
-                    "  AND AC.ESTATUS = 'S'\n" +
-                    "  AND AL.ID_GRUPO = G.ID_GRUPO\n" +
-                    "  AND AL.ID_ACTIVIDAD = AC.ID_ACTIVIDAD\n" +
-                    "  AND G.ID_LICENCIATURA = L.ID_LICENCIATURA\n" +
-                    "  AND AL.ID_ALUMNO = A.ID_ALUMNO\
-        * */
         reporte.setIdPorcentajeBeca(rs.getInt("ID_PORCENTAJE_BECA"));
         reporte.setIdAlumno(rs.getInt("ID_ALUMNO"));
         reporte.setMatricula(rs.getString("MATRICULA"));
@@ -97,6 +76,8 @@ public class ReportPercentBecaDaoImpl extends BaseDao implements ReportPercentBe
         reporte.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
         reporte.setIdParcial(rs.getInt("ID_PARCIAL"));
         reporte.setDescParcial(rs.getString("DESC_PARCIAL"));
+        reporte.setIdCicloEscolar(rs.getInt("ID_CICLO_ESCOLAR"));
+        reporte.setDescCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
         reporte.setIdGrupo(rs.getInt("ID_GRUPO"));
         reporte.setCveGrupo(rs.getString("CVE_GRUPO"));
         reporte.setIdLicenciatura(rs.getInt("ID_LICENCIATURA"));
