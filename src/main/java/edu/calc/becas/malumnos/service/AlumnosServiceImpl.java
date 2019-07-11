@@ -32,7 +32,7 @@ public class AlumnosServiceImpl implements AlumnosService {
 
     @Override
     public Alumno add(Alumno alumno) {
-        return null;
+        return alumnosDao.add(alumno);
     }
 
     @Override

@@ -13,6 +13,7 @@ public interface CrudGenericService<T> {
 
     WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1);
 
+
     T add(T t);
 
     T update(T t);

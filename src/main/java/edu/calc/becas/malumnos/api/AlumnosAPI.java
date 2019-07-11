@@ -1,15 +1,13 @@
 package edu.calc.becas.malumnos.api;
 
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.malumnos.service.AlumnosService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static edu.calc.becas.common.utils.Constant.*;
 
@@ -45,4 +43,19 @@ public class AlumnosAPI {
         return alumnosService.getAllByStatusAndOneParam(Integer.parseInt(page), Integer.parseInt(pageSize), status, actividad);
     }
 
+    @PostMapping
+    @ApiOperation(value = "Inserta un alumno con su actividad en la base de datos")
+    public Alumno add(@ApiParam(value = "Realiza el insert a la tabla de alumnos y actividades", defaultValue = "0") @RequestBody Alumno alumno){
+        alumnosService.add(alumno);
+        return alumno;
+    }
+
+
+    /*
+  public DetalleActividadVo add(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
+        return  actividadesService.add(
+                detalle
+        );
+    }
+*/
 }
