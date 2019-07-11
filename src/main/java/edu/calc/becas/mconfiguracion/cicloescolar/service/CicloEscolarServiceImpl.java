@@ -33,7 +33,7 @@ public class CicloEscolarServiceImpl implements CicloEscolarService{
 
     @Override
     public CicloEscolarVo update(CicloEscolarVo cicloEscolarVo) {
-        return null;
+        return cicloEscolarDao.update(cicloEscolarVo);
     }
 
     @Override

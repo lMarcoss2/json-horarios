@@ -42,17 +42,28 @@ public class CicloEscolarDaoImpl extends BaseDao implements CicloEscolarDao {
 
     @Override
     public CicloEscolarVo add(CicloEscolarVo ciclo) {
+        if(ciclo.getPeriodoActual().equals("S")){
+            this.jdbcTemplate.update(QRY_UPDATE_STATUS);
+        }
         this.jdbcTemplate.update(QRY_ADD, createObjectParam(ciclo));
         return ciclo;
     }
 
     @Override
     public CicloEscolarVo update(CicloEscolarVo object) {
-        return null;
+        if(object.getPeriodoActual().equals("S")){
+            this.jdbcTemplate.update(QRY_UPDATE_STATUS);
+        }
+        this.jdbcTemplate.update(QRY_UPDATE, new Object[]{
+                object.getDescripcionCiclo(),
+                object.getPeriodoActual(),
+                object.getIdCicloEscolar()
+        });
+        return object;
     }
 
     private Object[] createObjectParam(CicloEscolarVo ciclo) {
-        return new Object[]{ciclo.getDescripcionCiclo(), ciclo.getEstatus()};
+        return new Object[]{ciclo.getDescripcionCiclo(), "S"};
     }
 
     private CicloEscolarVo mapperCicloEscolar(ResultSet rs) throws SQLException {

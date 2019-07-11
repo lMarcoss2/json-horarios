@@ -38,6 +38,13 @@ public class CicloEscolarAPI {
         return ciclo;
     }
 
+    @PutMapping
+    public CicloEscolarVo update(@RequestBody CicloEscolarVo ciclo) {
+        System.out.println("ciclo : > " + ciclo);
+        cicloEscolarService.update(ciclo);
+        return ciclo;
+    }
+
     @GetMapping("/list")
     public List<LabelValueData> getListCiclos() {
         return cicloEscolarService.getListCatalog();
