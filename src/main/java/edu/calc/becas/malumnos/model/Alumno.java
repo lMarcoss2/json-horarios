@@ -1,6 +1,7 @@
 package edu.calc.becas.malumnos.model;
 
 import edu.calc.becas.common.model.CommonData;
+import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.mcarga.hrs.blibioteca.model.Hora;
 import edu.calc.becas.mcarga.hrs.sala.model.AsistenciaSala;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
@@ -50,4 +51,10 @@ public class Alumno extends CommonData {
     public Alumno(String estatus) {
         super(estatus);
     }
+
+    public LabelValueData horario;
+
+    public String grupo;
+
+    public String idDetalleActividad;
 }
