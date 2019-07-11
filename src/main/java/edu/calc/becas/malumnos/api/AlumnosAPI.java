@@ -43,7 +43,7 @@ public class AlumnosAPI {
         return alumnosService.getAllByStatusAndOneParam(Integer.parseInt(page), Integer.parseInt(pageSize), status, actividad);
     }
 
-    @PostMapping
+    @PostMapping("actividades")
     @ApiOperation(value = "Inserta un alumno con su actividad en la base de datos")
     public Alumno add(@ApiParam(value = "Realiza el insert a la tabla de alumnos y actividades", defaultValue = "0") @RequestBody Alumno alumno){
         alumnosService.add(alumno);
