@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @ApiModel(description = "Envoltura de información paginada de los servicios")
 public class WrapperData<T> implements Serializable {
     @ApiModelProperty("Lista de datos recuperados de un total de lengthData")
