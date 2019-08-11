@@ -28,10 +28,12 @@ public class GrupoServiceImpl implements GrupoService {
 
         List<Grupo> grupos = new ArrayList<>();
 
+        //todo : por grupo ir por la descripcion de la carrera al que pertenece
         grupos.add(createGrupo("201",
                 "201",
                 "01B",
                 "1819B"));
+
         grupos.add(createGrupo(
                 "401",
                 "401",
