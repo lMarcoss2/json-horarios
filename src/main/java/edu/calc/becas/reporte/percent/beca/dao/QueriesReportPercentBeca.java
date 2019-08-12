@@ -43,25 +43,16 @@ final class QueriesReportPercentBeca {
                     "     PARCIALES PA,\n" +
                     "     ACTIVIDAD_ALUMNO AL,\n" +
                     "     HORARIO_ACTIVIDAD H,\n" +
-                    "     CICLO_ESCOLAR CE,\n" +
                     "     ACTIVIDADES AC,\n" +
-                    "     ALUMNOS A,\n" +
-                    "     GRUPOS G,\n" +
-                    "     LICENCIATURAS L\n" +
+                    "     ALUMNOS A\n" +
                     "WHERE P.ID_PARCIAL = PA.ID_PARCIAL\n" +
                     "  AND P.ID_ACTIVIDAD_ALUMNO = AL.ID_ACTIVIDAD_ALUMNO\n" +
                     "  AND H.ESTATUS = 'S'\n" +
                     "  AND AL.ID_ACTIVIDAD = H.ID_HORARIO_ACTIVIDAD\n" +
-                    "  AND CE.ESTATUS = 'S'\n" +
-                    "  AND H.ID_CICLO_ESCOLAR = CE.ID_CICLO_ESCOLAR\n" +
                     "  AND AC.ESTATUS = 'S'\n" +
                     "  AND H.ID_ACTIVIDAD = AC.ID_ACTIVIDAD\n" +
                     "  AND A.ESTATUS = 'S'\n" +
-                    "  AND AL.ID_ALUMNO = A.ID_ALUMNO\n" +
-                    "  AND G.ESTATUS = 'S'\n" +
-                    "  AND AL.ID_GRUPO = G.ID_GRUPO\n" +
-                    "  AND L.ESTATUS = 'S'\n" +
-                    "  AND G.ID_LICENCIATURA = L.ID_LICENCIATURA\n";
+                    "  AND AL.ID_ALUMNO = A.ID_ALUMNO\n";
 
     static final String ADD_CONDITION_ACTIVIDAD = "\nAND AC.ID_ACTIVIDAD = %s\n";
     static final String ADD_CONDITION_CICLO_ESCOLAR = "\nAND CE.ID_CICLO_ESCOLAR = %s\n";
