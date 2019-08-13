@@ -13,6 +13,8 @@ public interface ActividadesDao extends CrudGenericDao<ActividadVo> {
 
     List<LabelValueData> getActividades();
 
+    ActividadVo update(ActividadVo detalle);
+
     DetalleActividadVo add(DetalleActividadVo detalle);
 
     DetalleActividadVo udateDetail(DetalleActividadVo detalle);

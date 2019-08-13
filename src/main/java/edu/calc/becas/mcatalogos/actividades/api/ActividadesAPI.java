@@ -63,8 +63,8 @@ public class ActividadesAPI {
     }
 
     @PutMapping
-    public DetalleActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
-        return  actividadesService.udateDetail(
+    public ActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody ActividadVo detalle){
+        return  actividadesService.update(
                 detalle
         );
     }

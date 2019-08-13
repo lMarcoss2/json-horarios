@@ -35,11 +35,6 @@ public class ActividadesServiceImpl implements ActividadesService{
     }
 
     @Override
-    public ActividadVo update(ActividadVo actividadVo) {
-        return null;
-    }
-
-    @Override
     public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
         return actividadesDao.getAllDetalle(page, pageSize, idActividad, ciclo);
     }
@@ -50,8 +45,8 @@ public class ActividadesServiceImpl implements ActividadesService{
     }
 
     @Override
-    public DetalleActividadVo udateActividad(DetalleActividadVo detalle) {
-        return null;
+    public ActividadVo update(ActividadVo detalle) {
+        return actividadesDao.update(detalle);
     }
 
     @Override

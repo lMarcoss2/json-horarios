@@ -85,7 +85,9 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
         return this.jdbcTemplate.query(QRY_LIST_ACTIVIDAD, (rs, rowNum) -> LabelValueData.mapperLavelValue(rs));
     }
 
-    @Override
+
+
+  @Override
     public ActividadVo add(ActividadVo actividad) {
         this.jdbcTemplate.update(QRY_ADD, createObjectParamUpdate(actividad));
         return actividad;
@@ -93,8 +95,16 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
     @Override
     public ActividadVo update(ActividadVo object) {
-        return null;
+      this.jdbcTemplate.update(QRY_UPDATE_ACTIVIDAD,
+        new Object[]{
+          object.getNombreActividad(),
+          object.getEstatus(),
+          object.getIdActividad()});
+      return object;
     }
+
+
+
 
     @Override
     public DetalleActividadVo add(DetalleActividadVo detalle) {
@@ -108,7 +118,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
                 detalle.getHora(),
                 detalle.getFormat(),
                 detalle.getNumeroAlumnos(),
-                detalle.getUsuario().getIdUsuario(),
+                "ADMIN",
                 detalle.getIdDetalleActividad()
         });
 
@@ -147,7 +157,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     }
 
     private Object[] createObjectParamUpdate(ActividadVo actividad) {
-        return new Object[]{};
+        return new Object[]{actividad.getNombreActividad()};
     }
 
     private Object[] createObjectParamDetalle(DetalleActividadVo detalle) {

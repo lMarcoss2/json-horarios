@@ -14,7 +14,7 @@ public interface ActividadesService extends CrudGenericService<ActividadVo> {
 
     List<LabelValueData> getActividades();
 
-    DetalleActividadVo udateActividad(DetalleActividadVo detalle);
+    ActividadVo update(ActividadVo detalle);
 
     DetalleActividadVo add(DetalleActividadVo detalle);
 
