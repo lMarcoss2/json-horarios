@@ -1,13 +1,15 @@
 package edu.calc.becas.mcatalogos.grupos.api;
 
 import edu.calc.becas.common.model.WrapperData;
-import edu.calc.becas.mcatalogos.grupos.model.Grupo;
 import edu.calc.becas.mcatalogos.grupos.service.GrupoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import static edu.calc.becas.common.utils.Constant.*;
 
@@ -43,17 +45,4 @@ public class GrupoAPI {
         return grupoService.getAllByStatusAndOneParam(Integer.parseInt(page), Integer.parseInt(pageSize), status, licenciatura);
     }
 
-    @PostMapping
-    @ApiOperation(value = "Registra un grupo")
-    public Grupo add(@ApiParam(value = "Grupo a registrar", defaultValue = "0") @RequestBody Grupo grupo) {
-        grupo.setAgregadoPor("Admin");
-        return grupoService.add(grupo);
-    }
-
-    @PutMapping
-    @ApiOperation(value = "Actualiza datos de un grupo")
-    public Grupo update(@ApiParam(value = "Grupo a actualizar", defaultValue = "0") @RequestBody Grupo grupo) {
-        grupo.setActualizadoPor("Admin");
-        return grupoService.update(grupo);
-    }
 }

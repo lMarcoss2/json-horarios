@@ -22,8 +22,8 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
     }
 
     @Override
-    public List<Parcial> getAll() {
-        return this.jdbcTemplate.query(QueriesParcial.QRY_GET_ALL, ((rs, i) -> mapperParcial(rs)));
+    public List<Parcial> getAll(String cvePeriodo) {
+        return this.jdbcTemplate.query(QueriesParcial.QRY_GET_ALL, new Object[]{cvePeriodo}, ((rs, i) -> mapperParcial(rs)));
     }
 
     private Parcial mapperParcial(ResultSet rs) throws SQLException {
@@ -31,6 +31,10 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
         parcial.setIdParcial(rs.getInt("ID_PARCIAL"));
         parcial.setDescParcial(rs.getString("DESC_PARCIAL"));
         String parcialActual = rs.getString("PARCIAL_ACTUAL");
+        parcial.setFechaInicio(rs.getString("FECHA_INICIO"));
+        parcial.setFechaFin(rs.getString("FECHA_FIN"));
+        parcial.setCvePeriodo(rs.getString("CVE_PERIODO"));
+        parcial.setDescPeriodo(rs.getString("DESC_PERIODO"));
         parcial.setParcialActual(parcialActual.equalsIgnoreCase("S"));
 
         return parcial;

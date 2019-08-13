@@ -24,8 +24,8 @@ public class ParcialServiceImpl implements ParcialService {
     }
 
     @Override
-    public List<Parcial> getAll() {
-        return this.parcialDao.getAll();
+    public List<Parcial> getAll(String cvePeriodo) {
+        return this.parcialDao.getAll(cvePeriodo);
     }
 
     @Override

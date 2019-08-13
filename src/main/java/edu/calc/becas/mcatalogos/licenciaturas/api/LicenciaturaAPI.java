@@ -1,13 +1,15 @@
 package edu.calc.becas.mcatalogos.licenciaturas.api;
 
 import edu.calc.becas.common.model.WrapperData;
-import edu.calc.becas.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.becas.mcatalogos.licenciaturas.service.LicenciaturaService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import static edu.calc.becas.common.utils.Constant.*;
 
@@ -44,18 +46,5 @@ public class LicenciaturaAPI {
         return licenciaturaService.getAllByStatus(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
 
-    @PostMapping
-    @ApiOperation(value = "Registra una licenciatura")
-    public Licenciatura add(@ApiParam(value = "Licenciatura a registrar", required = true) @RequestBody Licenciatura licenciatura) {
-        licenciatura.setAgregadoPor("Admin");
-        return licenciaturaService.add(licenciatura);
-    }
-
-    @PutMapping
-    @ApiOperation(value = "Actualiza datos de una licenciatura")
-    public Licenciatura update(@ApiParam(value = "Licenciatura a actualizar", required = true) @RequestBody Licenciatura licenciatura) {
-        licenciatura.setActualizadoPor("Admin");
-        return licenciaturaService.update(licenciatura);
-    }
 }
 

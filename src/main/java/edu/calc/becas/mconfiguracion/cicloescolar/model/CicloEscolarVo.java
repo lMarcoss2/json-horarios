@@ -1,6 +1,5 @@
 package edu.calc.becas.mconfiguracion.cicloescolar.model;
 
-import edu.calc.becas.common.model.CommonData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -10,31 +9,22 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@ApiModel(description = "Entidad con los datos del ciclo escolar")
-public class CicloEscolarVo extends CommonData {
-    @ApiModelProperty("Identificador único del ciclo escolar")
-    private int idCicloEscolar;
+@ApiModel(description = "Entidad con los datos del Periodo actual")
+public class CicloEscolarVo {
 
-    @ApiModelProperty("descripción del ciclo escolar")
-    private String descripcionCiclo;
+    @ApiModelProperty("Clave del periodo")
+    private String clave;
 
-    @ApiModelProperty("Indica si es periodo en curso S/N")
-    private String periodoActual;
+    @ApiModelProperty("Nombre del periodo")
+    private String nombre;
 
-    @ApiModelProperty("Indica si es periodo en curso (descripción -> SI/NO)")
-    private String desPeriodoActual;
+    @ApiModelProperty("Tipo Periodo")
+    private String tipo;
 
-    public CicloEscolarVo(String estatus) {
-        super((estatus));
-    }
+    @ApiModelProperty("Fecha de Inicio del periodo")
+    private String fechaInicio;
 
-    @Override
-    public String toString() {
-        return "CicloEscolarVo{" +
-                "idCicloEscolar=" + idCicloEscolar +
-                ", descripcionCiclo='" + descripcionCiclo + '\'' +
-                ", periodoActual='" + periodoActual + '\'' +
-                ", desPeriodoActual='" + desPeriodoActual + '\'' +
-                '}';
-    }
+    @ApiModelProperty("Fecha fin del periodo")
+    private String fechaFin;
+
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * Date: 4/9/19
  */
 public interface ParcialService {
-    List<Parcial> getAll();
+    List<Parcial> getAll(String cvePeriodo);
 
     Parcial update(Parcial parcial);
 
