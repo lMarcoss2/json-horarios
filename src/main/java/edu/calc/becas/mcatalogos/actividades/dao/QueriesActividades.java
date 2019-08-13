@@ -9,7 +9,7 @@ final class QueriesActividades {
     static String QRY_ACTIVIDADES = "SELECT AC.ID_ACTIVIDAD, AC.NOMBRE_ACTIVIDAD,\n" +
             "       CASE WHEN  AC.OBLIGATORIO = 'S' THEN 'SI' WHEN AC.OBLIGATORIO = 'N' THEN 'NO' END AS OBLIGATORIO,\n" +
             "       AC.ESTATUS " +
-            "FROM ACTIVIDADES AC WHERE 1 = 1\n";
+            "FROM ACTIVIDADES AC WHERE 1 = 1 AND AC.OBLIGATORIO != 'S'\n";
 
     public static String QRY_ADD = "INSERT INTO CICLO_ESCOLAR (DESCRIPCION_CICLO, PERIODO_ACTUAL, ESTATUS, AGREGADO_POR," +
             " FECHA_CREACION)\n" +
