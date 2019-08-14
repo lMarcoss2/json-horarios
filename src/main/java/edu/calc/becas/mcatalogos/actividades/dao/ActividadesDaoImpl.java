@@ -118,7 +118,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
                 detalle.getHora(),
                 detalle.getFormat(),
                 detalle.getNumeroAlumnos(),
-                "ADMIN",
+                detalle.getUsuario().getIdUsuario(),
                 detalle.getIdDetalleActividad()
         });
 
@@ -145,7 +145,9 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
         detalle.setFormat(rs.getString("AM_PM"));
         detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
         detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-        detalle.setCicloEscolar(rs.getString("DESCRIPCION_CICLO"));
+
+        detalle.setIdActividad(rs.getString("CVE_PERIODO"));
+        detalle.setCicloEscolar(rs.getString("DESC_PERIDODO"));
 
         usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
         usuario.setNombres(rs.getString("NOMBRES"));

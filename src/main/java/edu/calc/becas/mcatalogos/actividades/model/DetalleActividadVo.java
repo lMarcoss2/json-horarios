@@ -29,6 +29,9 @@ public class DetalleActividadVo extends CommonData {
     private String nombreActividad;
 
     @ApiModelProperty("Indica el ciclo escolar de la actividad")
+    private String idCicloEscolar;
+
+    @ApiModelProperty("Indica el ciclo escolar de la actividad")
     private String cicloEscolar;
 
     @ApiModelProperty("Identificador único de la actividad")
