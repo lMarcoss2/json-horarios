@@ -23,11 +23,14 @@ public class Parcial extends CommonData implements Serializable {
     @ApiModelProperty("Indentificador único del parcial")
     private int idParcial;
 
+    @ApiModelProperty("Número de Parcial")
+    private int parcial;
+
     @ApiModelProperty("Nombre del parcial")
     private String descParcial;
 
     @ApiModelProperty("Indica si el parcial es el actual")
-    private boolean parcialActual;
+    private String parcialActual;
 
     @ApiModelProperty("Fecha Inicio del parcial")
     private String fechaInicio;

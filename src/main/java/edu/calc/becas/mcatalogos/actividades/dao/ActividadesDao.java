@@ -9,7 +9,7 @@ import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
 import java.util.List;
 
 public interface ActividadesDao extends CrudGenericDao<ActividadVo> {
-    WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo);
+    WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo, String status, String username);
 
     List<LabelValueData> getActividades();
 

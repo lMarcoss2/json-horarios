@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ActividadesService extends CrudGenericService<ActividadVo> {
 
-    WrapperData getAllDetalle(int page, int pageSize, String status, String ciclo);
+    WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo, String status, String username);
 
     List<LabelValueData> getActividades();
 

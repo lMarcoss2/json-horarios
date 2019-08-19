@@ -43,23 +43,30 @@ public class ActividadesAPI {
 
 
     @GetMapping("/detalle")
-    @ApiOperation(value = "Obtiene el detalle de las actividades")
+    @ApiOperation(value = "Obtiene el listado de horarios de las actividades")
     public WrapperData getAll(
             @ApiParam(value = "Página a recuperar", defaultValue = DEFAULT_PAGE)
             @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
+
             @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS)
             @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
+
             @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = DEFAULT_ESTATUS)
             @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status,
-            @ApiParam(value = "Identificador de la actividad a recuperar el detalle", defaultValue = DEFAULT_ESTATUS)
-            @RequestParam(value = "actividad", defaultValue = DEFAULT_ESTATUS, required = false) String idActividad,
+
+            @ApiParam(value = "Identificador de la actividad a recuperar el detalle", defaultValue = ALL_ITEMS)
+            @RequestParam(value = "actividad", defaultValue = ALL_ITEMS, required = false) String idActividad,
+
             @ApiParam(value = "Identificador del ciclo escolar asociado a la actividad", defaultValue = DEFAULT_ESTATUS)
-            @RequestParam(value = "ciclo", defaultValue = DEFAULT_ESTATUS, required = false) String idCiclo){
+            @RequestParam(value = "ciclo", defaultValue = DEFAULT_ESTATUS, required = false) String idCiclo,
+
+            @ApiParam(value = "Encargado de la actividad", defaultValue = ALL_ITEMS)
+            @RequestParam(value = "username", defaultValue = ALL_ITEMS, required = false) String username){
 
         if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
             pageSize = ITEMS_FOR_PAGE;
         }
-        return actividadesService.getAllDetalle(Integer.parseInt(page), Integer.parseInt(pageSize), idActividad, idCiclo);
+        return actividadesService.getAllDetalle(Integer.parseInt(page), Integer.parseInt(pageSize), idActividad, idCiclo, status, username);
     }
 
     @PutMapping

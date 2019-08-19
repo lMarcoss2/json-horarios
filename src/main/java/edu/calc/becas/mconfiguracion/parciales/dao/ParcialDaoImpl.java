@@ -1,6 +1,7 @@
 package edu.calc.becas.mconfiguracion.parciales.dao;
 
 import edu.calc.becas.common.base.dao.BaseDao;
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,34 +23,60 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
     }
 
     @Override
-    public List<Parcial> getAll(String cvePeriodo) {
+    public List<Parcial> getAllByPeriodo(String cvePeriodo) {
         return this.jdbcTemplate.query(QueriesParcial.QRY_GET_ALL, new Object[]{cvePeriodo}, ((rs, i) -> mapperParcial(rs)));
-    }
-
-    private Parcial mapperParcial(ResultSet rs) throws SQLException {
-        Parcial parcial = new Parcial();
-        parcial.setIdParcial(rs.getInt("ID_PARCIAL"));
-        parcial.setDescParcial(rs.getString("DESC_PARCIAL"));
-        String parcialActual = rs.getString("PARCIAL_ACTUAL");
-        parcial.setFechaInicio(rs.getString("FECHA_INICIO"));
-        parcial.setFechaFin(rs.getString("FECHA_FIN"));
-        parcial.setCvePeriodo(rs.getString("CVE_PERIODO"));
-        parcial.setDescPeriodo(rs.getString("DESC_PERIODO"));
-        parcial.setParcialActual(parcialActual.equalsIgnoreCase("S"));
-
-        return parcial;
-    }
-
-    @Override
-    public Parcial update(Parcial parcial) {
-        this.jdbcTemplate.update(QueriesParcial.QRY_INACTIVE_ESTATUS, parcial.getIdParcial());
-        this.jdbcTemplate.update(QueriesParcial.QRY_ACTIVE_ESTATUS, parcial.getIdParcial());
-        parcial.setParcialActual(true);
-        return parcial;
     }
 
     @Override
     public Parcial getParcialActual() {
         return this.jdbcTemplate.queryForObject(QueriesParcial.QRY_GET_PARCIAL_ACTUAL, ((rs, i) -> mapperParcial(rs)));
+    }
+
+    private Parcial mapperParcial(ResultSet rs) throws SQLException {
+        Parcial parcial = new Parcial();
+        parcial.setIdParcial(rs.getInt("ID_PARCIAL"));
+        parcial.setParcial(rs.getInt("PARCIAL"));
+        parcial.setDescParcial(rs.getString("DESC_PARCIAL"));
+        parcial.setParcialActual(rs.getString("PARCIAL_ACTUAL"));
+        parcial.setFechaInicio(rs.getString("FECHA_INICIO"));
+        parcial.setFechaFin(rs.getString("FECHA_FIN"));
+        parcial.setCvePeriodo(rs.getString("CVE_PERIODO"));
+        parcial.setDescPeriodo(rs.getString("DESC_PERIODO"));
+
+        return parcial;
+    }
+
+    @Override
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
+    }
+
+    @Override
+    public Parcial add(Parcial p) {
+        validateStatus(p);
+        jdbcTemplate.update(QueriesParcial.QRY_ADD,
+                p.getParcial(), p.getParcialActual(), p.getFechaInicio(), p.getFechaFin(),
+                p.getCvePeriodo(), p.getDescPeriodo(), p.getAgregadoPor());
+        return p;
+    }
+
+    private void validateStatus(Parcial p) {
+        if(p.getParcialActual().equalsIgnoreCase("S")){
+            jdbcTemplate.update(QueriesParcial.QRY_INACTIVE_ESTATUS);
+        }
+    }
+
+    @Override
+    public Parcial update(Parcial p) {
+        validateStatus(p);
+        jdbcTemplate.update(QueriesParcial.QRY_UPDATE,
+                p.getParcial(), p.getParcialActual(), p.getFechaInicio(), p.getFechaFin(),
+                p.getCvePeriodo(), p.getDescPeriodo(), p.getActualizadoPor(), p.getIdParcial());
+        return p;
     }
 }

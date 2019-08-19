@@ -42,7 +42,7 @@ public class ParcialAPI {
         String cvePeriodo = cicloEscolar.getData().get(0).getClave();
 
         WrapperData<Parcial> parcialWrapperData = new WrapperData<>();
-        parcialWrapperData.setData(this.parcialService.getAll(cvePeriodo));
+        parcialWrapperData.setData(this.parcialService.getAllByPeriodo(cvePeriodo));
         parcialWrapperData.setPage(0);
         parcialWrapperData.setPageSize(parcialWrapperData.getData().size());
         parcialWrapperData.setLengthData(parcialWrapperData.getData().size());
@@ -54,4 +54,17 @@ public class ParcialAPI {
     public Parcial update(@RequestBody Parcial parcial) {
         return this.parcialService.update(parcial);
     }
+
+    @PostMapping
+    @ApiOperation("Registra un nuevo parcial")
+    public Parcial add(@RequestBody Parcial parcial) throws Exception {
+
+        parcial.setAgregadoPor("admin");
+        CicloEscolarVo cicloEscolarVo = cicloEscolarService.getParcialActual();
+        parcial.setCvePeriodo(cicloEscolarVo.getClave());
+        parcial.setDescPeriodo(cicloEscolarVo.getNombre());
+        return this.parcialService.add(parcial);
+    }
+
+
 }

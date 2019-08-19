@@ -7,5 +7,5 @@ import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import java.util.List;
 
 public interface CicloEscolarService extends CrudGenericService<CicloEscolarVo> {
-    List<LabelValueData> getListCatalog();
+    CicloEscolarVo getParcialActual() throws Exception;
 }

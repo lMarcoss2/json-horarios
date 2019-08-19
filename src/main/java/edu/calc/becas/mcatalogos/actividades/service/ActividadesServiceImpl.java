@@ -35,8 +35,8 @@ public class ActividadesServiceImpl implements ActividadesService{
     }
 
     @Override
-    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
-        return actividadesDao.getAllDetalle(page, pageSize, idActividad, ciclo);
+    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo, String status, String username) {
+        return actividadesDao.getAllDetalle(page, pageSize, idActividad, ciclo, status, username);
     }
 
     @Override

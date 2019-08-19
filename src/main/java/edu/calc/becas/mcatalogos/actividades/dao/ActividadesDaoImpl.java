@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static edu.calc.becas.common.utils.Constant.DEFAULT_ESTATUS;
-import static edu.calc.becas.common.utils.Constant.ITEMS_FOR_PAGE;
+import static edu.calc.becas.common.utils.Constant.*;
 import static edu.calc.becas.mcatalogos.actividades.dao.QueriesActividades.*;
 
 @Repository
@@ -29,7 +28,7 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
 
-        String queryGetALl = addConditionFilterByStatus(status, QRY_ACTIVIDADES, QRY_CONDITION_ESTATUS);
+        String queryGetALl = addConditionFilterByStatus(status, QRY_ACTIVIDADES, QRY_CONDITION_ESTATUS_ACTIVIDADES);
 
         queryGetALl = addQueryPageable(page, pageSize, queryGetALl);
 
@@ -51,18 +50,25 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
 
 
     @Override
-    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo) {
+    public WrapperData getAllDetalle(int page, int pageSize, String idActividad, String ciclo, String status, String username) {
 
         boolean pageable = pageSize != Integer.parseInt(ITEMS_FOR_PAGE);
-        boolean byActividad = !idActividad.equalsIgnoreCase(DEFAULT_ESTATUS);
+        boolean byActividad = !idActividad.equalsIgnoreCase(ALL_ITEMS);
+        boolean byUser = !username.equalsIgnoreCase(ALL_ITEMS);
 
 
-        String queryGetALl = QRY_DETALLE_ACTIVIDADES;
+
+        String queryGetALl = addConditionFilterByStatus(status, QRY_DETALLE_ACTIVIDADES, QRY_CONDITION_ESTATUS_HORARIO_ACTIVIDADES);
         String queryCountItem = QRY_COUNT_DETALLE_ACTIVIDADES;
 
         if (byActividad) {
             queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
             queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_ACTIVIDAD.replace("?", "'" + idActividad + "'"));
+        }
+
+        if (byUser) {
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_USER.replace("?", "'" + username + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_USER.replace("?", "'" + username + "'"));
         }
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);

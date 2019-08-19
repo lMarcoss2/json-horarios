@@ -1,6 +1,5 @@
 package edu.calc.becas.mconfiguracion.cicloescolar.service;
 
-import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import org.springframework.stereotype.Service;
@@ -52,10 +51,14 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
         return null;
     }
 
-    @Override
-    public List<LabelValueData> getListCatalog() {
-        return null;
-    }
 
+    @Override
+    public CicloEscolarVo getParcialActual() throws Exception {
+        WrapperData<CicloEscolarVo> ciclos = this.getAllByStatus(0, 0, null);
+        if (ciclos != null && ciclos.getData() != null && !ciclos.getData().isEmpty()) {
+            return ciclos.getData().get(0);
+        }
+        throw new Exception("No hay datos de periodo escolar actual");
+    }
 
 }

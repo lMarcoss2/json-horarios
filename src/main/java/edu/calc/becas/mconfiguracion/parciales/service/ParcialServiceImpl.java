@@ -1,5 +1,6 @@
 package edu.calc.becas.mconfiguracion.parciales.service;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mconfiguracion.parciales.dao.ParcialDao;
 import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,28 @@ public class ParcialServiceImpl implements ParcialService {
     }
 
     @Override
-    public List<Parcial> getAll(String cvePeriodo) {
-        return this.parcialDao.getAll(cvePeriodo);
+    public WrapperData getAllByStatus(int page, int pageSize, String status) {
+        return null;
+    }
+
+    @Override
+    public WrapperData getAllByStatusAndOneParam(int page, int pageSize, String status, String param1) {
+        return null;
+    }
+
+    @Override
+    public Parcial add(Parcial parcial) {
+        return parcialDao.add(parcial);
     }
 
     @Override
     public Parcial update(Parcial parcial) {
         return this.parcialDao.update(parcial);
+    }
+
+    @Override
+    public List<Parcial> getAllByPeriodo(String cvePeriodo) {
+        return this.parcialDao.getAllByPeriodo(cvePeriodo);
     }
 
     @Override

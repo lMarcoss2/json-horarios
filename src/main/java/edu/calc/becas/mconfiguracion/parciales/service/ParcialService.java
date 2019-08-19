@@ -1,5 +1,6 @@
 package edu.calc.becas.mconfiguracion.parciales.service;
 
+import edu.calc.becas.common.service.CrudGenericService;
 import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 
 import java.util.List;
@@ -10,10 +11,9 @@ import java.util.List;
  * Description:
  * Date: 4/9/19
  */
-public interface ParcialService {
-    List<Parcial> getAll(String cvePeriodo);
+public interface ParcialService extends CrudGenericService<Parcial> {
 
-    Parcial update(Parcial parcial);
+    List<Parcial> getAllByPeriodo(String cvePeriodo);
 
     Parcial getParcialActual();
 }
