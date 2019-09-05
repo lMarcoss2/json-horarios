@@ -44,4 +44,14 @@ public class Parcial extends CommonData implements Serializable {
     @ApiModelProperty("Descripción del periodo")
     private String descPeriodo;
 
+    @ApiModelProperty("Total de horas de biblioteca a cumplir durante el parcial")
+    private int totalHorasBiblioteca;
+
+    @ApiModelProperty("Total de asistencias de sala de cómputo a cumplir durante el parcial")
+    private int totalAsistenciaSala;
+
+
+    public Parcial(String estatus) {
+        super(estatus);
+    }
 }

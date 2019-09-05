@@ -42,6 +42,8 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
         parcial.setFechaFin(rs.getString("FECHA_FIN"));
         parcial.setCvePeriodo(rs.getString("CVE_PERIODO"));
         parcial.setDescPeriodo(rs.getString("DESC_PERIODO"));
+        parcial.setTotalHorasBiblioteca(rs.getInt("TOTAL_HORAS_BIBLIOTECA"));
+        parcial.setTotalAsistenciaSala(rs.getInt("TOTAL_ASISTENCIA_SALA"));
 
         return parcial;
     }
@@ -61,7 +63,7 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
         validateStatus(p);
         jdbcTemplate.update(QueriesParcial.QRY_ADD,
                 p.getParcial(), p.getParcialActual(), p.getFechaInicio(), p.getFechaFin(),
-                p.getCvePeriodo(), p.getDescPeriodo(), p.getAgregadoPor());
+                p.getCvePeriodo(), p.getDescPeriodo(), p.getAgregadoPor(), p.getTotalHorasBiblioteca(),p.getTotalAsistenciaSala());
         return p;
     }
 
@@ -76,7 +78,7 @@ public class ParcialDaoImpl extends BaseDao implements ParcialDao {
         validateStatus(p);
         jdbcTemplate.update(QueriesParcial.QRY_UPDATE,
                 p.getParcial(), p.getParcialActual(), p.getFechaInicio(), p.getFechaFin(),
-                p.getCvePeriodo(), p.getDescPeriodo(), p.getActualizadoPor(), p.getIdParcial());
+                p.getCvePeriodo(), p.getDescPeriodo(), p.getActualizadoPor(),p.getTotalHorasBiblioteca(),p.getTotalAsistenciaSala(), p.getIdParcial());
         return p;
     }
 }
