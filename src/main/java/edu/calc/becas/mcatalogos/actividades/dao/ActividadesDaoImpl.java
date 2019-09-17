@@ -67,8 +67,8 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
         }
 
         if (byUser) {
-            queryGetALl = queryGetALl.concat(QRY_CONDITION_ID_USER.replace("?", "'" + username + "'"));
-            queryCountItem = queryCountItem.concat(QRY_CONDITION_ID_USER.replace("?", "'" + username + "'"));
+            queryGetALl = queryGetALl.concat(QRY_CONDITION_USERNAME.replace("?", "'" + username + "'"));
+            queryCountItem = queryCountItem.concat(QRY_CONDITION_USERNAME.replace("?", "'" + username + "'"));
         }
 
         queryGetALl = queryGetALl.concat(QRY_ORDER_BY);

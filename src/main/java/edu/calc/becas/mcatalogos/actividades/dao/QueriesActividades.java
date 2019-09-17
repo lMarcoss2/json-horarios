@@ -25,12 +25,16 @@ final class QueriesActividades {
             "WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD " +
             "AND DA.ID_USUARIO = US.ID_USUARIO " ;
 
-    static final String QRY_COUNT_DETALLE_ACTIVIDADES = "SELECT COUNT(1) FROM HORARIO_ACTIVIDAD DA , " +
-            "ACTIVIDADES A WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD\n";
+    static final String QRY_COUNT_DETALLE_ACTIVIDADES = "SELECT COUNT(1)\n" +
+            "FROM HORARIO_ACTIVIDAD DA,\n" +
+            "     ACTIVIDADES A,\n" +
+            "     USUARIOS US\n" +
+            "WHERE DA.ID_ACTIVIDAD = A.ID_ACTIVIDAD\n" +
+            "    AND US.ID_USUARIO = DA.ID_USUARIO\n";
 
     static final String QRY_CONDITION_ID_ACTIVIDAD = "\nAND A.ID_ACTIVIDAD = ?";
 
-    static final String QRY_CONDITION_ID_USER = "\nAND DA.ID_USUARIO = ?";
+    static final String QRY_CONDITION_USERNAME = "\nAND US.USERNAME = ?";
 
     static final String QRY_LIST_ACTIVIDAD = "SELECT ID_ACTIVIDAD, NOMBRE_ACTIVIDAD FROM ACTIVIDADES";
 
