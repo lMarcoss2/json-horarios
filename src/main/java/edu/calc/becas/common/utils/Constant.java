@@ -13,6 +13,7 @@ public final class Constant {
     public static final String LICENCIATURA_DEFAULT = "All";
     public static final String TIPO_USUARIO_DEFAULT = "All";
     public static final String ALL_ITEMS = "All";
+    public static final String TODAY = "Today";
 
     public static final String DEFAULT_ESTATUS = "All";
     public static final String ESTATUS_ACTIVE = "S";

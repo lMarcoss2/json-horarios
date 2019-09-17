@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 public final class UtilDate {
+    public static String PATTERN_GUION = "dd-MM-yyyy";
+    public static String PATTERN_DIAG = "dd/MM/yyyy";
     private UtilDate() {
     }
 
@@ -40,8 +42,8 @@ public final class UtilDate {
      * @param fecha
      * @return convierte una fecha DAte a string dd/MM/yyyy
      */
-    public static String convertDateToString(Date fecha) {
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+    public static String convertDateToString(Date fecha, String pattern) {
+        SimpleDateFormat formato = new SimpleDateFormat(pattern);
         return formato.format(fecha);
     }
 }
