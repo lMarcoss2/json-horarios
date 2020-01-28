@@ -71,6 +71,7 @@ public class ActividadesAPI {
 
     @PutMapping
     public ActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody ActividadVo detalle){
+        detalle.setActualizadoPor("admin");
         return  actividadesService.update(
                 detalle
         );
@@ -85,7 +86,7 @@ public class ActividadesAPI {
     @PostMapping
     @ApiOperation(value = "Registra una nueva Actividad")
     public ActividadVo add(@ApiParam(value = "Actividad a registrar", defaultValue = "0") @RequestBody ActividadVo actividad){
-        actividad.setActualizadoPor("Admin");
+        actividad.setAgregadoPor("Admin");
         return actividadesService.add(actividad);
     }
 

@@ -10,7 +10,8 @@ final class QueriesUsuario {
     private QueriesUsuario() {
     }
 
-    static final String QRY_GET_ALL = "SELECT * FROM USUARIOS U WHERE 1 = 1";
+    static final String QRY_GET_ALL = "SELECT U.ID_USUARIO, U.NOMBRES, U.APE_PATERNO, U.APE_MATERNO,  U.USERNAME, U.ESTATUS, R.NOMBRE_ROL TIPO_USUARIO\n" +
+            "FROM USUARIOS U, ROLES R WHERE U.ID_ROL = R.ID_ROL ";
     static final String QRY_CONDITION_ESTATUS = "\nAND U.ESTATUS = ? ";
     static final String QRY_CONDITION_TIPO_USUARIO = "\nAND U.TIPO_USUARIO = ?";
     static final String QRY_ADD =

@@ -12,7 +12,7 @@ final class QueriesActividades {
             "FROM ACTIVIDADES AC WHERE 1 = 1 AND AC.OBLIGATORIO != 'S'\n";
 
     public static String QRY_ADD = "INSERT INTO ACTIVIDADES (NOMBRE_ACTIVIDAD, OBLIGATORIO, TIPO_ACTIVIDAD, ESTATUS, AGREGADO_POR, FECHA_CREACION)\n" +
-      "VALUES (?, 'N', 'EX','S',  'ADMIN', NOW())";
+      "VALUES (?, 'N', 'EX',?,  ?, NOW())";
 
     static String QRY_GET_ALL = "";
 
