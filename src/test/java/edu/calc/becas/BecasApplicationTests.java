@@ -11,6 +11,6 @@ public class BecasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-	}
+  }
 
 }

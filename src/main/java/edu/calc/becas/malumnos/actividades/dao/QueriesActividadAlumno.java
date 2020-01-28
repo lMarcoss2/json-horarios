@@ -20,4 +20,11 @@ final class QueriesActividadAlumno {
                     "  AND H.ID_HORARIO_ACTIVIDAD = AL.ID_ACTIVIDAD\n" +
                     "  AND ALU.ID_ALUMNO = AL.ID_ALUMNO\n" +
                     "  AND ALU.MATRICULA = ?";
+
+    static final String QRY_GET_ALL_ACTIVIDADES_ALUMNOS = "SELECT ACT.ID_ACTIVIDAD, AL.ID_ALUMNO, ACT.NOMBRE_ACTIVIDAD, AL.MATRICULA, AL.NOMBRES, AL.APE_PATERNO, AL.APE_MATERNO\n" +
+      "FROM ACTIVIDAD_ALUMNO AC\n" +
+      "  INNER JOIN ALUMNOS AL\n" +
+      "  ON AC.MATRICULA = AL.MATRICULA\n" +
+      "  INNER JOIN ACTIVIDADES ACT\n" +
+      "ON AC.ID_ACTIVIDAD =  ACT.ID_ACTIVIDAD";
 }

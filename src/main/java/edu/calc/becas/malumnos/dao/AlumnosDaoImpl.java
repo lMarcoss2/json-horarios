@@ -64,19 +64,22 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
             this.jdbcTemplate.update(QRY_ADD, createObject(idAlumno, object));
             this.jdbcTemplate.update(QRY_ADD_ALUMNO_ACTIVIDAD, new Object[]{
                     object.getIdDetalleActividad(),
-                    idAlumno,
-                    object.getGrupo()
+                    idAlumno/*,
+                    object.getGrupo()*/
             });
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return object;
     }
+
+
+
 
     private Object[] createObject(int idAlumno, Alumno detalle) {
         return new Object[]{
                 idAlumno,
+                detalle.getCurp(),
                 detalle.getMatricula(),
                 detalle.getNombres(),
                 detalle.getApePaterno(),

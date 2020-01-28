@@ -27,6 +27,9 @@ public class Alumno extends CommonData {
     @ApiModelProperty("Identificador único del alumno")
     private String IdAlumno;
 
+    @ApiModelProperty("CURP Clave Unica de Resgistro de Población")
+    private String curp;
+
     @ApiModelProperty("Matrícula alumno")
     private String matricula;
 
