@@ -1,5 +1,6 @@
 package edu.calc.becas.malumnos.actividades.service;
 
+import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 
 /**
@@ -10,5 +11,6 @@ import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
  */
 public interface AlumnoActividadService {
     ActividadVo getActividadByAlumno(String matricula);
+    WrapperData getAllAlumnosByActividad(int page, int pageSize, String idActividad, String idCiclo);
 
 }
