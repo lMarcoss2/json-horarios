@@ -2,9 +2,12 @@ package edu.calc.becas.mcatalogos.actividades.api;
 
 import edu.calc.becas.common.model.LabelValueData;
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
 import edu.calc.becas.mcatalogos.actividades.model.DetalleActividadVo;
 import edu.calc.becas.mcatalogos.actividades.service.ActividadesService;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.service.CicloEscolarService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,9 +23,13 @@ import static edu.calc.becas.common.utils.Constant.*;
 @Api(description = "Servicios para administración de Actividades Extracurriculares")
 public class ActividadesAPI {
     private final ActividadesService actividadesService;
+    private final CicloEscolarService cicloEscolarService;
 
     @Autowired
-    public ActividadesAPI(ActividadesService actividadesService){this.actividadesService = actividadesService;}
+    public ActividadesAPI(ActividadesService actividadesService, CicloEscolarService cicloEscolarService) {
+        this.actividadesService = actividadesService;
+        this.cicloEscolarService = cicloEscolarService;
+    }
 
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de Actividades")
@@ -32,14 +39,13 @@ public class ActividadesAPI {
             @ApiParam(value = "Registros a recuperar", defaultValue = ALL_ITEMS)
             @RequestParam(value = "pageSize", defaultValue = ALL_ITEMS, required = false) String pageSize,
             @ApiParam(value = "Estatus de los registros a recuperar", defaultValue = DEFAULT_ESTATUS)
-            @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status){
+            @RequestParam(value = "status", defaultValue = DEFAULT_ESTATUS, required = false) String status) {
 
-            if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
-                pageSize = ITEMS_FOR_PAGE;
-            }
+        if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
+            pageSize = ITEMS_FOR_PAGE;
+        }
         return actividadesService.getAllByStatus(Integer.parseInt(page), Integer.parseInt(pageSize), status);
     }
-
 
 
     @GetMapping("/detalle")
@@ -61,7 +67,7 @@ public class ActividadesAPI {
             @RequestParam(value = "ciclo", defaultValue = DEFAULT_ESTATUS, required = false) String idCiclo,
 
             @ApiParam(value = "Encargado de la actividad", defaultValue = ALL_ITEMS)
-            @RequestParam(value = "username", defaultValue = ALL_ITEMS, required = false) String username){
+            @RequestParam(value = "username", defaultValue = ALL_ITEMS, required = false) String username) {
 
         if (pageSize.equalsIgnoreCase(ALL_ITEMS)) {
             pageSize = ITEMS_FOR_PAGE;
@@ -70,36 +76,49 @@ public class ActividadesAPI {
     }
 
     @PutMapping
-    public ActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody ActividadVo detalle){
+    public ActividadVo modifyActividad(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody ActividadVo detalle) {
         detalle.setActualizadoPor("admin");
-        return  actividadesService.update(
+        return actividadesService.update(
                 detalle
         );
     }
 
 
     @GetMapping("/list")
-    public List<LabelValueData> getActividades(){
-    return actividadesService.getActividades();
+    public List<LabelValueData> getActividades() {
+        return actividadesService.getActividades();
     }
 
     @PostMapping
     @ApiOperation(value = "Registra una nueva Actividad")
-    public ActividadVo add(@ApiParam(value = "Actividad a registrar", defaultValue = "0") @RequestBody ActividadVo actividad){
+    public ActividadVo add(@ApiParam(value = "Actividad a registrar", defaultValue = "0") @RequestBody ActividadVo actividad) {
         actividad.setAgregadoPor("Admin");
         return actividadesService.add(actividad);
     }
 
     @PostMapping("/detallehoras")
-    public DetalleActividadVo add(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
-        return  actividadesService.add(
-                detalle
-        );
+    public DetalleActividadVo add(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle) throws Exception {
+        detalle.setAgregadoPor("admin");
+        try {
+            CicloEscolarVo cicloEscolarVo  = new CicloEscolarVo();
+            cicloEscolarVo = cicloEscolarService.getCicloEscolarActual();
+
+            detalle.setIdCicloEscolar(cicloEscolarVo.getClave());
+            detalle.setCicloEscolar(cicloEscolarVo.getNombre());
+
+            return actividadesService.add(
+                    detalle
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new GenericException(e);
+        }
+
     }
 
     @PutMapping("/detallehoras")
-    public DetalleActividadVo modify(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle){
-        return  actividadesService.udateDetail(
+    public DetalleActividadVo modify(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle) {
+        return actividadesService.udateDetail(
                 detalle
         );
     }

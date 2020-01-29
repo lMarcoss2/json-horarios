@@ -1,6 +1,8 @@
 package edu.calc.becas.mconfiguracion.cicloescolar.api;
 
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.exceptions.GenericException;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import edu.calc.becas.mconfiguracion.cicloescolar.service.CicloEscolarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +26,13 @@ public class CicloEscolarAPI {
 
     @GetMapping
     public WrapperData getAll(
-            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE, required = false) String page,
-            @RequestParam(value = "pageSize", defaultValue = ITEMS_FOR_PAGE, required = false) String pageSize
     ) {
-        return cicloEscolarService.getAllByStatus(Integer.parseInt(page), Integer.parseInt(pageSize), DEFAULT_ESTATUS);
+        return cicloEscolarService.getAllByStatus(0, 0, null);
+    }
+
+    @GetMapping("/actual")
+    public CicloEscolarVo getCicloEscolarActual() throws GenericException {
+        return cicloEscolarService.getCicloEscolarActual();
     }
 
 

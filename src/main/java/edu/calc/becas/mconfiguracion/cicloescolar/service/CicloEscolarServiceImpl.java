@@ -1,6 +1,7 @@
 package edu.calc.becas.mconfiguracion.cicloescolar.service;
 
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,16 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
             return ciclos.getData().get(0);
         }
         throw new Exception("No hay datos de periodo escolar actual");
+    }
+
+    @Override
+    public CicloEscolarVo getCicloEscolarActual() throws GenericException {
+        try {
+            return createCicloEscolar("1819B", "SEM-MAR/19-JUN/19", "B", "2019-03-04", "2019-07-28");
+        } catch (Exception e) {
+            throw new GenericException("Ciclo escolar no encontrado o el servicio de recuperación falló");
+        }
+
     }
 
 }

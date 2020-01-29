@@ -167,17 +167,18 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     private Object[] createObjectParamUpdate(ActividadVo actividad) {
         return new Object[]{actividad.getNombreActividad(), actividad.getEstatus(), actividad.getAgregadoPor()};
     }
-
+    //199E2A1EswF5CVrh
     private Object[] createObjectParamDetalle(DetalleActividadVo detalle) {
         return new Object[]{
                 detalle.getIdActividad(),
                 detalle.getHora(),
                 detalle.getFormat(),
                 detalle.getNumeroAlumnos(),
+                detalle.getUsuario().getIdUsuario(),
+                detalle.getIdCicloEscolar(),
                 detalle.getCicloEscolar(),
-                "1",
-                "S",
-                "Admin"
+                detalle.getEstatus(),
+                detalle.getAgregadoPor()
         };
     }
 
