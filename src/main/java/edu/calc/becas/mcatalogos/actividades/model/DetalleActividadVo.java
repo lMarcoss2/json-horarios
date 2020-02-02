@@ -37,6 +37,9 @@ public class DetalleActividadVo extends CommonData {
     @ApiModelProperty("Identificador único de la actividad")
     private int idActividad;
 
+    @ApiModelProperty("Comentario")
+    private String comentario;
+
     @ApiModelProperty("Encargado o responsable de la actividad")
     private Usuario usuario;
 
