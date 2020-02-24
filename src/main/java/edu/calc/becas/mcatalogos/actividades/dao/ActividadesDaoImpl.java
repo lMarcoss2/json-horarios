@@ -125,6 +125,8 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
                 detalle.getFormat(),
                 detalle.getNumeroAlumnos(),
                 detalle.getUsuario().getIdUsuario(),
+                detalle.getEstatus(),
+                detalle.getComentario(),
                 detalle.getIdDetalleActividad()
         });
 
@@ -140,19 +142,21 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
     }
 
     private DetalleActividadVo mapperDetalleActividades(ResultSet rs) throws SQLException {
-        ActividadVo actividadVo = new ActividadVo(rs.getString("ESTATUS"));
         Usuario usuario = new Usuario();
-        actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
-        actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
 
         DetalleActividadVo detalle = new DetalleActividadVo(rs.getString("ESTATUS"));
+
+        detalle.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
+        detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+
         detalle.setIdDetalleActividad(rs.getInt("ID_HORARIO_ACTIVIDAD"));
         detalle.setHora(rs.getString("HORA") + ":00");
         detalle.setFormat(rs.getString("AM_PM"));
         detalle.setNumeroAlumnos(rs.getInt("NUMERO_ALUMNOS"));
         detalle.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
+        detalle.setComentario(rs.getString("COMENTARIO"));
 
-        detalle.setIdActividad(rs.getString("CVE_PERIODO"));
+        detalle.setIdCicloEscolar(rs.getString("CVE_PERIODO"));
         detalle.setCicloEscolar(rs.getString("DESC_PERIDODO"));
 
         usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
@@ -178,7 +182,8 @@ public class ActividadesDaoImpl extends BaseDao implements ActividadesDao {
                 detalle.getIdCicloEscolar(),
                 detalle.getCicloEscolar(),
                 detalle.getEstatus(),
-                detalle.getAgregadoPor()
+                detalle.getAgregadoPor(),
+                detalle.getComentario()
         };
     }
 

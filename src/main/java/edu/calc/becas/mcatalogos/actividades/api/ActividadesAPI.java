@@ -118,6 +118,7 @@ public class ActividadesAPI {
 
     @PutMapping("/detallehoras")
     public DetalleActividadVo modify(@ApiParam(value = "Detalle de hora para una actividad", defaultValue = "0") @RequestBody DetalleActividadVo detalle) {
+        detalle.setActualizadoPor("admin");
         return actividadesService.udateDetail(
                 detalle
         );
