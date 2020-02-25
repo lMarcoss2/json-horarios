@@ -1,6 +1,7 @@
 package edu.calc.becas.mseguridad.usuarios.model;
 
 import edu.calc.becas.common.model.CommonData;
+import edu.calc.becas.mseguridad.rolesypermisos.model.Rol;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -32,6 +33,8 @@ public class Usuario extends CommonData implements Serializable {
 
     @ApiModelProperty(value = "Tipo de usuario: Rol", required = true)
     private String tipoUsuario;
+
+    private Rol rol;
 
     @ApiModelProperty(value = "correo del usuario para sesión", required = true)
     private String username;

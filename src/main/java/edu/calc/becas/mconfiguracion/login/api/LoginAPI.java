@@ -23,7 +23,7 @@ public class LoginAPI {
   @PostMapping
   @ApiOperation(value = "Realiza el login del usuario validando el usuario y contraseña")
   public Usuario login(@ApiParam(value= "Usuario en sesión", defaultValue = "0")
-                              @RequestBody String username) throws GenericException {
-    return loginAPIService.login(username, username);
+                              @RequestBody Usuario user) throws GenericException {
+    return loginAPIService.login(user.getUsername(), user.getUsername());
   }
 }
