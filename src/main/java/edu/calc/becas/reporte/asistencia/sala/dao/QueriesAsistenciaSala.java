@@ -4,20 +4,18 @@ final class QueriesAsistenciaSala {
     private QueriesAsistenciaSala() {
     }
 
-    static final String GET_ALUMNOS_BY_USER_AND_SCHEDULE = "SELECT HA.ID_HORARIO_ACTIVIDAD, AA.ID_ACTIVIDAD_ALUMNO, A.NOMBRES, A.APE_PATERNO, A.APE_MATERNO\n" +
-            "FROM USUARIOS US,\n" +
-            "     HORARIO_ACTIVIDAD HA,\n" +
-            "     ACTIVIDAD_ALUMNO AA,\n" +
-            "     ALUMNOS_DAT_PERIODO ADP,\n" +
-            "     ALUMNOS A\n" +
-            "WHERE US.USERNAME = ?\n" +
-            "  AND HA.ID_ACTIVIDAD = 2\n" +
+    static final String GET_ALUMNOS_BY_USER_AND_SCHEDULE = "SELECT U.DIAS_RETROCESO_REPORTE, AA.ID_ACTIVIDAD_ALUMNO, U.ID_USUARIO, A.MATRICULA, A.NOMBRES,  A.APE_PATERNO, A.APE_MATERNO, HA.ID_HORARIO_ACTIVIDAD\n" +
+            "FROM USUARIOS U, HORARIO_ACTIVIDAD HA, ACTIVIDAD_ALUMNO AA, ALUMNOS_DAT_PERIODO AP, ALUMNOS A\n" +
+            "WHERE U.USERNAME = ? AND U.ESTATUS = 'S'\n" +
+            "  AND U.ID_USUARIO = HA.ID_USUARIO\n" +
             "  AND HA.ID_HORARIO_ACTIVIDAD = ?\n" +
-            "  AND US.ID_USUARIO = HA.ID_USUARIO\n" +
-            "  AND HA.ID_HORARIO_ACTIVIDAD = AA.ID_ACTIVIDAD\n" +
-            "  AND AA.CVE_GRUPO = ADP.CVE_GRUPO\n" +
-            "  AND AA.CVE_LICENCIATURA = ADP.CVE_LICENCIATURA\n" +
-            "  AND AA.CVE_PERIODO = ADP.CVE_PERIODO\n" +
-            "  AND ADP.ID_ALUMNO = A.ID_ALUMNO\n";
+            "  AND HA.ID_HORARIO_ACTIVIDAD = AA.ID_HORARIO_ACTIVIDAD\n" +
+            "  AND HA.ID_ACTIVIDAD = 2\n" +
+            "  AND HA.ESTATUS = 'S'\n" +
+            "  AND AA.ID_ALUMNO_P = AP.ID_ALUMNOP\n" +
+            "  AND AP.MATRICULA = A.MATRICULA\n";
+
+
+    static final String QRY_GET_ASISTENCIA_BY_ACTIVIDAD_ALUMNO = "SELECT ASISTENCIA FROM ASISTENCIA_SALA WHERE  ID_ACTIVIDAD_ALUMNO = ? AND FECHA_ASISTENCIA = ?\n";
 
 }
