@@ -32,6 +32,7 @@ public class Usuario extends CommonData implements Serializable {
 
     @ApiModelProperty(value = "Tipo de usuario: Rol", required = true)
     private String tipoUsuario;
+
     @ApiModelProperty(value = "correo del usuario para sesión", required = true)
     private String username;
     @ApiModelProperty("Contraseña del usuario")
