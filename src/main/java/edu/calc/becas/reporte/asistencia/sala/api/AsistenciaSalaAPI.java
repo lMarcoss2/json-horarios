@@ -1,6 +1,7 @@
 package edu.calc.becas.reporte.asistencia.sala.api;
 
 import edu.calc.becas.reporte.asistencia.sala.model.AlumnoAsistenciaSala;
+import edu.calc.becas.reporte.asistencia.sala.model.FechaAsistencia;
 import edu.calc.becas.reporte.asistencia.sala.model.WrapperAsistenciaAlumno;
 import edu.calc.becas.reporte.asistencia.sala.service.AsistenciaSalaService;
 import edu.calc.becas.utils.UtilDate;
@@ -48,34 +49,50 @@ public class AsistenciaSalaAPI {
             fechaFin = UtilDate.convertDateToString(today, UtilDate.PATTERN_GUION);
         }
 
-        List<String> fechas = this.getFechas(fechaInicio, fechaFin);
+        List<FechaAsistencia> fechas = this.getFechas(fechaInicio, fechaFin);
+
+
 
         asistenciaAlumno.setFechas(fechas);
+
+        asistenciaSalaService.getPresenceByDate(alumnos, fechas);
+
         return asistenciaAlumno;
     }
 
     @GetMapping("/fechas/{fecha-inicio}/{fecha-fin}")
     @ApiOperation(value = "Obtiene el periodo de asistencias entre una fecha de inicio y fin (dd-mm-yyyy)")
-    public List<String> getFechas(@ApiParam(value = "Fecha inicio", required = true) @PathVariable("fecha-inicio") String fechaInicio,
-                                  @ApiParam(value = "Fecha fin", required = true) @PathVariable("fecha-fin") String fechaFin) throws Exception {
+    public List<FechaAsistencia> getFechas(@ApiParam(value = "Fecha inicio", required = true) @PathVariable("fecha-inicio") String fechaInicio,
+                                           @ApiParam(value = "Fecha fin", required = true) @PathVariable("fecha-fin") String fechaFin) throws Exception {
 
         Date fechaInicial = UtilDate.convertToDate(fechaInicio);
         Date fechaFinal = UtilDate.convertToDate(fechaFin);
 
-        List<String> fechas = new ArrayList<>();
-        int day = fechaInicial.getDay();
-        if (day >= 1 && day <= 5) {
-            fechas.add(UtilDate.convertDateToString(fechaInicial, UtilDate.PATTERN_DIAG));
-        }
+        List<FechaAsistencia> fechas = new ArrayList<>();
+
+        createDate(fechaInicial, fechas);
 
         while (fechaInicial.before(fechaFinal)) {
             fechaInicial = UtilDate.getNextDayBySum(fechaInicial, 1);
-            day = fechaInicial.getDay();
-            if (day >= 1 && day <= 5) {
-                fechas.add(UtilDate.convertDateToString(fechaInicial, UtilDate.PATTERN_DIAG));
-            }
+            createDate(fechaInicial, fechas);
         }
         return fechas;
+    }
+
+    private void createDate(Date fechaInicial, List<FechaAsistencia> fechas) {
+        int day = fechaInicial.getDay();// dias habiles
+        if (isDayWeek(day)) {
+            FechaAsistencia fechaAsistencia = new FechaAsistencia();
+            fechaAsistencia.setDia(String.valueOf(fechaInicial.getDate()));
+            fechaAsistencia.setMes(UtilDate.convertMonthToMonthDesc(fechaInicial.getMonth() +1));
+            fechaAsistencia.setAnio(String.valueOf(fechaInicial.getYear() + 1900));
+            fechaAsistencia.setFecha(UtilDate.convertDateToString(fechaInicial, UtilDate.PATTERN_DIAG));
+            fechas.add(fechaAsistencia);
+        }
+    }
+
+    private boolean isDayWeek(int day) {
+        return day >= 1 && day <= 5;
     }
 
 }

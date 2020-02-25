@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class WrapperAsistenciaAlumno implements Serializable {
-    private List<String> fechas;
+    private List<FechaAsistencia> fechas;
     List<AlumnoAsistenciaSala> alumnos;
 
 }

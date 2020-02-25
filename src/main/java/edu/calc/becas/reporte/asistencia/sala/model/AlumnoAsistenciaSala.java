@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,4 +15,5 @@ public class AlumnoAsistenciaSala implements Serializable {
     private Alumno alumno;
     private int idHorarioActividad;
     private int idActividadAlumno;
+    private List<FechaAsistencia> asistencia;
 }

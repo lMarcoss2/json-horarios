@@ -46,4 +46,24 @@ public final class UtilDate {
         SimpleDateFormat formato = new SimpleDateFormat(pattern);
         return formato.format(fecha);
     }
+
+    public static String convertMonthToMonthDesc(int month){
+        String monthDesc;
+        switch (month){
+            case 1: monthDesc = "ENE"; break;
+            case 2: monthDesc = "FEB"; break;
+            case 3: monthDesc = "MAR"; break;
+            case 4: monthDesc = "ABR"; break;
+            case 5: monthDesc = "MAY"; break;
+            case 6: monthDesc = "JUN"; break;
+            case 7: monthDesc = "JUL"; break;
+            case 8: monthDesc = "AGO"; break;
+            case 9: monthDesc = "SEPT"; break;
+            case 10: monthDesc = "OCT"; break;
+            case 11: monthDesc = "NOV"; break;
+            default: monthDesc = "DIC";
+            break;
+        }
+        return monthDesc;
+    }
 }

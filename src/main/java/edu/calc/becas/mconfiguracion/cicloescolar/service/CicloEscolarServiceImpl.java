@@ -18,7 +18,7 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
 
         List<CicloEscolarVo> ciclos = new ArrayList<>();
 
-        ciclos.add(createCicloEscolar("1819B", "SEM-MAR/19-JUN/19", "B", "2019-03-04", "2019-07-28"));
+        ciclos.add(createCicloEscolar("1213A", "SEM-oct/12-feb/13", "A", "2012-10-04", "2013-02-15"));
 
         wrapperData.setData(ciclos);
         wrapperData.setPage(0);
