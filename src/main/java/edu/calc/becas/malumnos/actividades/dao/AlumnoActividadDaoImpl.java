@@ -66,7 +66,7 @@ public class AlumnoActividadDaoImpl extends BaseDao implements AlumnoActividadDa
         ActividadesAlumnos actividadVo = new ActividadesAlumnos();
         actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD"));
         actividadVo.setNombreActividad(rs.getString("NOMBRE_ACTIVIDAD"));
-        actividadVo.setIdAlumno(rs.getString("ID_ALUMNO"));
+        actividadVo.setIdAlumno(rs.getString("ID_ALUMNO_P"));
         actividadVo.setMatricula(rs.getString("MATRICULA"));
         actividadVo.setNombre(rs.getString("NOMBRES"));
         actividadVo.setAPaterno(rs.getString("APE_PATERNO"));
