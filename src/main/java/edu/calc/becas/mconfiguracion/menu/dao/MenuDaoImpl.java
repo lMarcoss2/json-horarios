@@ -34,7 +34,11 @@ public class MenuDaoImpl extends BaseDao implements MenuDao {
     private void getChild(List<Menu> menu, String username) {
         for (Menu menu1 : menu) {
             menu1.setChilds(
-                    this.jdbcTemplate.query(QRY_GET_CHLIDS_BY_PARENT, new Object[]{menu1.getIdPadre(), username}, ((rs, i) -> mapperMenuChild(rs)))
+                    this.jdbcTemplate.query(QRY_GET_CHLIDS_BY_PARENT, new Object[]{
+                              menu1.getIdPadre(),
+                              username,
+                              menu1.getIdPadre(),
+                              username}, ((rs, i) -> mapperMenuChild(rs)))
             );
             ;
         }

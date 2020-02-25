@@ -60,4 +60,8 @@ public class Alumno extends CommonData {
     public String grupo;
 
     public String idDetalleActividad;
+
+    public String cicloEscolar;
+
+    public String licenciatura;
 }

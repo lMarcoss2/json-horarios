@@ -61,11 +61,32 @@ public class AlumnosDaoImpl extends BaseDao implements AlumnosDao {
     public Alumno add(Alumno object) {
         try{
             int idAlumno = this.jdbcTemplate.queryForObject(QRY_ID_ALUMNO, Integer.class);
-            this.jdbcTemplate.update(QRY_ADD, createObject(idAlumno, object));
+            int valueAlumno = this.jdbcTemplate.queryForObject(QRY_EXISTE_ALUMNO, new Object[]{object.getMatricula()}, Integer.class);
+            if (valueAlumno == 0){
+              this.jdbcTemplate.update(QRY_ADD, createObject(idAlumno, object));
+            }
+
+          int valueAlumnoPeriodo = this.jdbcTemplate.queryForObject(QRY_EXISTE_ALUMNO_PERIODO,
+                                          new Object[]{
+                                            object.getCicloEscolar(),
+                                            object.getMatricula()}, Integer.class);
+          if (valueAlumnoPeriodo == 0){
+            this.jdbcTemplate.update(QRY_ADD_ALUMNO_PERIODO,
+              new Object[]{
+                object.getMatricula(),
+                object.getGrupo(),
+                object.getGrupo(),
+                object.getLicenciatura(),
+                object.getLicenciatura(),
+                object.getCicloEscolar(),
+                object.getCicloEscolar()
+              });
+          }
+//INSERT INTO ALUMNOS_DAT_PERIODO (MATRICULA,CVE_GRUPO, DESC_GRUPO, CVE_LICENCIATURA, DESC_LICENCIATURA, CVE_PERIODO, DESC_PERIDODO) VALUES
+
             this.jdbcTemplate.update(QRY_ADD_ALUMNO_ACTIVIDAD, new Object[]{
                     object.getIdDetalleActividad(),
-                    idAlumno/*,
-                    object.getGrupo()*/
+                    object.getMatricula()
             });
         }catch (Exception e){
             e.printStackTrace();
