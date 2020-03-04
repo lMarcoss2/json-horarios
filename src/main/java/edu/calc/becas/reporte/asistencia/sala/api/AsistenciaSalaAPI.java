@@ -1,7 +1,9 @@
 package edu.calc.becas.reporte.asistencia.sala.api;
 
+import edu.calc.becas.mseguridad.usuarios.model.Usuario;
 import edu.calc.becas.reporte.asistencia.sala.model.AlumnoAsistenciaSala;
 import edu.calc.becas.reporte.asistencia.sala.model.FechaAsistencia;
+import edu.calc.becas.reporte.asistencia.sala.model.PaseAsistencia;
 import edu.calc.becas.reporte.asistencia.sala.model.WrapperAsistenciaAlumno;
 import edu.calc.becas.reporte.asistencia.sala.service.AsistenciaSalaService;
 import edu.calc.becas.utils.UtilDate;
@@ -27,6 +29,15 @@ public class AsistenciaSalaAPI {
         this.asistenciaSalaService = asistenciaSalaService;
     }
 
+    @PostMapping
+    @ApiOperation(value = "Registra una lista de asistencia de alumnos por fecha")
+    public List<PaseAsistencia> addPresenceByDate(@RequestBody List<PaseAsistencia> asistencias){
+        Usuario usuario  = new Usuario();
+        usuario.setUsername("ADMIN");
+        return this.asistenciaSalaService.addPresenceByDate(asistencias, usuario);
+    }
+
+
     @GetMapping("/{username}/{id-horario}")
     @ApiOperation(value = "Obtiene la lista de alumnos por horario")
     public WrapperAsistenciaAlumno getAlumnosByScheduleAndUser(
@@ -36,8 +47,7 @@ public class AsistenciaSalaAPI {
             @ApiParam(value = "Fecha Fin", defaultValue = TODAY) @RequestParam(value = "fecha-fin", defaultValue = TODAY, required = false) String fechaFin) throws Exception {
         WrapperAsistenciaAlumno asistenciaAlumno = new WrapperAsistenciaAlumno();
 
-        List<AlumnoAsistenciaSala> alumnos = asistenciaSalaService.getAlumnosByScheduleAndUser(username, idHorario);
-        asistenciaAlumno.setAlumnos(alumnos);
+
 
         if (fechaInicio.equalsIgnoreCase(TODAY)) {
             Date today = new Date();
@@ -50,12 +60,10 @@ public class AsistenciaSalaAPI {
         }
 
         List<FechaAsistencia> fechas = this.getFechas(fechaInicio, fechaFin);
-
-
-
+        List<AlumnoAsistenciaSala> alumnos = asistenciaSalaService.getAlumnosByScheduleAndUser(username, idHorario, fechas);
+        asistenciaAlumno.setAlumnos(alumnos);
         asistenciaAlumno.setFechas(fechas);
 
-        asistenciaSalaService.getPresenceByDate(alumnos, fechas);
 
         return asistenciaAlumno;
     }
@@ -86,7 +94,7 @@ public class AsistenciaSalaAPI {
             fechaAsistencia.setDia(String.valueOf(fechaInicial.getDate()));
             fechaAsistencia.setMes(UtilDate.convertMonthToMonthDesc(fechaInicial.getMonth() +1));
             fechaAsistencia.setAnio(String.valueOf(fechaInicial.getYear() + 1900));
-            fechaAsistencia.setFecha(UtilDate.convertDateToString(fechaInicial, UtilDate.PATTERN_DIAG));
+            fechaAsistencia.setFechaAsistencia(UtilDate.convertDateToString(fechaInicial, UtilDate.PATTERN_DIAG));
             fechas.add(fechaAsistencia);
         }
     }

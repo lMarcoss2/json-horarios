@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 public class FechaAsistencia implements Serializable {
-    private String fecha;
     private String dia;
     private String mes;
     private String anio;
