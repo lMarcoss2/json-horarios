@@ -21,7 +21,7 @@ final class QueriesParcial {
     static final String QRY_GET_PARCIAL_ACTUAL = "SELECT PP.ID_PARCIAL, PARCIAL, DESC_PARCIAL, PARCIAL_ACTUAL,\n" +
             "       DATE_FORMAT(FECHA_INICIO, '%d/%m/%Y') AS FECHA_INICIO,\n" +
             "       DATE_FORMAT(FECHA_FIN, '%d/%m/%Y') AS FECHA_FIN,\n" +
-            "       CVE_PERIODO, DESC_PERIODO\n" +
+            "       CVE_PERIODO, DESC_PERIODO, PP.TOTAL_HORAS_BIBLIOTECA, PP.TOTAL_ASISTENCIA_SALA\n" +
             "FROM PARCIAL_PERIODO PP,\n" +
             "     PARCIALES P\n" +
             "WHERE PP.PARCIAL = P.ID_PARCIAL AND PARCIAL_ACTUAL = 'S'\n";

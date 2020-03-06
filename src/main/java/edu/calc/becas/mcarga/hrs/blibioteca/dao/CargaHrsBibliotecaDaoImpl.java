@@ -5,6 +5,8 @@ import edu.calc.becas.malumnos.actividades.dao.AlumnoActividadDao;
 import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 import edu.calc.becas.reporte.percent.beca.dao.ReportPercentBecaDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,28 +41,30 @@ public class CargaHrsBibliotecaDaoImpl extends BaseDao implements CargaHrsDao {
     }
 
     @Override
-    public int persistenceHours(List<Alumno> alumnos, int parcial) {
+    public int persistenceHours(List<Alumno> alumnos, Parcial parcialActual, CicloEscolarVo cicloEscolarActual) {
         int count = 0;
         for (Alumno alumno : alumnos) {
             try {
                 // obtiene datos del alumno
                 /*Alumno alumnoBD = alumnosService.getByMatricula(alumno.getMatricula());*/
-
+                int percentLibraryTime = calculatePercentHoursLibrary(alumno, parcialActual);
                 // obtiene la actividad del alumno
-                ActividadVo actividadVo = alumnoActividadDao.getActividadByAlumno(alumno.getMatricula());
+                ActividadVo actividadVo = alumnoActividadDao.getActividadByAlumno(alumno.getMatricula(), cicloEscolarActual);
 
                 if (reportPercentBecaDao.actividadAlumnoExists(actividadVo)) {
                     jdbcTemplate.update(QRY_UPDATE_PERCENT_BIBLIOTECA,
                             new Object[]{
-                                    alumno.getHora(),
+                                    percentLibraryTime,
                                     actividadVo.getIdActividad(),
-                                    parcial
+                                    parcialActual.getIdParcial()
                             });
                 } else {
                     jdbcTemplate.update(QRY_INSERT_PERCENT_BIBLIOTECA,
                             actividadVo.getIdActividad(),
-                            alumno.getAsistenciaSala().getPorcentaje(),
-                            parcial,
+                            percentLibraryTime,
+                            parcialActual.getIdParcial(),
+                            cicloEscolarActual.getClave(),
+                            cicloEscolarActual.getNombre(),
                             alumno.getAgregadoPor()
                     );
                 }
@@ -72,6 +76,16 @@ public class CargaHrsBibliotecaDaoImpl extends BaseDao implements CargaHrsDao {
 
         }
         return count;
+    }
+
+    private int calculatePercentHoursLibrary(Alumno alumno, Parcial parcialActual) {
+        int horasParcial = parcialActual.getTotalHorasBiblioteca() * 60;
+
+        int horasALumno = 0;
+        if (alumno.getHora() != null) {
+            horasALumno = (alumno.getHora().getNumHora() * 60) + alumno.getHora().getNumMinutos();
+        }
+        return (horasALumno * 100) / horasParcial;
     }
 
 }

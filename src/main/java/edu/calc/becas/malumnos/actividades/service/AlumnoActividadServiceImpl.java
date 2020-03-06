@@ -3,6 +3,7 @@ package edu.calc.becas.malumnos.actividades.service;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.malumnos.actividades.dao.AlumnoActividadDao;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,8 +22,8 @@ public class AlumnoActividadServiceImpl implements AlumnoActividadService {
     }
 
     @Override
-    public ActividadVo getActividadByAlumno(String matricula) {
-        return alumnoActividadDao.getActividadByAlumno(matricula);
+    public ActividadVo getActividadByAlumno(String matricula, CicloEscolarVo cicloEscolarActual) {
+        return alumnoActividadDao.getActividadByAlumno(matricula, cicloEscolarActual);
     }
 
   @Override

@@ -5,6 +5,8 @@ import edu.calc.becas.malumnos.actividades.dao.AlumnoActividadDao;
 import edu.calc.becas.malumnos.model.Alumno;
 import edu.calc.becas.mcarga.hrs.CargaHrsDao;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 import edu.calc.becas.reporte.percent.beca.dao.ReportPercentBecaDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,25 +41,25 @@ public class CargaHrsSalaDaoImpl extends BaseDao implements CargaHrsDao {
     }
 
     @Override
-    public int persistenceHours(List<Alumno> alumnos, int parcial) {
+    public int persistenceHours(List<Alumno> alumnos, Parcial parcialActual, CicloEscolarVo cicloEscolarActual) {
         int count = 0;
         for (Alumno alumno : alumnos) {
             try {
                 // obtiene la actividad del alumno
-                ActividadVo actividadVo = alumnoActividadDao.getActividadByAlumno(alumno.getMatricula());
+                ActividadVo actividadVo = alumnoActividadDao.getActividadByAlumno(alumno.getMatricula(), cicloEscolarActual);
 
                 if (reportPercentBecaDao.actividadAlumnoExists(actividadVo)) {
                     jdbcTemplate.update(QRY_UPDATE_PERCENT_SALA,
                             new Object[]{
                                     alumno.getAsistenciaSala().getPorcentaje(),
                                     actividadVo.getIdActividad(),
-                                    parcial
+                                    parcialActual.getIdParcial()
                             });
                 } else {
                     jdbcTemplate.update(QRY_INSERT_PERCENT_SALA,
                             actividadVo.getIdActividad(),
                             alumno.getAsistenciaSala().getPorcentaje(),
-                            parcial,
+                            parcialActual.getIdParcial(),
                             alumno.getAgregadoPor()
                     );
                 }

@@ -1,8 +1,10 @@
 package edu.calc.becas.malumnos.actividades.api;
 
 import edu.calc.becas.common.model.WrapperData;
+import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.malumnos.actividades.service.AlumnoActividadService;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.service.CicloEscolarService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +22,16 @@ import static edu.calc.becas.common.utils.Constant.*;
 public class AlumnoActividadAPI {
 
     private final AlumnoActividadService alumnoActividadService;
+    private CicloEscolarService cicloEscolarService;
 
-    public AlumnoActividadAPI(AlumnoActividadService alumnoActividadService) {
+    public AlumnoActividadAPI(AlumnoActividadService alumnoActividadService, CicloEscolarService cicloEscolarService) {
         this.alumnoActividadService = alumnoActividadService;
+        this.cicloEscolarService = cicloEscolarService;
     }
 
     @GetMapping("/alumnos/{matricula}/actividades")
-    public ActividadVo getActividadByAlumno(@PathVariable String matricula) {
-        return alumnoActividadService.getActividadByAlumno(matricula);
+    public ActividadVo getActividadByAlumno(@PathVariable String matricula) throws GenericException {
+        return alumnoActividadService.getActividadByAlumno(matricula, cicloEscolarService.getCicloEscolarActual());
     }
 
     @GetMapping("/alumnos/actividades")

@@ -1,6 +1,8 @@
 package edu.calc.becas.mcarga.hrs;
 
 import edu.calc.becas.malumnos.model.Alumno;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
 
 import java.util.List;
 
@@ -11,5 +13,5 @@ import java.util.List;
  * Date: 6/3/19
  */
 public interface CargaHrsDao {
-    int persistenceHours(List<Alumno> alumnos, int parcial);
+    int persistenceHours(List<Alumno> alumnos, Parcial parcial, CicloEscolarVo cicloEscolarActual);
 }

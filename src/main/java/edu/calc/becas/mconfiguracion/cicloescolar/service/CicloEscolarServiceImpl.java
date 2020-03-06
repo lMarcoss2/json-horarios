@@ -65,7 +65,7 @@ public class CicloEscolarServiceImpl implements CicloEscolarService {
     @Override
     public CicloEscolarVo getCicloEscolarActual() throws GenericException {
         try {
-            return createCicloEscolar("1819B", "SEM-MAR/19-JUN/19", "B", "2019-03-04", "2019-07-28");
+            return createCicloEscolar("1213A", "SEM-MAR/19-JUN/19", "B", "2019-03-04", "2019-07-28");
         } catch (Exception e) {
             throw new GenericException("Ciclo escolar no encontrado o el servicio de recuperación falló");
         }

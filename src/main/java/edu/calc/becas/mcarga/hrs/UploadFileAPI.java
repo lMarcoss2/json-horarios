@@ -4,8 +4,13 @@ import edu.calc.becas.common.model.CommonData;
 import edu.calc.becas.exceptions.GenericException;
 import edu.calc.becas.mcarga.hrs.read.files.ReadFile;
 import edu.calc.becas.mcarga.hrs.read.files.model.ProcessedFile;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.service.CicloEscolarService;
+import edu.calc.becas.mconfiguracion.parciales.model.Parcial;
+import edu.calc.becas.mconfiguracion.parciales.service.ParcialService;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +39,10 @@ import static edu.calc.becas.utils.ExtensionFile.XLS_EXTENSION;
 public class UploadFileAPI {
 
     protected ProcessHoursService processHoursService;
+    @Autowired
+    private CicloEscolarService cicloEscolarService;
+    @Autowired
+    private  ParcialService parcialService;
 
     @Value("${location.file}")
     String locationFile;
@@ -46,7 +55,10 @@ public class UploadFileAPI {
         CommonData commonData = new CommonData();
         commonData.setAgregadoPor("ADMIN");
         commonData.setActualizadoPor("ADMIN");
-        int resultProcessed = processHoursService.processData(pages, commonData);
+        Parcial parcialActual = parcialService.getParcialActual();
+        CicloEscolarVo cicloEscolarActual = cicloEscolarService.getCicloEscolarActual();
+
+        int resultProcessed = processHoursService.processData(pages, commonData, parcialActual, cicloEscolarActual);
         return ProcessedFile.builder()
                 .error(false)
                 .file(pathfile)

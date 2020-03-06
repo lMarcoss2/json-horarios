@@ -4,6 +4,7 @@ import edu.calc.becas.common.base.dao.BaseDao;
 import edu.calc.becas.common.model.WrapperData;
 import edu.calc.becas.malumnos.actividades.model.ActividadesAlumnos;
 import edu.calc.becas.mcatalogos.actividades.model.ActividadVo;
+import edu.calc.becas.mconfiguracion.cicloescolar.model.CicloEscolarVo;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -29,11 +30,17 @@ public class AlumnoActividadDaoImpl extends BaseDao implements AlumnoActividadDa
     }
 
     @Override
-    public ActividadVo getActividadByAlumno(String matricula) {
+    public ActividadVo getActividadByAlumno(String matricula, CicloEscolarVo cicloEscolarActual) {
         return jdbcTemplate.queryForObject(
                 QRY_GET_ACTIVIDAD_BY_ALUMNO,
-                new Object[]{matricula},
-                ((rs, i) -> mapperActividadAlumno(rs)));
+                new Object[]{matricula, cicloEscolarActual.getClave()},
+                ((rs, i) -> mapperActividadAlumnoPorMatriculaYCvePeriodo(rs)));
+    }
+
+    private ActividadVo mapperActividadAlumnoPorMatriculaYCvePeriodo(ResultSet rs) throws SQLException {
+        ActividadVo actividadVo = new ActividadVo(ESTATUS_ACTIVE);
+        actividadVo.setIdActividad(rs.getInt("ID_ACTIVIDAD_ALUMNO"));
+        return actividadVo;
     }
 
     @Override

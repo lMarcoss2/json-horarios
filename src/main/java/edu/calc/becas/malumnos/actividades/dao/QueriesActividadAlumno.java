@@ -8,18 +8,13 @@ package edu.calc.becas.malumnos.actividades.dao;
  */
 final class QueriesActividadAlumno {
     static final String QRY_GET_ACTIVIDAD_BY_ALUMNO =
-            "SELECT AL.ID_ACTIVIDAD_ALUMNO, A.NOMBRE_ACTIVIDAD, A.ESTATUS\n" +
-                    "FROM CICLO_ESCOLAR C, HORARIO_ACTIVIDAD H, ACTIVIDADES A, ACTIVIDAD_ALUMNO AL, ALUMNOS ALU\n" +
-                    "WHERE C.PERIODO_ACTUAL = 'S'\n" +
-                    "  AND H.ESTATUS = 'S'\n" +
-                    "  AND C.ESTATUS = 'S'\n" +
-                    "  AND A.ESTATUS = 'S'\n" +
-                    "  AND ALU.ESTATUS = 'S'\n" +
-                    "  AND C.ID_CICLO_ESCOLAR = H.ID_CICLO_ESCOLAR\n" +
-                    "  AND H.ID_ACTIVIDAD = A.ID_ACTIVIDAD\n" +
-                    "  AND H.ID_HORARIO_ACTIVIDAD = AL.ID_ACTIVIDAD\n" +
-                    "  AND ALU.ID_ALUMNO = AL.ID_ALUMNO\n" +
-                    "  AND ALU.MATRICULA = ?";
+            "SELECT AA.ID_ACTIVIDAD_ALUMNO\n" +
+                    "FROM ALUMNOS AL, ALUMNOS_DAT_PERIODO ADP, ACTIVIDAD_ALUMNO AA\n" +
+                    "WHERE AL.MATRICULA = ?\n" +
+                    "  AND AL.ESTATUS = 'S'\n" +
+                    "  AND AL.MATRICULA = ADP.MATRICULA\n" +
+                    "  AND ADP.ID_ALUMNOP = AA.ID_ALUMNO_P\n" +
+                    "  AND ADP.CVE_PERIODO = ?";
 
     static final String QRY_GET_ALL_ACTIVIDADES_ALUMNOS = "SELECT\n" +
       "       AT.ID_ACTIVIDAD,\n" +
