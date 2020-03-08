@@ -12,7 +12,7 @@ key:
   encode:
     crypto: $#u1!N51*5M412&
 location:
-  file: /Users/vampiro/workspace-leo/ServicioSocial/files-dev/
+  file: /Users/lmarcoss/workspace-leo/servicio-social/file-dev/
 
 prop:
   carga:

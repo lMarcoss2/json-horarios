@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>edu.calc</groupId>
-    <artifactId>becas</artifactId>
+    <artifactId>json-horarios</artifactId>
     <version>1.0.0</version>
-    <name>becas</name>
-    <description>Calculadora de porcentaje de becas</description>
+    <name>json-horarios</name>
+    <description>Expone horarios</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -37,6 +37,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -90,6 +96,7 @@
             <artifactId>spring-plugin-core</artifactId>
             <version>1.2.0.RELEASE</version>
         </dependency>
+
     </dependencies>
 
     <build>
