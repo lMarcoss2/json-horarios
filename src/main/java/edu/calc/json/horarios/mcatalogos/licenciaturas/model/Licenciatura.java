@@ -21,9 +21,9 @@ import java.io.Serializable;
 public class Licenciatura implements Serializable {
 
     @ApiModelProperty(notes = "Clave de la licenciatura", required = true)
-    private String cveLicenciatura;
+    private String clave;
     @ApiModelProperty(notes = "Nombre de la licenciatura", required = true)
-    private String nombreLicenciatura;
+    private String nombre;
     @ApiModelProperty(notes = "Indica si es vigente la licenciatura", required = true)
     private boolean vigente;
 

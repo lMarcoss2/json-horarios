@@ -19,20 +19,20 @@ import lombok.Setter;
 public class Grupo {
 
     @ApiModelProperty(value = "Clave del grupo", required = true)
-    private String cveGrupo;
+    private int alumnos;
 
-    @ApiModelProperty(value = "Nombre del grupo", required = true)
-    private String nombreGrupo;
+    @ApiModelProperty(value = "Carrera al que pertenece el grupo", required = true)
+    private String carrera;
 
-    @ApiModelProperty(value = "Clave de la Licenciatura", required = true)
-    private String cveLicenciatura;
+    @ApiModelProperty(value = "Clave del grupo", required = true)
+    private String clave;
 
-    @ApiModelProperty(value = "Nombre de la Licenciatura", required = true)
-    private String nombreLicenciatura;
+    @ApiModelProperty(value = "Nombre grupod", required = true)
+    private String nombre;
 
-    @ApiModelProperty(value = "Clave periodo", required = true)
-    private String cvePeriodo;
+    @ApiModelProperty(value = "Periodo", required = true)
+    private String periodo;
 
-    @ApiModelProperty(value = "Nombre Periodo", required = true)
-    private String nombrePeriodo;
+    @ApiModelProperty(value = "Semestre", required = true)
+    private int semestre;
 }
