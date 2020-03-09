@@ -3,6 +3,8 @@ package edu.calc.json.horarios.mcatalogos.periodo.api;
 import edu.calc.json.horarios.exceptions.GenericException;
 import edu.calc.json.horarios.mcatalogos.periodo.model.Periodo;
 import edu.calc.json.horarios.mcatalogos.periodo.service.PeriodoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/periodo")
+@Api(description = "Servicios para administración periodos")
 public class PeriodoAPI {
 
     private PeriodoService periodoService;
@@ -20,6 +23,7 @@ public class PeriodoAPI {
     }
 
     @GetMapping("/actual")
+    @ApiOperation(value = "Obtiene el periodo actual")
     public Periodo getCicloEscolarActual() throws GenericException {
         return periodoService.getCicloEscolarActual();
     }
