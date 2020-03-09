@@ -41,7 +41,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .useDefaultResponseMessages(false)
                 .ignoredParameterTypes(Errors.class)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("edu.calc.becas"))
+                .apis(RequestHandlerSelectors.basePackage("edu.calc.json.horarios"))
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .build()
                 .securityContexts(Lists.newArrayList(securityContext()))
@@ -79,8 +79,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Sistema de Control de Becas UNSIS - API REST",
-                "Servicios rest API para el Sistema de Control de Becas UNSIS",
+                "Sistema de horarios",
+                "Servicios rest API de horarios",
                 "v1.0.0",
                 "Terms of service",
                 new Contact("UNSIS", "http://www.unsis.edu.mx/", ""),
