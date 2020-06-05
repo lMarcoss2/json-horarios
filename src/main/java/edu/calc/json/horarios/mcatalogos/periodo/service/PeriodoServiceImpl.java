@@ -36,7 +36,7 @@ public class PeriodoServiceImpl implements PeriodoService {
 
         //JSON2
         Gson gson = new Gson();
-        Periodo periodo = gson.fromJson("{\"clave\":\"1819B\",\"nombre\":\"SEM-MAR/19-JUN/19\",\"tipo\":\"B\",\"fInicio\":\"2019-03-04\",\"fFin\":\"2019-07-28\"}", Periodo.class);
+        Periodo periodo = gson.fromJson("{\"clave\":\"2020A\",\"nombre\":\"SEM-JUN/01-AGO/31\",\"tipo\":\"A\",\"fInicio\":\"2020-06-01\",\"fFin\":\"2020-08-31\"}", Periodo.class);
         return periodo;
     }
 }
