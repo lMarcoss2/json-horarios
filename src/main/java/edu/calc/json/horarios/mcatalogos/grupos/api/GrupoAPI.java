@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class GrupoAPI {
 
     @GetMapping
     @ApiOperation(value = "Obtiene el listado de grupos de un periodo")
-    public List<Grupo> getAll(@RequestParam(value = "periodo") String periodo) {
+    public List<Grupo> getAll(@RequestParam(value = "periodo") String periodo) throws IOException {
 
         return grupoService.getAllByPeriodo(periodo);
     }

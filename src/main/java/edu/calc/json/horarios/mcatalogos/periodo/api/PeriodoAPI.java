@@ -1,6 +1,5 @@
 package edu.calc.json.horarios.mcatalogos.periodo.api;
 
-import edu.calc.json.horarios.exceptions.GenericException;
 import edu.calc.json.horarios.mcatalogos.periodo.model.Periodo;
 import edu.calc.json.horarios.mcatalogos.periodo.service.PeriodoService;
 import io.swagger.annotations.Api;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "Servicios para administración periodos")
 public class PeriodoAPI {
 
-    private PeriodoService periodoService;
+    private final PeriodoService periodoService;
 
     @Autowired
     public PeriodoAPI(PeriodoService periodoService) {

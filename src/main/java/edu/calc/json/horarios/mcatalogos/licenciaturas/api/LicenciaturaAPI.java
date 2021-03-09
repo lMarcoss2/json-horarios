@@ -33,14 +33,14 @@ public class LicenciaturaAPI {
 
     @GetMapping("/vigentes")
     @ApiOperation(value = "Obtiene el listado de licenciaturas")
-    public List<Licenciatura> getAll() {
+    public List<Licenciatura> getAll() throws Exception {
         return licenciaturaService.getAllVigentes();
     }
 
 
     @GetMapping("/detalle-carrera")
     @ApiOperation(value = "detalle carrera por clave")
-    public Licenciatura getDetalleCarrera(@RequestParam(value = "clave") String clave){
+    public Licenciatura getDetalleCarrera(@RequestParam(value = "clave") String clave) throws Exception {
         return this.licenciaturaService.getDetalleCarrera(clave);
     }
 }
