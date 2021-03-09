@@ -6,5 +6,5 @@ import edu.calc.json.horarios.mcatalogos.periodo.model.Periodo;
 
 public interface PeriodoService extends CrudGenericService<Periodo> {
 
-    Periodo getCicloEscolarActual() throws GenericException;
+    Periodo getCicloEscolarActual() throws Exception;
 }

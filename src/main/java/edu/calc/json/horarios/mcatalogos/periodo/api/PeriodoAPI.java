@@ -24,7 +24,7 @@ public class PeriodoAPI {
 
     @GetMapping("/actual")
     @ApiOperation(value = "Obtiene el periodo actual")
-    public Periodo getCicloEscolarActual() throws GenericException {
+    public Periodo getCicloEscolarActual() throws Exception {
         return periodoService.getCicloEscolarActual();
     }
 

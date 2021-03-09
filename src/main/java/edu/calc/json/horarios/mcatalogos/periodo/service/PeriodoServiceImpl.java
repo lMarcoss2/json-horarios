@@ -3,7 +3,10 @@ package edu.calc.json.horarios.mcatalogos.periodo.service;
 import com.google.gson.Gson;
 import edu.calc.json.horarios.common.model.WrapperData;
 import edu.calc.json.horarios.mcatalogos.periodo.model.Periodo;
+import edu.calc.json.horarios.utils.UtilFile;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 @Service
 public class PeriodoServiceImpl implements PeriodoService {
@@ -32,11 +35,16 @@ public class PeriodoServiceImpl implements PeriodoService {
     }
 
     @Override
-    public Periodo getCicloEscolarActual() {
+    public Periodo getCicloEscolarActual() throws Exception {
 
         //JSON2
         Gson gson = new Gson();
-        Periodo periodo = gson.fromJson("{\"clave\":\"2020A\",\"nombre\":\"SEM-JUN/01-AGO/31\",\"tipo\":\"A\",\"fInicio\":\"2020-06-01\",\"fFin\":\"2020-08-31\"}", Periodo.class);
+        Periodo periodo = null;
+        try {
+            periodo = gson.fromJson(UtilFile.readContentFile("periodo.json"), Periodo.class);
+        } catch (IOException e) {
+            throw new Exception("Error al leer el  archivo periodo.json " +  e.getMessage());
+        }
         return periodo;
     }
 }

@@ -4,8 +4,10 @@ import com.google.gson.Gson;
 import edu.calc.json.horarios.common.model.WrapperData;
 import edu.calc.json.horarios.mcatalogos.licenciaturas.model.Licenciatura;
 import edu.calc.json.horarios.mcatalogos.licenciaturas.model.ListCarreras;
+import edu.calc.json.horarios.utils.UtilFile;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,14 +27,19 @@ public class LicenciaturaServiceImpl implements LicenciaturaService {
 
 
     @Override
-    public List<Licenciatura> getAllVigentes() {
+    public List<Licenciatura> getAllVigentes() throws Exception {
         return getLicenciaturas();
     }
 
-    private List<Licenciatura> getLicenciaturas() {
+    private List<Licenciatura> getLicenciaturas() throws Exception {
         Gson gson = new Gson();
         //JSON5
-        ListCarreras listCarreras = gson.fromJson("{\"licenciaturas\":[{\"clave\":\"01B\",\"nombre\":\"LICENCIATURA EN ADMINISTRACIÓN MUNICIPAL 2015\",\"vigente\":true},{\"clave\":\"03\",\"nombre\":\"LICENCIATURA EN ENFERMERÍA 2012\",\"vigente\":true},{\"clave\":\"11\",\"nombre\":\"DOCTORADO EN GOBIERNO ELECTRÓNICO 2016\",\"vigente\":true},{\"clave\":\"10\",\"nombre\":\"MAESTRÍA EN GOBIERNO ELECTRÓNICO 2016\",\"vigente\":true},{\"clave\":\"09\",\"nombre\":\"MAESTRÍA EN SALUD PÚBLICA 2016\",\"vigente\":true},{\"clave\":\"08\",\"nombre\":\"MAESTRÍA EN PLANEACIÓN ESTRATÉGICA MUNICIPAL 2016\",\"vigente\":true},{\"clave\":\"07B\",\"nombre\":\"LICENCIATURA EN NUTRICIÓN 2017\",\"vigente\":true},{\"clave\":\"06\",\"nombre\":\"LICENCIATURA EN INFORMÁTICA\",\"vigente\":true},{\"clave\":\"05\",\"nombre\":\"LICENCIATURA EN ADMINISTRACIÓN PÚBLICA 2012\",\"vigente\":true},{\"clave\":\"04B\",\"nombre\":\"LICENCIATURA EN CIENCIAS EMPRESARIALES 2017\",\"vigente\":true},{\"clave\":\"12\",\"nombre\":\"INGLÉS\",\"vigente\":true},{\"clave\":\"07\",\"nombre\":\"LICENCIATURA EN NUTRICIÓN\",\"vigente\":true},{\"clave\":\"01\",\"nombre\":\"LICENCIATURA EN ADMINISTRACIÓN MUNICIPAL 2007\",\"vigente\":true},{\"clave\":\"04\",\"nombre\":\"LICENCIATURA EN CIENCIAS EMPRESARIALES\",\"vigente\":true},{\"clave\":\"03C\",\"nombre\":\"LICENCIATURA EN ENFERMERÍA 2018\",\"vigente\":true},{\"clave\":\"14\",\"nombre\":\"LICENCIATURA EN ODONTOLOGÍA 2017\",\"vigente\":true},{\"clave\":\"15\",\"nombre\":\"LICENCIATURA EN MEDICINA 2018\",\"vigente\":true}]}", ListCarreras.class);
+        ListCarreras listCarreras = null;
+        try {
+            listCarreras = gson.fromJson(UtilFile.readContentFile("licenciaturas.json"), ListCarreras.class);
+        } catch (IOException e) {
+            throw new Exception("Error al leer el  archivo licenciaturas.json " +  e.getMessage());
+        }
         return listCarreras.getLicenciaturas();
     }
 
@@ -53,7 +60,7 @@ public class LicenciaturaServiceImpl implements LicenciaturaService {
     }
 
     @Override
-    public Licenciatura getDetalleCarrera(String clave) {
+    public Licenciatura getDetalleCarrera(String clave) throws Exception {
         //JSON6
         List<Licenciatura> licenciaturas = this.getLicenciaturas();
         Licenciatura licenciatura1 = null;

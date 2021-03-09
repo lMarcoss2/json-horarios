@@ -12,8 +12,8 @@ import java.util.List;
  * Date: 3/23/19
  */
 public interface LicenciaturaService extends CrudGenericService<Licenciatura> {
-    Licenciatura getDetalleCarrera(String clave);
+    Licenciatura getDetalleCarrera(String clave) throws Exception;
     
-    List<Licenciatura> getAllVigentes();
+    List<Licenciatura> getAllVigentes() throws Exception;
 }
 
